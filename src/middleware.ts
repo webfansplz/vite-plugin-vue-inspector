@@ -1,6 +1,6 @@
-import type { Connect } from 'vite'
-import { launchEditor } from './launchEditor'
-export const SERVER_URL = '/__open-stack-frame-in-editor'
+import type { Connect } from "vite"
+import { launchEditor } from "./launchEditor"
+export const SERVER_URL = "/__open-stack-frame-in-editor"
 
 export const queryParserMiddleware: Connect.NextHandleFunction = (
   req: Parameters<Connect.NextHandleFunction>[0] & {query?: object},

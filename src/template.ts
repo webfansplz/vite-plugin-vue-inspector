@@ -1,7 +1,7 @@
 
-import MagicString from 'magic-string'
-import { parse, transform } from '@vue/compiler-dom'
-const EXCLUDE_TAG = ['template', 'script', 'style']
+import MagicString from "magic-string"
+import { parse, transform } from "@vue/compiler-dom"
+const EXCLUDE_TAG = ["template", "script", "style"]
 export async function compileSFCTemplate(
   code: string,
   id: string,

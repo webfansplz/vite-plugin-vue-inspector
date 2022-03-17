@@ -19,6 +19,7 @@
   "homepage": "https://github.com/webfansplz/vite-vue-inspector#readme",
   "dependencies": {
     "@vue/compiler-dom": "^3.2.31",
+    "@vue/compiler-sfc": "^3.2.31",
     "chalk": "4.1.2",
     "magic-string": "^0.26.1",
     "shell-quote": "^1.7.3",

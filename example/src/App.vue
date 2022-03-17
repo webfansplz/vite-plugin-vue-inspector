@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-import queryString from 'querystring'
-import HelloWorld from './HelloWorld.vue'
+import queryString from "querystring"
+import HelloWorld from "./HelloWorld.vue"
 export default {
   components: {
     HelloWorld,
@@ -21,7 +21,7 @@ export default {
       fetch(
         `/__open-stack-frame-in-editor?${queryString.stringify({
           fileName:
-            '/example/src/App.vue',
+            "/example/src/App.vue",
           lineNumber: 6,
           colNumber: 5,
         })}`,
