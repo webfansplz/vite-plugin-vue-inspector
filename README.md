@@ -68,7 +68,7 @@ For example, if you want it always open VSCode when inspection clicked, set `exp
 ### VSCode
 
 - install VSCode command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
-  ![install-vscode-cli](./docs/images/install-vscode-cli.png)
+  ![install-vscode-cli](https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/install-vscode-cli.png)
 
 - set env to shell, like `.bashrc` or `.zshrc`  
 
