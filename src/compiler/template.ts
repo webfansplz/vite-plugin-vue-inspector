@@ -14,10 +14,12 @@ export async function compileSFCTemplate(
         (node) => {
           if (node.type === 1) {
             if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
-              s.prependLeft(
-                node.loc.start.offset + node.tag.length + 1,
-                ` file=${id} line=${node.loc.start.line} column=${node.loc.start.column}`,
-              )
+              const normalizedId = !id.endsWith(".vue") ? id.split("?")?.[0] : id
+              !node.loc.source.includes("v_file")
+                && s.prependLeft(
+                  node.loc.start.offset + node.tag.length + 1,
+                  ` v_file="${normalizedId}" v_line=${node.loc.start.line} v_column=${node.loc.start.column}`,
+                )
             }
           }
         },
@@ -25,6 +27,5 @@ export async function compileSFCTemplate(
     })
     resolve(s.toString())
   })
-
   return result
 }

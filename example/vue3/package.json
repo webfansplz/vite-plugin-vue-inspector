@@ -1,5 +1,5 @@
 {
-  "name": "example-vue-router",
+  "name": "example-vue3",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,9 +10,9 @@
     "vue": "^3.2.24"
   },
   "devDependencies": {
-    "@rollup/plugin-replace": "^3.0.0",
     "@vitejs/plugin-vue": "^1.10.2",
     "@vue/compiler-sfc": "^3.2.24",
+    "sass": "^1.49.9",
     "typescript": "^4.5.2",
     "vite": "^2.7.1"
   }
