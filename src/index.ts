@@ -31,7 +31,10 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
           children: overlayContainerScript,
           injectTo: "body",
         }, {
-          tag: "script type='module'",
+          tag: "script",
+          attrs: {
+            type: "module",
+          },
           children: normalizeOverlayScripts({
             vue: options.vue,
             hash: (server as any)._optimizeDepsMetadata.browserHash,
