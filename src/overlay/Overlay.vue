@@ -24,7 +24,7 @@
       :style="overlayStyle"
     >
       <li>
-        file: <em>{{ navigationParams.file }}</em>
+        file: <em>{{ `<${navigationParams.title}>` }}</em>
       </li>
       <li>
         line: <em>{{ navigationParams.line }}</em>
@@ -128,6 +128,7 @@ export default {
             file: targetNode?.getAttribute?.("data-v-inspecotr-file"),
             line: targetNode?.getAttribute?.("data-v-inspecotr-line"),
             column: targetNode?.getAttribute?.("data-v-inspecotr-column"),
+            title: targetNode?.getAttribute?.("data-v-inspecotr-title"),
           }
           : null,
       }
@@ -198,8 +199,8 @@ export default {
 
 .vue-inspector-overlay {
   position: fixed;
-  border: 2px dashed #ccc;
-  background-color: #29a8f2;
+  border: 2px dashed #666;
+  background-color: rgba(0,0,0,0.8);
   color: #fff;
   padding: 10px;
   border-radius: 5px;

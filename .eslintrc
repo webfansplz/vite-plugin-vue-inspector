@@ -3,6 +3,9 @@
   "rules":{
     "no-console":0,
     "prefer-const":0,
-    "quotes":[1,"double"]
+    "quotes":[1,"double"],
+   "vue/no-parsing-error": ["error", {
+     "invalid-first-character-of-tag-name": false
+   }]
   }
 }
