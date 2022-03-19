@@ -29,7 +29,7 @@
   },
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "build-overlay": "esmo src/scripts/build-overlay.ts",
+    "build-overlay": "esmo scripts/build-overlay.ts",
     "build": "pnpm run build-overlay && tsup src/index.ts --format cjs,esm"
   },
   "bugs": {
