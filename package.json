@@ -12,7 +12,8 @@
     "vite",
     "vscode",
     "vite-plugin",
-    "inspector"
+    "inspector",
+    "debug"
   ],
   "author": "webfansplz",
   "files": [
