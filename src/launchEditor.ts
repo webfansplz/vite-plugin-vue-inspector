@@ -1,5 +1,5 @@
 /**
- * Inspired by https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/launchEditor.js
+ * Fork from https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/launchEditor.js
  */
 
 import fs from "fs"
