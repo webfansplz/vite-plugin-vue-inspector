@@ -1,1 +1,1 @@
-# vite-vue-inspector
+# vite-plugin-vue-inspector

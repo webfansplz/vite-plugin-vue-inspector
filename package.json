@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/webfansplz/vite-vue-inspector.git"
+    "url": "git+https://github.com/webfansplz/vite-plugin-vue-inspector.git"
   },
   "keywords": [
     "vue",
@@ -32,9 +32,9 @@
     "build": "pnpm run build-overlay && tsup src/index.ts --format cjs,esm"
   },
   "bugs": {
-    "url": "https://github.com/webfansplz/vite-vue-inspector/issues"
+    "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
   },
-  "homepage": "https://github.com/webfansplz/vite-vue-inspector#readme",
+  "homepage": "https://github.com/webfansplz/vite-plugin-vue-inspector#readme",
   "peerDependencies": {
     "vite": "^2.0.0"
   },
