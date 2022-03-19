@@ -32,9 +32,9 @@ export function compileStyle(parsed: SFCParseResult) {
 
 export function generateContainerScript() {
   return `
-    const container = document.createElement('div')
-    container.style.position = 'fixed'
-    container.id = '${OVERLAY_CONTAINER_ID}'
-    document.body.appendChild(container)
+    const container = document?.createElement('div')
+    container?.style.position = 'fixed'
+    container?.id = '${OVERLAY_CONTAINER_ID}'
+    document?.body?.appendChild(container)
   `
 }
