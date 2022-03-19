@@ -108,6 +108,11 @@ export VUE_EDITOR=vim
 
 <br />
 
+## 💡 Notice
+
+- Please should not use this package in production mode .
+- It does not currently support `SSR` and `template engine (e.g. pug)` 
+
 ## 🌸 Thanks
 
 This project is inspired by [react-dev-inspector](https://github.com/zthxxx/react-dev-inspector) .
