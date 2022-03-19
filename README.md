@@ -7,13 +7,13 @@ A vite plugin which provides the ability that to jump to the local IDE when you 
 ## 📦 Installation
 
 ```bash
-// pnpm 
+# pnpm 
 pnpm install vite-plugin-vue-inspector -D
 
-// yarn
+# yarn
 yarn add vite-plugin-vue-inspector -D
 
-// npm
+# npm
 npm install vite-plugin-vue-inspector -D
 ```
 
