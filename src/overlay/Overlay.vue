@@ -10,7 +10,7 @@
       <img
         id="vueInspectorControl"
         ref="target"
-        src="https://github.com/webfansplz/article/blob/master/vvv-logo.png?raw=true"
+        src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/logo.png"
         alt="logo"
         draggable="false"
       />
