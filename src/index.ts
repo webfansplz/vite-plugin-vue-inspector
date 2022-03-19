@@ -13,8 +13,8 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
   return {
     name: "vite-plugin-vue-inspector",
     enforce: "pre",
-    transform(code, id) {
-      if (id.includes(".vue")) return compileSFCTemplate(code, id)
+    transform(code, id, options) {
+      if (id.includes(".vue") && !options.ssr) return compileSFCTemplate(code, id)
       return code
     },
     configureServer(server) {
