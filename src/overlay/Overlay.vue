@@ -79,7 +79,7 @@ export default {
     },
   },
   mounted() {
-    this.$refs.target.addEventListener("pointerdown", this.dragStart, true)
+    this.$refs.target?.addEventListener("pointerdown", this.dragStart, true)
     window.addEventListener("pointermove", this.dragMove, true)
     window.addEventListener("pointerup", this.dragEnd, true)
 

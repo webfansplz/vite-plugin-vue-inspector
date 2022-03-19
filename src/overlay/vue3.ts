@@ -20,7 +20,7 @@ function normalizeOverlay({
   `)
 
   s = new MagicString(s.toString())
-  s.replace(/from "vue"/g, "from \"/node_modules/.vite/vue.js\"")
+  s.replace(/from "vue"/g, "from \"/node_modules/.vite/vue.js?v=browserHash\"")
   return s.toString()
 }
 
