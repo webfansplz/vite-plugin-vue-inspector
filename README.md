@@ -1,4 +1,3 @@
-# vite-plugin-vue-inspector
 
 <p align="center">
 <a href="https://github.com/webfansplz/vite-plugin-vue-inspector"><img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/logo.png" alt="vite-plugin-vue-inspector"></a>
