@@ -89,7 +89,6 @@ For example, if you want it always open VSCode when inspection clicked, set `exp
 **OR**
 
 - install WebStorm command line tools
-  ![install-webstorm-cli](./docs/images/install-webstorm-cli.png)
 
 - then set env to shell, like `.bashrc` or `.zshrc`  
 
