@@ -114,7 +114,7 @@ export default {
     },
     getTargetNode(e) {
       const path = e.path ?? e.composedPath()
-      const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspecotr-file"))
+      const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspector-file"))
       if (targetNode?.id === "vueInspectorControl") {
         return {
           targetNode: null,
@@ -125,10 +125,10 @@ export default {
         targetNode,
         params: targetNode
           ? {
-            file: targetNode?.getAttribute?.("data-v-inspecotr-file"),
-            line: targetNode?.getAttribute?.("data-v-inspecotr-line"),
-            column: targetNode?.getAttribute?.("data-v-inspecotr-column"),
-            title: targetNode?.getAttribute?.("data-v-inspecotr-title"),
+            file: targetNode?.getAttribute?.("data-v-inspector-file"),
+            line: targetNode?.getAttribute?.("data-v-inspector-line"),
+            column: targetNode?.getAttribute?.("data-v-inspector-column"),
+            title: targetNode?.getAttribute?.("data-v-inspector-title"),
           }
           : null,
       }
