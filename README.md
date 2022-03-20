@@ -7,6 +7,10 @@
 
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3.
 
+<p align="center">
+<img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/vite-plugin-vue-inspector.gif" alt="vite-plugin-vue-inspector">
+</p>
+
 ## 📦 Installation
 
 ```bash
