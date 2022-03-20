@@ -14,6 +14,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
   return {
     name: "vite-plugin-vue-inspector",
     enforce: "pre",
+    apply: "serve",
     transform(code, id) {
       const { filename, query } = parseVueRequest(id)
       if (filename.endsWith(".vue") && query.type !== "style") return compileSFCTemplate(code, filename)
