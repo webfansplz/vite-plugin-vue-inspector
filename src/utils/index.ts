@@ -34,8 +34,7 @@ export function parseVueRequest(id: string) {
 
 // vue.js deps add browserHash which that made hot reload work normal
 // e.g. node_modules/.vite/vue.js?v=9cc9e54f
-export function normalizeOverlayScripts({ vue, hash, scripts }: { scripts: string; vue: number; hash: string }) {
-  if (vue === 2) return scripts
+export function normalizeOverlayScripts({ hash, scripts }: { scripts: string; hash: string }) {
   const s = new MagicString(scripts)
   s.replace(/browserHash/g, hash)
   return s.toString()

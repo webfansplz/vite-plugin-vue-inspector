@@ -36,7 +36,6 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
             type: "module",
           },
           children: normalizeOverlayScripts({
-            vue: options.vue,
             hash: (server as any)._optimizeDepsMetadata.browserHash,
             scripts,
           }),

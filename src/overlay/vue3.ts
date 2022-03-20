@@ -2,7 +2,7 @@ import MagicString from "magic-string"
 
 import { compileTemplate, SFCScriptBlock } from "@vue/compiler-sfc"
 
-import { parseSFC, compileScript, compileStyle, generateContainerScript, OVERLAY_CONTAINER_ID, OVERLAY_ID, OVERLAY_FILE_NAME } from "./compiler"
+import { parseSFC, compileScript, compileStyle, generateContainerScript, NORMALIZE_VUE_PATH, OVERLAY_CONTAINER_ID, OVERLAY_ID, OVERLAY_FILE_NAME } from "./compiler"
 
 function normalizeOverlay({
   parsedTemplate,
@@ -20,7 +20,7 @@ function normalizeOverlay({
   `)
 
   s = new MagicString(s.toString())
-  s.replace(/from "vue"/g, "from \"/node_modules/.vite/vue.js?v=browserHash\"")
+  s.replace(/from "vue"/g, `from \"${NORMALIZE_VUE_PATH}\"`)
   return s.toString()
 }
 

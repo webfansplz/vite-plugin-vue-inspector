@@ -4,7 +4,7 @@ import { SFCScriptBlock } from "@vue/compiler-sfc"
 import * as compileTemplate from "vue-template-compiler"
 import transpile from "vue-template-es2015-compiler"
 
-import { parseSFC, compileScript, compileStyle, generateContainerScript, OVERLAY_CONTAINER_ID } from "./compiler"
+import { parseSFC, compileScript, compileStyle, generateContainerScript, NORMALIZE_VUE_PATH, OVERLAY_CONTAINER_ID } from "./compiler"
 
 function toFunction(code: string): string {
   return `function () {${code}}`
@@ -23,7 +23,7 @@ function normalizeOverlay({
 
   const s = new MagicString(parsedScript.content)
   s.prepend(normalizedTemplate)
-  s.prepend("import Vue from \"/node_modules/.vite/vue.js\"\n")
+  s.prepend(`import Vue from \"${NORMALIZE_VUE_PATH}\"\n`)
 
   s.replace("export default", "const App = ")
   s.append("App.render = render")
@@ -34,7 +34,6 @@ function normalizeOverlay({
   }).$mount("#${OVERLAY_CONTAINER_ID}")
   `)
 
-  //   s = new MagicString(s.toString())
   return s.toString()
 }
 

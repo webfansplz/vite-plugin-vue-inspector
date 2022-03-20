@@ -15,12 +15,11 @@ export async function compileSFCTemplate(
         (node) => {
           if (node.type === 1) {
             if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
-              const normalizedId = !id.endsWith(".vue") ? id.split("?")?.[0] : id
-              const { base } = path.parse(normalizedId)
+              const { base } = path.parse(id)
               !node.loc.source.includes("data-v-inspecotr-file")
                 && s.prependLeft(
                   node.loc.start.offset + node.tag.length + 1,
-                  ` data-v-inspecotr-file="${normalizedId}" data-v-inspecotr-line=${node.loc.start.line} data-v-inspecotr-column=${node.loc.start.column} data-v-inspecotr-title="${base}"`,
+                  ` data-v-inspecotr-file="${id}" data-v-inspecotr-line=${node.loc.start.line} data-v-inspecotr-column=${node.loc.start.column} data-v-inspecotr-title="${base}"`,
                 )
             }
           }
