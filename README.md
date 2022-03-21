@@ -123,7 +123,7 @@ This project is inspired by [react-dev-inspector](https://github.com/zthxxx/reac
 
 ## 🤖️ Analysis of Theory
 
-- [Chinese] [点击页面元素,这个Vite插件帮我打开了Vue组件](https://juejin.cn/post/7077347158545924127)
+[Chinese] [点击页面元素,这个Vite插件帮我打开了Vue组件](https://juejin.cn/post/7077347158545924127)
 ## 📄 License
 
 [MIT LICENSE](./LICENSE)
