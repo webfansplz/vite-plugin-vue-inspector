@@ -134,8 +134,8 @@ export default {
       }
     },
     onFetch(e) {
-      e.preventDefault()
       if (this.disabled) return
+      e.preventDefault()
       const { targetNode, params } = this.getTargetNode(e)
       if (!targetNode) return
       const { file, line, column } = params
