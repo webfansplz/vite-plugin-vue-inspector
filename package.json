@@ -41,14 +41,14 @@
     "vite": "^2.0.0"
   },
   "dependencies": {
+    "@vue/compiler-dom": "^3.2.31",
+    "@vue/component-compiler-utils": "^3.3.0",
     "chalk": "4.1.2",
     "magic-string": "^0.26.1",
     "shell-quote": "^1.7.3"
   },
   "devDependencies": {
-    "@vue/compiler-dom": "^3.2.31",
     "@vue/compiler-sfc": "^3.2.31",
-    "@vue/component-compiler-utils": "^3.3.0",
     "@webfansplz/eslint-config": "^0.1.0",
     "eslint": "^8.11.0",
     "esmo": "^0.14.1",
