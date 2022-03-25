@@ -17,7 +17,8 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
     apply: "serve",
     transform(code, id) {
       const { filename, query } = parseVueRequest(id)
-      if (filename.endsWith(".vue") && query.type !== "style") return compileSFCTemplate(code, filename)
+      if (filename.endsWith(".jsx") || filename.endsWith(".tsx") || (filename.endsWith(".vue") && query.isJsx)) return compileSFCTemplate(code, filename, 'jsx')
+      if (filename.endsWith(".vue") && query.type !== "style") return compileSFCTemplate(code, filename, 'template')
       return code
     },
     configureServer(server) {
