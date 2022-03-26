@@ -1,4 +1,4 @@
-import Vue, { VNode } from "vue"
+import { VNode } from "vue"
 import { ComponentRenderProxy } from "@vue/composition-api"
 
 declare global {

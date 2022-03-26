@@ -26,7 +26,7 @@ export function parseVueRequest(id: string) {
 
   if (query.raw != null)
     query.raw = true
-  
+
   if (query.hasOwnProperty("lang.tsx") || query.hasOwnProperty("lang.jsx"))
     query.isJsx = true
 

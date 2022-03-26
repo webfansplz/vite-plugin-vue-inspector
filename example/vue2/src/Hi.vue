@@ -1,7 +1,8 @@
 <template>
   <div>
     <h3>Hi</h3>
-    <Render :render="supportSfcJsx" />
+    <!--  -->
+    <Render :component="boom" />
   </div>
 </template>
 <script lang="tsx">
@@ -14,16 +15,16 @@ export default defineComponent({
     Render: {
       functional: true,
       props: {
-        render: Function,
+        component: Function,
       },
       render(h: CreateElement, { props }: any) {
-        return props.render(h)
+        return props.component(h)
       },
     },
   },
   setup() {
     return {
-      supportSfcJsx: () => <h4>Support SFC Jsx</h4>,
+      boom: () => <h4 style="cursor: pointer;">🎉</h4>,
     }
   },
 })

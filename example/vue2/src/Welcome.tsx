@@ -1,8 +1,8 @@
 import { defineComponent } from "@vue/composition-api"
 
 export default defineComponent({
-  name: "SupportComponentJsx",
+  name: "Welcome",
   setup() {
-    return () => <h4>Support Component Jsx</h4>
+    return () => <p style="color: #fcb80f;cursor: pointer;"> Welcome to here 🚀 .</p>
   },
 })
