@@ -8,6 +8,7 @@ export interface VueQuery {
   lang?: string
   raw?: boolean
   from?: string
+  isJsx?: boolean
 }
 
 export function parseVueRequest(id: string) {
@@ -25,6 +26,9 @@ export function parseVueRequest(id: string) {
 
   if (query.raw != null)
     query.raw = true
+
+  if (query.hasOwnProperty("lang.tsx") || query.hasOwnProperty("lang.jsx"))
+    query.isJsx = true
 
   return {
     filename,

@@ -4,7 +4,12 @@ import Inspector from "vite-plugin-vue-inspector"
 
 export default defineConfig({
   plugins: [
-    createVuePlugin(),
+    createVuePlugin({
+      jsx: true,
+      jsxOptions: {
+        compositionAPI: true,
+      },
+    }),
     Inspector({
       vue: 2,
     }),

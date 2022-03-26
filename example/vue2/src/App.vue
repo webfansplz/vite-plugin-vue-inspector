@@ -2,9 +2,7 @@
   <div class="container">
     <div>
       <Hi />
-      <p>
-        Welcome to here 🚀 .
-      </p>
+      <Welcome />
       <!--  -->
       <!--  -->
       <!--  -->
@@ -13,11 +11,14 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Hi from "./Hi.vue"
+import Welcome from "./Welcome"
 export default {
+  name: "App",
   components: {
     Hi,
+    Welcome,
   },
 }
 </script>
@@ -34,9 +35,6 @@ export default {
   justify-content: center
 p
   font-size: 18px
+  color: #35495d
   cursor: pointer
-  &:nth-of-type(1)
-    color: #35495d
-  &:nth-of-type(2)
-    color: #fcb80f
 </style>
