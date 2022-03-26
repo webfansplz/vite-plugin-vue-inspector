@@ -6,9 +6,10 @@ import { queryParserMiddleware, launchEditorMiddleware } from "./middleware"
 
 export type VitePluginInspectorOptions = {
   vue?: number
+  enabled?: boolean
 }
 
-function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): Plugin {
+function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, enabled: true }): Plugin {
   const { scripts, styles, overlayContainerScript } = options.vue === 2 ? v2 : v3
 
   return {
@@ -35,7 +36,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3 }): 
         html,
         tags: [{
           tag: "script",
-          children: overlayContainerScript,
+          children: `window.__VUE_INSPECTOR_INITIAL_ENABLED__=${options.enabled ?? true};${overlayContainerScript}`,
           injectTo: "body",
         }, {
           tag: "script",

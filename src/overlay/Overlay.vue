@@ -42,7 +42,7 @@ export default {
     return {
       target: null,
       overlayTarget: null,
-      disabled: false,
+      disabled: !window.__VUE_INSPECTOR_INITIAL_ENABLED__,
       overlayVisible: false,
 
       navigationParams: {
