@@ -2,6 +2,7 @@
   <div class="container">
     <div>
       <Hi />
+      <SupportComponentJsx />
       <p>
         Welcome to here 🚀 .
       </p>
@@ -13,11 +14,14 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Hi from "./Hi.vue"
+import SupportComponentJsx from "./SupportComponentJsx"
 export default {
+  name: "App",
   components: {
     Hi,
+    SupportComponentJsx,
   },
 }
 </script>

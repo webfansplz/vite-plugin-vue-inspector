@@ -1,7 +1,8 @@
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
-import Inspector from "vite-plugin-vue-inspector"
+import VueJsx from "@vitejs/plugin-vue-jsx"
+import Inspector from "../../src/index"
 
 export default defineConfig({
-  plugins: [Vue(), Inspector()],
+  plugins: [Vue(), VueJsx(), Inspector()],
 })
