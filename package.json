@@ -41,6 +41,10 @@
     "vite": "^2.0.0"
   },
   "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compiler-dom": "^3.2.31",
     "chalk": "4.1.2",
     "magic-string": "^0.26.1",
@@ -55,10 +59,10 @@
     "fsxx": "^0.0.5",
     "tsup": "^5.12.1",
     "typescript": "^4.6.2",
+    "vite": "^2.8.6",
     "vue": "^3.2.31",
     "vue-template-compiler": "^2.6.14",
     "vue-template-es2015-compiler": "^1.9.1",
-    "zx": "^6.0.6",
-    "vite": "^2.8.6"
+    "zx": "^6.0.6"
   }
 }

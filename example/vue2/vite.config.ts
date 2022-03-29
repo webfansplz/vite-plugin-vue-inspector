@@ -1,6 +1,6 @@
 import { defineConfig } from "vite"
 import { createVuePlugin } from "vite-plugin-vue2"
-import Inspector from "vite-plugin-vue-inspector"
+import Inspector from "../../src/index"
 
 export default defineConfig({
   plugins: [
