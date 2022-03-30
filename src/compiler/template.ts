@@ -66,7 +66,8 @@ export async function compileSFCTemplate(
         babelTraverse(ast, {
           enter({ node }) {
             if (node.type === "JSXElement") {
-              // if (node.loc.source.includes("data-v-inspector-file")) return
+              if (node.openingElement.attributes.some(attr => attr.type !== "JSXSpreadAttribute" && attr.name.name === "data-v-inspector-file",
+              )) return
 
               const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
               const { line, column } = node.loc.start
