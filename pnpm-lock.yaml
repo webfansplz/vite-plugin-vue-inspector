@@ -4,7 +4,7 @@ specifiers:
   '@babel/core': ^7.17.8
   '@babel/plugin-syntax-import-meta': ^7.10.4
   '@babel/plugin-transform-typescript': ^7.16.8
-  '@babel/types': ^7.17.0
+  '@types/babel__core': ^7.1.19
   '@vue/babel-plugin-jsx': ^1.1.1
   '@vue/compiler-dom': ^3.2.31
   '@vue/compiler-sfc': ^3.2.31
@@ -28,7 +28,6 @@ dependencies:
   '@babel/core': 7.17.8
   '@babel/plugin-syntax-import-meta': 7.10.4_@babel+core@7.17.8
   '@babel/plugin-transform-typescript': 7.16.8_@babel+core@7.17.8
-  '@babel/types': 7.17.0
   '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.17.8
   '@vue/compiler-dom': 3.2.31
   chalk: 4.1.2
@@ -36,6 +35,7 @@ dependencies:
   shell-quote: 1.7.3
 
 devDependencies:
+  '@types/babel__core': 7.1.19
   '@vue/compiler-sfc': 3.2.31
   '@webfansplz/eslint-config': 0.1.0_eslint@8.11.0+typescript@4.6.2
   eslint: 8.11.0
@@ -410,6 +410,35 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
+    dev: true
+
+  /@types/babel__core/7.1.19:
+    resolution: {integrity: sha512-WEOTgRsbYkvA/KCsDwVEGkd7WAr1e3g31VHQ8zy5gul/V1qKullU/BU5I68X5v7V3GnB9eotmom4v5a5gjxorw==}
+    dependencies:
+      '@babel/parser': 7.17.8
+      '@babel/types': 7.17.0
+      '@types/babel__generator': 7.6.4
+      '@types/babel__template': 7.4.1
+      '@types/babel__traverse': 7.14.2
+    dev: true
+
+  /@types/babel__generator/7.6.4:
+    resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
+    dependencies:
+      '@babel/types': 7.17.0
+    dev: true
+
+  /@types/babel__template/7.4.1:
+    resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
+    dependencies:
+      '@babel/parser': 7.17.8
+      '@babel/types': 7.17.0
+    dev: true
+
+  /@types/babel__traverse/7.14.2:
+    resolution: {integrity: sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==}
+    dependencies:
+      '@babel/types': 7.17.0
     dev: true
 
   /@types/fs-extra/9.0.13:

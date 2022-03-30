@@ -51,6 +51,7 @@
     "shell-quote": "^1.7.3"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.1.19",
     "@vue/compiler-sfc": "^3.2.31",
     "@webfansplz/eslint-config": "^0.1.0",
     "eslint": "^8.11.0",

@@ -6,6 +6,7 @@ import { parse as babelParse, traverse as babelTraverse } from "@babel/core"
 import vueJsxPlugin from "@vue/babel-plugin-jsx"
 import typescriptPlugin from "@babel/plugin-transform-typescript"
 import importMeta from "@babel/plugin-syntax-import-meta"
+import { parseJSXIdentifier } from "../utils"
 
 const EXCLUDE_TAG = ["template", "script", "style"]
 interface CompileSFCTemplateOptions {
@@ -63,11 +64,11 @@ export async function compileSFCTemplate(
         })
 
         babelTraverse(ast, {
-          enter(node) {
+          enter({ node }) {
             if (node.type === "JSXElement") {
-              if (node.loc.source.includes("data-v-inspector-file")) return
+              // if (node.loc.source.includes("data-v-inspector-file")) return
 
-              const insertPosition = node.loc.start.offset + node.openingElement.name.name.length + 1
+              const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
               const { line, column } = node.loc.start
 
               const content = ` data-v-inspector-file="${id}" data-v-inspector-line={${line}} data-v-inspector-column={${column}} data-v-inspector-title="${base}"`
@@ -78,7 +79,6 @@ export async function compileSFCTemplate(
             }
           },
         })
-        console.log(s.toString())
         break
       }
 
