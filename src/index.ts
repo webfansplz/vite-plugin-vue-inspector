@@ -32,6 +32,8 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, ena
       server.middlewares.use(launchEditorMiddleware)
     },
     transformIndexHtml(html, { server }) {
+      const _server = server as any
+      const browserHash = _server?._optimizedDeps?.metadata?.browserHash ?? _server?._optimizeDepsMetadata?.browserHash ?? ""
       return {
         html,
         tags: [{
@@ -44,7 +46,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, ena
             type: "module",
           },
           children: normalizeOverlayScripts({
-            hash: (server as any)._optimizeDepsMetadata.browserHash,
+            hash: browserHash,
             scripts,
           }),
           injectTo: "body",

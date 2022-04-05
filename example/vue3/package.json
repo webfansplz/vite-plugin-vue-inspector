@@ -14,7 +14,7 @@
     "@vue/compiler-sfc": "^3.2.24",
     "sass": "^1.49.9",
     "typescript": "^4.5.2",
-    "vite": "^2.7.1",
+    "vite": "2.9.1",
     "vite-plugin-vue-inspector": "0.2.5"
   }
 }
