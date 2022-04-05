@@ -1,12 +1,7 @@
 {
   "name": "vite-plugin-vue-inspector",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "jump to local IDE source code while click the element of browser automatically.",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/webfansplz/vite-plugin-vue-inspector.git"
-  },
   "keywords": [
     "vue",
     "vite",
@@ -15,18 +10,23 @@
     "inspector",
     "debug"
   ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webfansplz/vite-plugin-vue-inspector.git"
+  },
   "author": "webfansplz",
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "update-version": "esmo scripts/update-version.ts",
@@ -55,10 +55,10 @@
     "fsxx": "^0.0.5",
     "tsup": "^5.12.1",
     "typescript": "^4.6.2",
+    "vite": "^2.9.1",
     "vue": "^3.2.31",
     "vue-template-compiler": "^2.6.14",
     "vue-template-es2015-compiler": "^1.9.1",
-    "zx": "^6.0.6",
-    "vite": "^2.8.6"
+    "zx": "^6.0.6"
   }
 }
