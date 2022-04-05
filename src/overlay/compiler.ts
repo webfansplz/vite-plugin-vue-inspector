@@ -6,7 +6,7 @@ import { parse, compileScript as scriptCompiler, compileStyle as styleCompiler, 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-export const NORMALIZE_VUE_PATH = "/node_modules/.vite/vue.js?v=browserHash"
+export const NORMALIZE_VUE_PATH = "/node_modules/.vite/deps/vue.js?v=browserHash"
 export const OVERLAY_ID = "vite_vue_inspector_overlay"
 export const OVERLAY_CONTAINER_ID = "vite_vue_inspector_overlay_container"
 export const OVERLAY_FILE_NAME = "Overlay.vue"
