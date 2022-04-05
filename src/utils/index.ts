@@ -36,6 +36,14 @@ export function parseVueRequest(id: string) {
   }
 }
 
+export function getVueDepsBrowserHash(server: any) {
+  // below vite 2.9
+  if (server?._optimizeDepsMetadata?.browserHash)
+    return server._optimizeDepsMetadata.browserHash
+  else
+    return server?._optimizedDeps?.metadata?.optimized?.vue?.browserHash ?? ""
+}
+
 // vue.js deps add browserHash which that made hot reload work normal
 // e.g. node_modules/.vite/vue.js?v=9cc9e54f
 export function normalizeOverlayScripts({ hash, scripts }: { scripts: string; hash: string }) {
