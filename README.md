@@ -3,6 +3,12 @@
 <a href="https://github.com/webfansplz/vite-plugin-vue-inspector"><img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/logo.png" alt="vite-plugin-vue-inspector"></a>
 </p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/vite-plugin-vue-inspector" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/npm/v/vite-plugin-vue-inspector" alt="NPM Version" /></a>
+  <a href="https://www.npmjs.com/package/vite-plugin-vue-inspector" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/npm/dt/vite-plugin-vue-inspector" alt="NPM Downloads" /></a>
+  <a href="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/master/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/webfansplz/vite-plugin-vue-inspector" alt="License" /></a>
+</p>
+
 ## 📖 Introduction
 
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3.
