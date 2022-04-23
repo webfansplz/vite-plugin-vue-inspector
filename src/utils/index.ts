@@ -11,6 +11,17 @@ export interface VueQuery {
   isJsx?: boolean
 }
 
+interface JSXIdentifier {
+  type: "JSXIdentifier"
+  name: string
+}
+
+interface JSXMemberExpression {
+  type: "JSXMemberExpression"
+  object: JSXMemberExpression | JSXIdentifier
+  property: JSXIdentifier
+}
+
 export function parseVueRequest(id: string) {
   const [filename] = id.split("?", 2)
   const url = new URL(id, "http://domain.inspector")
@@ -50,4 +61,12 @@ export function normalizeOverlayScripts({ hash, scripts }: { scripts: string; ha
   const s = new MagicString(scripts)
   s.replace(/browserHash/g, hash)
   return s.toString()
+}
+
+export function parseJSXIdentifier(name: JSXIdentifier | JSXMemberExpression) {
+  if (name.type === "JSXIdentifier")
+    return name.name
+
+  else
+    return `${parseJSXIdentifier(name.object)}.${parseJSXIdentifier(name.property)}`
 }

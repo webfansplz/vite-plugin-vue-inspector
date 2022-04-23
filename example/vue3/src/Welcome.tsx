@@ -3,6 +3,7 @@ import { defineComponent } from "vue"
 export default defineComponent({
   name: "Welcome",
   setup() {
-    return () => <p style="color: #fcb80f;cursor: pointer;"> Welcome to here 🚀 .</p>
+    const text = `Welcome to here 🚀 .`
+    return () => <p style={{color: '#fcb80f',cursor: 'pointer'}}> {text} </p>
   },
 })

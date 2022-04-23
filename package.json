@@ -41,12 +41,17 @@
     "vite": "^2.0.0"
   },
   "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compiler-dom": "^3.2.31",
     "chalk": "4.1.2",
     "magic-string": "^0.26.1",
     "shell-quote": "^1.7.3"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.1.19",
     "@vue/compiler-sfc": "^3.2.31",
     "@webfansplz/eslint-config": "^0.1.0",
     "eslint": "^8.11.0",
