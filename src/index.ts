@@ -1,6 +1,6 @@
 import type { Plugin } from "vite"
 import { compileSFCTemplate } from "./compiler"
-import { parseVueRequest, normalizeOverlayScripts } from "./utils"
+import { parseVueRequest, normalizeOverlayScripts, getVueDepsBrowserHash } from "./utils"
 import { v2, v3 } from "./overlay/index.json"
 import { queryParserMiddleware, launchEditorMiddleware } from "./middleware"
 
@@ -44,7 +44,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, ena
             type: "module",
           },
           children: normalizeOverlayScripts({
-            hash: (server as any)._optimizeDepsMetadata.browserHash,
+            hash: getVueDepsBrowserHash(server),
             scripts,
           }),
           injectTo: "body",
