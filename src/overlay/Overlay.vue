@@ -173,14 +173,14 @@ export default {
   right: 20px;
   top: 20px;
   z-index: 100000;
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   background-color: #fff;
   border: 2px solid #29a8f2;
   border-radius: 50%;
 }
 .vue-inspector-control img {
-  width: 80px;
+  width: 50px;
 }
 
 .vue-inspector-control:hover {
