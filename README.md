@@ -166,7 +166,8 @@ export VUE_EDITOR=vim
 
 ## 💡 Notice
 
-- It does not currently support `SSR` and `Template Engine (e.g. pug)` .
+- It only work in develop mode .
+- It does not currently support `Template Engine (e.g. pug)` .
 
 ## 🌸 Thanks
 
