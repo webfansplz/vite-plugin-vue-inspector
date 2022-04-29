@@ -37,12 +37,13 @@
 </template>
 
 <script>
+const isClient = typeof window !== "undefined"
 export default {
   data() {
     return {
       target: null,
       overlayTarget: null,
-      disabled: !window.__VUE_INSPECTOR_INITIAL_ENABLED__,
+      disabled: isClient ? !(window.__VUE_INSPECTOR_INITIAL_ENABLED__ === undefined ? true : window.__VUE_INSPECTOR_INITIAL_ENABLED__) : false,
       overlayVisible: false,
 
       navigationParams: {
@@ -65,6 +66,7 @@ export default {
   },
   computed: {
     controlStyle() {
+      if (!isClient) return ""
       const left = this.controlPosition.x || window.clientWidth
       const top = this.controlPosition.y || 20
       return `left:${left}px;top:${top}px;`
@@ -198,6 +200,7 @@ export default {
 }
 
 .vue-inspector-overlay {
+  z-index: 100000;
   position: fixed;
   border: 2px dashed #666;
   background-color: rgba(0,0,0,0.8);
@@ -205,6 +208,10 @@ export default {
   padding: 10px;
   border-radius: 5px;
   text-align: left;
+}
+
+.vue-inspector-overlay  li {
+  list-style-type: none;
 }
 
 .vue-inspector-overlay em {

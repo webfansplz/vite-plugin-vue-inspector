@@ -1,4 +1,4 @@
-import type { Plugin } from "vite"
+import type { PluginOption } from "vite"
 import { compileSFCTemplate } from "./compiler"
 import { parseVueRequest, normalizeOverlayScripts, getVueDepsBrowserHash } from "./utils"
 import { v2, v3 } from "./overlay/index.json"
@@ -9,7 +9,7 @@ export type VitePluginInspectorOptions = {
   enabled?: boolean
 }
 
-function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, enabled: true }): Plugin {
+function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, enabled: true }): PluginOption {
   const { scripts, styles, overlayContainerScript } = options.vue === 2 ? v2 : v3
 
   return {

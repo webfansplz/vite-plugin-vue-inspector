@@ -4,6 +4,7 @@ import { io } from "fsxx"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const packageJSON = resolve(__dirname, "../package.json")
+const nuxtExample = resolve(__dirname, "../example/nuxt/package.json")
 const vue2Example = resolve(__dirname, "../example/vue2/package.json")
 const vue3Example = resolve(__dirname, "../example/vue3/package.json")
 
@@ -28,6 +29,12 @@ async function start() {
 
   vue3Pkg.devDependencies[pkgName] = version
   await saveV3()
+
+  // for nuxt example
+  const { data: nuxtPkg, save: saveNuxt } = await io.json<{ devDependencies: Record<string, string> }>`${nuxtExample}`
+
+  nuxtPkg.devDependencies[pkgName] = version
+  await saveNuxt()
 }
 
 start()

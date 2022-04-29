@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-inspector",
-  "version": "0.4.1",
+  "version": "0.5.3",
   "description": "jump to local IDE source code while click the element of browser automatically.",
   "keywords": [
     "vue",
@@ -23,6 +23,14 @@
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./overlay": {
+      "import": "./dist/InspectorOverlay.vue",
+      "require": "./dist/InspectorOverlay.vue"
+    },
+    "./overlay.vue": {
+      "import": "./dist/InspectorOverlay.vue",
+      "require": "./dist/InspectorOverlay.vue"
     }
   },
   "main": "./dist/index.js",
@@ -31,7 +39,8 @@
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "update-version": "esmo scripts/update-version.ts",
     "build-overlay": "esmo scripts/build-overlay.ts",
-    "build": "pnpm run build-overlay && tsup src/index.ts --format cjs,esm --dts"
+    "copy-overlay": "esno scripts/copy-overlay.ts",
+    "build": "pnpm run build-overlay && tsup src/index.ts --format cjs,esm --dts && pnpm run copy-overlay"
   },
   "bugs": {
     "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
@@ -47,6 +56,7 @@
     "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compiler-dom": "^3.2.31",
     "chalk": "4.1.2",
+    "esno": "^0.14.1",
     "magic-string": "^0.26.1",
     "shell-quote": "^1.7.3"
   },

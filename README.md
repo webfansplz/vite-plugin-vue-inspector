@@ -11,7 +11,7 @@
 
 ## 📖 Introduction
 
-A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3.
+A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3 & SSR.
 
 <p align="center">
 <img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/vite-plugin-vue-inspector.gif" alt="vite-plugin-vue-inspector">
@@ -63,10 +63,56 @@ export default defineConfig({
 })
 ```
 
+```ts
+// for nuxt
+// nuxt.config.ts
+
+import { defineNuxtConfig } from 'nuxt'
+import Inspector from "vite-plugin-vue-inspector"
+
+export default defineNuxtConfig({
+  vite: {
+    plugins:[
+      Inspector()
+    ]
+  }
+})
+
+```
+
+### Nuxt Usage
+
+```ts
+// App.vue
+
+<template>
+  <inspector-overlay v-if="isDev"/>
+</template>
+
+<script lang="ts">
+
+import InspectorOverlay from "vite-plugin-vue-inspector/overlay.vue"
+export default {
+  name: "App",
+  components: {
+    InspectorOverlay
+  },
+  setup(){
+    return {
+      isDev: process.dev
+    }
+  }
+}
+
+</script>
+```
+
+
 ### Example
 
 - [vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue2)
 - [vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue3)
+- [nuxt](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
 
 ## 🔌  Configuration IDE / Editor
 
@@ -120,7 +166,6 @@ export VUE_EDITOR=vim
 
 ## 💡 Notice
 
-- It only work in develop mode .
 - It does not currently support `SSR` and `Template Engine (e.g. pug)` .
 
 ## 🌸 Thanks
