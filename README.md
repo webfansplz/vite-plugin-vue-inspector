@@ -80,7 +80,7 @@ export default defineNuxtConfig({
 
 ```
 
-### Nuxt Usage
+### [Nuxt3 Usage](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
 
 ```ts
 // App.vue
@@ -112,7 +112,7 @@ export default {
 
 - [vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue2)
 - [vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue3)
-- [nuxt](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
+- [nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
 
 ## 🔌  Configuration IDE / Editor
 
