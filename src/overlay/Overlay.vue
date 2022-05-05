@@ -150,8 +150,8 @@ export default {
       if (this.disabled) return
       const { targetNode, params } = this.getTargetNode(e)
       if (targetNode) {
-        this.position.x = e.pageX
-        this.position.y = e.pageY
+        this.position.x = e.clientX
+        this.position.y = e.clientY
         this.overlayVisible = true
         this.navigationParams = params
       }
