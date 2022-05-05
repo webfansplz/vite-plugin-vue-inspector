@@ -39,11 +39,17 @@
 <script>
 const isClient = typeof window !== "undefined"
 export default {
+  props: {
+    enabled: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       target: null,
       overlayTarget: null,
-      disabled: isClient ? !(window.__VUE_INSPECTOR_INITIAL_ENABLED__ === undefined ? true : window.__VUE_INSPECTOR_INITIAL_ENABLED__) : false,
+      disabled: isClient ? !(window.__VUE_INSPECTOR_INITIAL_ENABLED__) : !this.enabled,
       overlayVisible: false,
 
       navigationParams: {
