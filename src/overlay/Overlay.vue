@@ -189,6 +189,7 @@ export default {
 }
 .vue-inspector-control img {
   width: 50px;
+  margin: 0 auto;
 }
 
 .vue-inspector-control:hover {
