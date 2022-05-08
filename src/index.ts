@@ -15,7 +15,10 @@ function VitePluginInspector(options: VitePluginInspectorOptions = { vue: 3, ena
   return {
     name: "vite-plugin-vue-inspector",
     enforce: "pre",
-    apply: "serve",
+    apply(_, { command }) {
+      // apply only on serve and not for test
+      return command === "serve" && process.env.NODE_ENV !== "test"
+    },
     transform(code, id) {
       const { filename, query } = parseVueRequest(id)
 
