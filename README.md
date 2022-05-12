@@ -80,6 +80,20 @@ export default defineNuxtConfig({
 
 ```
 
+### Options
+
+It provides an option which that controls the enable state. 
+
+```ts
+
+import { defineConfig } from "vite"
+import Inspector from "vite-plugin-vue-inspector"
+
+export default defineConfig({
+  plugins: [Inspector({ enabled: false })],
+})
+```
+
 ### [Nuxt3 Usage](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
 
 ```ts
