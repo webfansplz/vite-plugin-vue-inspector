@@ -9,6 +9,10 @@
   <a href="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/master/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/webfansplz/vite-plugin-vue-inspector" alt="License" /></a>
 </p>
 
+<p align="center">
+<a href="https://stackblitz.com/edit/vitejs-vite-nkvtdx?file=vite.config.ts&terminal=dev"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
+</p>
+
 ## 📖 Introduction
 
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3 & SSR.
