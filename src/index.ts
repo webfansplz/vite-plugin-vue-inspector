@@ -22,7 +22,7 @@ export interface VitePluginInspectorOptions {
 
   /**
   * Default enable state
-  * @default true
+  * @default false
   */
   enabled?: boolean
 

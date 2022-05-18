@@ -50,6 +50,7 @@ export default defineConfig({
     createVuePlugin(),
     Inspector({
       vue: 2,
+      enabled: true
     }),
   ],
 })
@@ -63,7 +64,7 @@ import Vue from "@vitejs/plugin-vue"
 import Inspector from "vite-plugin-vue-inspector"
 
 export default defineConfig({
-  plugins: [Vue(), Inspector()],
+  plugins: [Vue(), Inspector({ enabled: true })],
 })
 ```
 
@@ -77,7 +78,10 @@ import Inspector from "vite-plugin-vue-inspector"
 export default defineNuxtConfig({
   vite: {
     plugins:[
-      Inspector()
+      Inspector({
+        appendTo: "entry.mjs",
+        enabled: true 
+      })
     ]
   }
 })
@@ -86,46 +90,53 @@ export default defineNuxtConfig({
 
 ### Options
 
-It provides an option which that controls the enable state. 
 
 ```ts
+interface VitePluginInspectorOptions {
+  /**
+  * Vue version
+  * @default 3
+  */
+  vue?: 2 | 3
 
-import { defineConfig } from "vite"
-import Vue from "@vitejs/plugin-vue"
-import Inspector from "vite-plugin-vue-inspector"
+  /**
+  * Default enable state
+  * @default false
+  */
+  enabled?: boolean
 
-export default defineConfig({
-  plugins: [Vue(), Inspector({ enabled: false })],
-})
-```
+  /**
+  * Define a combo key to toggle inspector
+  * @default 'control-shift' on windows, 'meta-shift' on other os
+  *
+  * any number of modifiers `control` `shift` `alt` `meta` followed by zero or one regular key, separated by -
+  * examples: control-shift, control-o, control-alt-s  meta-x control-meta
+  * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
+  * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+  */
+  toggleComboKey?: string
 
-### [Nuxt3 Usage](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
+  /**
+  * Toggle button visibility
+  * @default 'active'
+  */
+  toggleButtonVisibility?: "always" | "active" | "never"
 
-```ts
-// App.vue
+  /**
+  * Toggle button display position
+  * @default top-right
+  */
+  toggleButtonPos?: "top-right" | "top-left" | "bottom-right" | "bottom-left"
 
-<template>
-  <inspector-overlay v-if="isDev"/>
-</template>
-
-<script lang="ts">
-
-import InspectorOverlay from "vite-plugin-vue-inspector/overlay.vue"
-export default {
-  name: "App",
-  components: {
-    InspectorOverlay
-  },
-  setup(){
-    return {
-      isDev: process.dev
-    }
-  }
+  /**
+  * append an import to the module id ending with `appendTo` instead of adding a script into body
+  * useful for frameworks that do not support trannsformIndexHtml hook (e.g. Nuxt3)
+  *
+  * WARNING: only set this if you know exactly what it does.
+  */
+  appendTo?: string
 }
-
-</script>
 ```
-
 
 ### Example
 
@@ -185,12 +196,15 @@ export VUE_EDITOR=vim
 
 ## 💡 Notice
 
+- **From v1.0, `enabled` option default value changed from `true` to `false` .**
 - It only work in develop mode .
 - It does not currently support `Template Engine (e.g. pug)` .
 
-## 🌸 Thanks
+## 🌸 Credits
 
 This project is inspired by [react-dev-inspector](https://github.com/zthxxx/react-dev-inspector) .
+
+Partially implementation is inspired by [vite-plugin-svelte-inspector](https://github.com/sveltejs/vite-plugin-svelte/tree/main/packages/vite-plugin-svelte/src/ui/inspector) .
 
 ## 🤖️ Analysis of Theory
 
