@@ -1,14 +1,14 @@
 <template>
   <div>
-    <!-- switch control -->
+    <!-- toggle button -->
     <div
-      class="vue-inspector-control"
-      :style="controlStyle"
-      :class="{disabled: disabled}"
-      @click.stop="toggleControl"
+      v-if="controllerVisible"
+      class="vue-inspector__controller"
+      :class="{disabled: !enabled}"
+      :style="controllerStyle"
+      @click="toggle"
     >
       <img
-        id="vueInspectorControl"
         ref="target"
         src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/logo.png?raw=true"
         alt="logo"
@@ -20,39 +20,35 @@
     <ul
       v-if="overlayVisible"
       ref="overlayTarget"
-      class="vue-inspector-overlay"
+      class="vue-inspector__overlay"
       :style="overlayStyle"
     >
       <li>
-        file: <em>{{ `<${navigationParams.title}>` }}</em>
+        file: <em>{{ `<${linkQuery.title}>` }}</em>
       </li>
       <li>
-        line: <em>{{ navigationParams.line }}</em>
+        line: <em>{{ linkQuery.line }}</em>
       </li>
       <li>
-        column: <em>{{ navigationParams.column }}</em>
+        column: <em>{{ linkQuery.column }}</em>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-const isClient = typeof window !== "undefined"
+import inspectorOptions from "virtual:vue-inspector-options"
+
 export default {
-  props: {
-    enabled: {
-      type: Boolean,
-      default: true,
-    },
-  },
   data() {
     return {
       target: null,
       overlayTarget: null,
-      disabled: isClient ? !(window.__VUE_INSPECTOR_INITIAL_ENABLED__) : !this.enabled,
+      enabled: inspectorOptions.enabled,
+      toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split("-"),
       overlayVisible: false,
 
-      navigationParams: {
+      linkQuery: {
         file: "",
         line: 0,
         column: 0,
@@ -71,11 +67,15 @@ export default {
     }
   },
   computed: {
-    controlStyle() {
-      if (!isClient) return ""
-      const left = this.controlPosition.x || window.clientWidth
-      const top = this.controlPosition.y || 20
-      return `left:${left}px;top:${top}px;`
+    controllerVisible() {
+      const { toggleButtonVisibility } = inspectorOptions
+      return toggleButtonVisibility === "always" || (toggleButtonVisibility === "active" && this.enabled)
+    },
+    controllerStyle() {
+      return inspectorOptions.toggleButtonPos
+        .split("-")
+        .map(p => `${p}: 15px;`)
+        .join("")
     },
     overlayStyle() {
       return {
@@ -87,43 +87,51 @@ export default {
     },
   },
   mounted() {
-    this.$refs.target?.addEventListener("pointerdown", this.dragStart, true)
-    window.addEventListener("pointermove", this.dragMove, true)
-    window.addEventListener("pointerup", this.dragEnd, true)
-
-    window.addEventListener("click", this.onFetch)
-    window.addEventListener("mousemove", this.onMouseMove)
+    this.toggleCombo && document.body.addEventListener("keydown", this.onKeydown)
+    this.enabled && this.enable()
   },
   methods: {
-    dragStart(e) {
-      e.stopPropagation()
-      if (e.target !== this.$refs.target) return
-      const rect = this.$refs.target?.getBoundingClientRect()
-      const pos = {
-        x: e.pageX - rect.left,
-        y: e.pageY - rect.top,
-      }
-      this.pressedDelta = pos
+    toggleEvent() {
+      const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
+      listener?.("mousemove", this.onMouseMove)
+      listener?.("click", this.onFetch, true)
     },
-    dragMove(e) {
-      if (!this.pressedDelta) return
-      this.controlPosition = {
-        x: e.pageX - this.pressedDelta.x,
-        y: e.pageY - this.pressedDelta.y,
+    enable() {
+      this.enabled = true
+      this.toggleEvent()
+    },
+    disable() {
+      this.enabled = false
+      this.overlayVisible = false
+      this.toggleEvent()
+    },
+    toggle() {
+      this.enabled ? this.disable() : this.enable()
+    },
+    isKeyActive(key, event) {
+      switch (key) {
+        case "shift":
+        case "control":
+        case "alt":
+        case "meta":
+          return event.getModifierState(key.charAt(0).toUpperCase() + key.slice(1))
+        default:
+          return key === event.key.toLowerCase()
       }
     },
-    dragEnd() {
-      if (!this.pressedDelta) return
-      this.pressedDelta = undefined
+    onKeydown(event) {
+      if (event.repeat || event.key === undefined)
+        return
+
+      const isCombo = this.toggleCombo?.every(key => this.isKeyActive(key, event))
+      if (isCombo)
+        this.toggle()
     },
 
-    toggleControl() {
-      this.disabled = !this.disabled
-    },
     getTargetNode(e) {
       const path = e.path ?? e.composedPath()
       const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspector-file"))
-      if (targetNode?.id === "vueInspectorControl") {
+      if (targetNode === this.$refs.target) {
         return {
           targetNode: null,
           params: null,
@@ -142,28 +150,30 @@ export default {
       }
     },
     onFetch(e) {
-      if (this.disabled) return
+      if (e.target === this.$refs.target) return
       e.preventDefault()
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+
       const { targetNode, params } = this.getTargetNode(e)
       if (!targetNode) return
       const { file, line, column } = params
+      this.overlayVisible = false
       fetch(
         `/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
       )
-      this.overlayVisible = false
     },
     onMouseMove(e) {
-      if (this.disabled) return
       const { targetNode, params } = this.getTargetNode(e)
       if (targetNode) {
         this.position.x = e.clientX
         this.position.y = e.clientY
         this.overlayVisible = true
-        this.navigationParams = params
+        this.linkQuery = params
       }
       else {
         this.overlayVisible = false
-        this.navigationParams = {
+        this.linkQuery = {
           file: "",
           line: 0,
           column: 0,
@@ -174,12 +184,10 @@ export default {
 }
 </script>
 <style scoped>
-.vue-inspector-control {
+.vue-inspector__controller {
   cursor: pointer;
   position: fixed;
   text-align: center;
-  right: 20px;
-  top: 20px;
   z-index: 100000;
   width: 60px;
   height: 60px;
@@ -187,26 +195,26 @@ export default {
   border: 2px solid #29a8f2;
   border-radius: 50%;
 }
-.vue-inspector-control img {
+.vue-inspector__controller img {
   width: 50px;
   margin: 0 auto;
 }
 
-.vue-inspector-control:hover {
+.vue-inspector__controller:hover {
   background-color: #29a8f2;
 }
-.vue-inspector-control.disabled {
+.vue-inspector__controller.disabled {
   border: 2px dashed #ccc;
 }
 
-.vue-inspector-control.disabled:hover {
+.vue-inspector__controller.disabled:hover {
   background-color: #ccc;
 }
-.vue-inspector-control.disabled img {
+.vue-inspector__controller.disabled img {
   opacity: 0.5;
 }
 
-.vue-inspector-overlay {
+.vue-inspector__overlay {
   z-index: 100000;
   position: fixed;
   border: 2px dashed #666;
@@ -217,11 +225,11 @@ export default {
   text-align: left;
 }
 
-.vue-inspector-overlay  li {
+.vue-inspector__overlay  li {
   list-style-type: none;
 }
 
-.vue-inspector-overlay em {
+.vue-inspector__overlay em {
   font-style: normal;
   font-weight: 500;
 }

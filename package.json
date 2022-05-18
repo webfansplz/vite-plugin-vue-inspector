@@ -17,7 +17,9 @@
   },
   "author": "webfansplz",
   "files": [
-    "dist"
+    "dist",
+    "src/load.js",
+    "src/Overlay.vue"
   ],
   "exports": {
     ".": {
@@ -31,16 +33,16 @@
     "./overlay.vue": {
       "import": "./dist/InspectorOverlay.vue",
       "require": "./dist/InspectorOverlay.vue"
-    }
+    },
+    "./src/*": "./src/*"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "update-version": "esmo scripts/update-version.ts",
-    "build-overlay": "esmo scripts/build-overlay.ts",
     "copy-overlay": "esno scripts/copy-overlay.ts",
-    "build": "pnpm run build-overlay && tsup src/index.ts --format cjs,esm --dts && pnpm run copy-overlay"
+    "build": "tsup src/index.ts --format cjs,esm --dts && pnpm run copy-overlay"
   },
   "bugs": {
     "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
@@ -57,12 +59,12 @@
     "@vue/compiler-dom": "^3.2.31",
     "chalk": "4.1.2",
     "esno": "^0.14.1",
+    "kolorist": "^1.5.1",
     "magic-string": "^0.26.1",
     "shell-quote": "^1.7.3"
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.19",
-    "@vue/compiler-sfc": "^3.2.31",
     "@webfansplz/eslint-config": "^0.1.0",
     "eslint": "^8.11.0",
     "esmo": "^0.14.1",
@@ -71,9 +73,6 @@
     "tsup": "^5.12.1",
     "typescript": "^4.6.2",
     "vite": "^2.9.1",
-    "vue": "^3.2.31",
-    "vue-template-compiler": "^2.6.14",
-    "vue-template-es2015-compiler": "^1.9.1",
-    "zx": "^6.0.6"
+    "vue": "^3.2.31"
   }
 }
