@@ -196,7 +196,7 @@ export VUE_EDITOR=vim
 
 ## 💡 Notice
 
-- **From v1.0, `enabled` option default value changed from `true` to `false` .**
+- **[BREAKING CHANGE] From v1.0, `enabled` option default value changed from `true` to `false` .**
 - It only work in develop mode .
 - It does not currently support `Template Engine (e.g. pug)` .
 
