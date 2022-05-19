@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-<a href="https://stackblitz.com/edit/vitejs-vite-nkvtdx?file=vite.config.ts&terminal=dev"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
+<a href="https://stackblitz.com/edit/vitejs-vite-te3qgo?file=vite.config.ts&terminal=dev"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
 </p>
 
 ## 📖 Introduction
