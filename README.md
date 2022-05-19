@@ -39,7 +39,7 @@ npm install vite-plugin-vue-inspector -D
 ### Configuration Vite
 
 ```ts
-// for vue2
+// for Vue2
 
 import { defineConfig } from "vite"
 import { createVuePlugin } from "vite-plugin-vue2"
@@ -49,27 +49,26 @@ export default defineConfig({
   plugins: [
     createVuePlugin(),
     Inspector({
-      vue: 2,
-      enabled: true
+      vue: 2
     }),
   ],
 })
 ```
 
 ```ts
-// for vue3
+// for Vue3
 
 import { defineConfig } from "vite"
 import Vue from "@vitejs/plugin-vue"
 import Inspector from "vite-plugin-vue-inspector"
 
 export default defineConfig({
-  plugins: [Vue(), Inspector({ enabled: true })],
+  plugins: [Vue(), Inspector()],
 })
 ```
 
 ```ts
-// for nuxt
+// for Nuxt3
 // nuxt.config.ts
 
 import { defineNuxtConfig } from 'nuxt'
@@ -79,8 +78,7 @@ export default defineNuxtConfig({
   vite: {
     plugins:[
       Inspector({
-        appendTo: "entry.mjs",
-        enabled: true 
+        appendTo: "entry.mjs"
       })
     ]
   }
@@ -140,9 +138,9 @@ interface VitePluginInspectorOptions {
 
 ### Example
 
-- [vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue2)
-- [vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue3)
-- [nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
+- [Vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue2)
+- [Vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue3)
+- [Nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
 
 ## 🔌  Configuration IDE / Editor
 
