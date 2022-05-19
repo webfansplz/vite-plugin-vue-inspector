@@ -12,6 +12,8 @@ export default defineConfig({
     }),
     Inspector({
       vue: 2,
+      toggleButtonVisibility: "always",
+      enabled: true,
     }),
   ],
 })

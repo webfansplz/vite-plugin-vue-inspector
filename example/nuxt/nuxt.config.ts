@@ -5,6 +5,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       Inspector({
+        enabled: true,
+        toggleButtonVisibility: "always",
         appendTo: "entry.mjs",
       }),
     ],
