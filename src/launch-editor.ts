@@ -191,7 +191,11 @@ function getArgumentsForLineNumber(
 }
 
 function guessEditor() {
-  // Explicit config always wins
+  // WebContainer config always wins
+  if (process.versions.webcontainer)
+    return [process.env.EDITOR || "code"]
+
+  // Explicit config always wins in non-WebContainer environments
   if (process.env.VUE_EDITOR)
     return shellQuote.parse(process.env.VUE_EDITOR)
 
