@@ -13,9 +13,10 @@ interface CompileSFCTemplateOptions {
   code: string
   id: string
   type: "template" | "jsx"
+  withComponent: boolean
 }
 export async function compileSFCTemplate(
-  { code, id, type }: CompileSFCTemplateOptions,
+  { code, id, type, withComponent }: CompileSFCTemplateOptions,
 ) {
   const s = new MagicString(code)
   const { base } = path.parse(id)
@@ -28,7 +29,7 @@ export async function compileSFCTemplate(
           nodeTransforms: [
             (node) => {
               if (node.type === 1) {
-                if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
+                if ((withComponent ? node.tagType < 2 : node.tagType === 0) && !EXCLUDE_TAG.includes(node.tag)) {
                   if (node.loc.source.includes("data-v-inspector-file")) return
 
                   const insertPosition = node.loc.start.offset + node.tag.length + 1
