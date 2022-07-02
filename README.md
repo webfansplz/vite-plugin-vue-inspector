@@ -98,6 +98,12 @@ interface VitePluginInspectorOptions {
   vue?: 2 | 3
 
   /**
+   * Inspect with vue component
+   * @default true
+   */
+  withComponent?: boolean
+
+  /**
   * Default enable state
   * @default false
   */
