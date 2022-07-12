@@ -39,6 +39,12 @@
 <script>
 import inspectorOptions from "virtual:vue-inspector-options"
 
+const importMetaUrl = new URL(import.meta.url)
+const protocol = inspectorOptions.serverOptions?.https ? "https:" : importMetaUrl.protocol
+const host = inspectorOptions.serverOptions?.host ?? importMetaUrl.hostname
+const port = inspectorOptions.serverOptions?.port ?? importMetaUrl.port
+const baseUrl = `${protocol}//${host}:${port}`
+
 export default {
   data() {
     return {
@@ -160,7 +166,10 @@ export default {
       const { file, line, column } = params
       this.overlayVisible = false
       fetch(
-        `/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
+        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
+        {
+          mode: "no-cors",
+        },
       )
     },
     onMouseMove(e) {
