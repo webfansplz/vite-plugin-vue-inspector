@@ -3,7 +3,7 @@ import { fileURLToPath } from "url"
 import fs from "fs"
 import { yellow, red } from "kolorist"
 import { normalizePath } from "vite"
-import type { PluginOption } from "vite"
+import type { PluginOption, ResolvedConfig } from "vite"
 import { compileSFCTemplate } from "./compiler"
 import { parseVueRequest } from "./utils"
 import { queryParserMiddleware, launchEditorMiddleware } from "./middleware"
@@ -70,6 +70,8 @@ const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
   const inspectorPath = getInspectorPath()
   const normalizedOptions = { ...DEFAULT_INSPECTOR_OPTIONS, ...options }
+
+  let base = ''
   return {
     name: "vite-plugin-vue-inspector",
     enforce: "pre",
@@ -77,6 +79,19 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       // apply only on serve and not for test
       return command === "serve" && process.env.NODE_ENV !== "test"
     },
+
+    configResolved (viteConfig: ResolvedConfig) {
+      base = viteConfig.base
+
+      if (!base.match(/^(?:[a-z]+:)?\/\//i) && !base.startsWith('/') && !base.startsWith('./')) {
+        base = `/${base}`
+      }
+
+      if (base.endsWith('/')) {
+        base = base.slice(0, -1)
+      }
+    },
+
     async resolveId(importee: string) {
       if (importee.startsWith("virtual:vue-inspector-options")) {
         return importee
@@ -132,7 +147,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
             injectTo: "body",
             attrs: {
               type: "module",
-              src: "/@id/virtual:vue-inspector-path:load.js",
+              src: `${base}/@id/virtual:vue-inspector-path:load.js`,
             },
           },
         ],
