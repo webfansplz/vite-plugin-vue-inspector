@@ -2,7 +2,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 import fs from "fs"
 import { yellow, red } from "kolorist"
-import { normalizePath } from "vite"
+import { normalizePath, ServerOptions } from "vite"
 import type { PluginOption } from "vite"
 import { compileSFCTemplate } from "./compiler"
 import { parseVueRequest } from "./utils"
@@ -70,6 +70,8 @@ const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
   const inspectorPath = getInspectorPath()
   const normalizedOptions = { ...DEFAULT_INSPECTOR_OPTIONS, ...options }
+  let serverOptions: ServerOptions | undefined
+
   return {
     name: "vite-plugin-vue-inspector",
     enforce: "pre",
@@ -89,7 +91,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
 
     async load(id) {
       if (id === "virtual:vue-inspector-options") {
-        return `export default ${JSON.stringify(normalizedOptions)}`
+        return `export default ${JSON.stringify({ ...normalizedOptions, serverOptions })}`
       }
       else if (id.startsWith(inspectorPath)) {
         const { query } = parseVueRequest(id)
@@ -137,6 +139,9 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           },
         ],
       }
+    },
+    configResolved(resolvedConfig) {
+      serverOptions = resolvedConfig.server
     },
   }
 }
