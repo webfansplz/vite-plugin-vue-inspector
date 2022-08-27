@@ -38,6 +38,12 @@ export interface VitePluginInspectorOptions {
   toggleComboKey?: string
 
   /**
+   * Disable plugin after keyup
+   * @default false
+   */
+  disableOnKeyup?: boolean
+
+  /**
   * Toggle button visibility
   * @default 'active'
   */
