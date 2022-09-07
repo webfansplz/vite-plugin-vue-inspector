@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "nuxt": "3.0.0-rc.1",
-    "vite-plugin-vue-inspector": "1.1.1"
+    "vite-plugin-vue-inspector": "1.1.2"
   }
 }
