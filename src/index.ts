@@ -5,7 +5,7 @@ import { yellow, red } from "kolorist"
 import { normalizePath, ServerOptions } from "vite"
 import type { PluginOption } from "vite"
 import { compileSFCTemplate } from "./compiler"
-import { parseVueRequest } from "./utils"
+import { parseVueRequest, idToFile } from "./utils"
 import { queryParserMiddleware, launchEditorMiddleware } from "./middleware"
 
 function getInspectorPath() {
@@ -96,7 +96,12 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       else if (id.startsWith(inspectorPath)) {
         const { query } = parseVueRequest(id)
         if (query.type) return
-        return await fs.promises.readFile(id, "utf-8")
+        // read file ourselves to avoid getting shut out by vites fs.allow check
+        const file = idToFile(id)
+        if (fs.existsSync(file))
+          return await fs.promises.readFile(file, "utf-8")
+        else
+          console.error(`failed to find file for vue-inspector: ${file}, referenced by id ${id}.`)
       }
     },
     transform(code, id) {
