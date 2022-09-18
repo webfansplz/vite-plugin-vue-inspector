@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from "nuxt"
+import { defineNuxtConfig } from "nuxt/config"
 import Inspector from "vite-plugin-vue-inspector"
 
 export default defineNuxtConfig({

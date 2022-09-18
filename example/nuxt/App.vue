@@ -12,12 +12,8 @@
   </div>
 </template>
 <script lang="ts">
-import Hi from "./Hi.vue"
 export default {
   name: "App",
-  components: {
-    Hi,
-  },
 }
 </script>
 <style lang="sass" scoped>
