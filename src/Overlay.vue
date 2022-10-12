@@ -40,12 +40,14 @@
 import inspectorOptions from "virtual:vue-inspector-options"
 
 const isClient = typeof window !== "undefined"
-const importMetaUrl = isClient ? new URL(import.meta.url) : {}
-const protocol = inspectorOptions.serverOptions?.https ? "https:" : importMetaUrl?.protocol
-const hostOpts = inspectorOptions.serverOptions?.host
-const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
-const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
-const baseUrl = isClient ? `${protocol}//${host}:${port}` : ""
+
+let baseUrl = ""
+
+if(isClient){
+     const importMetaUrl = new URL(import.meta.url)
+     baseUrl = `${importMetaUrl.protocol}//${importMetaUrl.hostname}:${importMetaUrl.port}`
+}
+
 
 export default {
   data() {
