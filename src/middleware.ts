@@ -4,11 +4,11 @@ export const SERVER_URL = "/__open-stack-frame-in-editor"
 
 type RequestMessage = Parameters<Connect.NextHandleFunction>[0]
 export const queryParserMiddleware: Connect.NextHandleFunction = (
-  req: RequestMessage & {query?: object},
+  req: RequestMessage & { query?: object },
   _,
   next,
 ) => {
-  if (!req.query && req.url?.startsWith(SERVER_URL)) {
+  if (!req.query && req.url?.includes(SERVER_URL)) {
     const url = new URL(req.url, "http://domain.inspector")
     req.query = Object.fromEntries(url.searchParams.entries())
   }
@@ -22,7 +22,7 @@ export const launchEditorMiddleware: Connect.NextHandleFunction = (
   res,
   next,
 ) => {
-  if (req.url.startsWith(SERVER_URL)) {
+  if (req.url.includes(SERVER_URL)) {
     const { file, line, column } = req.query
     if (!file) {
       res.statusCode = 500
