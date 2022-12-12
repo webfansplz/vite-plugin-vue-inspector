@@ -131,6 +131,11 @@ export default {
       if (event.repeat || event.key === undefined)
         return
 
+      if (["Escape", "Esc"].includes(event.key) && this.enabled) {
+        this.disable()
+        return
+      }
+
       const isCombo = this.toggleCombo?.every(key => this.isKeyActive(key, event))
       if (isCombo)
         this.toggle()
