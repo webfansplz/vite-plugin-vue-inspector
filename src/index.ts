@@ -1,7 +1,7 @@
 import path from "path"
 import { fileURLToPath } from "url"
 import fs from "fs"
-import { yellow, red } from "kolorist"
+import { yellow, green, bold, dim } from "kolorist"
 import { normalizePath, ServerOptions } from "vite"
 import type { PluginOption } from "vite"
 import { compileSFCTemplate } from "./compiler"
@@ -51,7 +51,7 @@ export interface VitePluginInspectorOptions {
 
   /**
   * append an import to the module id ending with `appendTo` instead of adding a script into body
-  * useful for frameworks that do not support trannsformIndexHtml hook (e.g. Nuxt3)
+  * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
   *
   * WARNING: only set this if you know exactly what it does.
   */
@@ -121,12 +121,14 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     configureServer(server) {
       server.middlewares.use(queryParserMiddleware)
       server.middlewares.use(launchEditorMiddleware)
-      server.httpServer?.once("listening", () => {
+
+      const _printUrls = server.printUrls
+      server.printUrls = () => {
         const { toggleComboKey } = normalizedOptions
-        setTimeout(() => {
-          console.log(`  > vite-plugin-vue-inspector: ${red(`You can enter ${yellow(toggleComboKey.replace(/\-/, "+"))} to toggle the Inspector`)}\n`)
-        }, 0)
-      })
+        const keys = toggleComboKey.split("-").map(k => k[0].toUpperCase() + k.slice(1)).join(dim("+"))
+        _printUrls()
+        console.log(`  ${green("➜")}  ${bold("Vue Inspector")}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
+      }
     },
     transformIndexHtml(html) {
       if (normalizedOptions.appendTo)
