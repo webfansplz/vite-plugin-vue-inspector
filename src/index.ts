@@ -108,7 +108,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       const { filename, query } = parseVueRequest(id)
 
       const isJsx = filename.endsWith(".jsx") || filename.endsWith(".tsx") || (filename.endsWith(".vue") && query.isJsx)
-      const isTpl = filename.endsWith(".vue") && query.type !== "style"
+      const isTpl = filename.endsWith(".vue") && query.type !== "style" && !query.raw
 
       if (isJsx || isTpl)
         return compileSFCTemplate({ code, id: filename, type: isJsx ? "jsx" : "template" })
