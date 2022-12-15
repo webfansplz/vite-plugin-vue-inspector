@@ -1225,10 +1225,10 @@ update-browserslist-db@^1.0.9:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
-vite-plugin-vue-inspector@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/vite-plugin-vue-inspector/-/vite-plugin-vue-inspector-2.0.0.tgz#517ca5b5de5cf2ca9c4dc546d5b1a96af340f53e"
-  integrity sha512-Q5OglEqVw8TYdSUAmyvFEkr5wm1vPszpUGvSXJttly4HcdKEwvUB7wkCBrdxV4qbTfIfmKN7SNapq0KkgboqlA==
+vite-plugin-vue-inspector@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/vite-plugin-vue-inspector/-/vite-plugin-vue-inspector-2.0.2.tgz#7f19ea4f068686aff1e19c8d57960a3ef9af7192"
+  integrity sha512-9QRQNsEKPexr0OLVglolJKJIbFoWwQl8GRizgKRKqbFHWty4+qni+iIeUHurKH16TaImlfvNYZXu486bUqJLOQ==
   dependencies:
     "@babel/core" "^7.17.8"
     "@babel/plugin-syntax-import-meta" "^7.10.4"
