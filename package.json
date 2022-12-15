@@ -19,6 +19,7 @@
   "files": [
     "dist",
     "src/load.js",
+    "src/console.js",
     "src/Overlay.vue"
   ],
   "exports": {

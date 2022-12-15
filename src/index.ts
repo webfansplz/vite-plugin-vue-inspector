@@ -21,6 +21,12 @@ export interface VitePluginInspectorOptions {
   vue?: 2 | 3
 
   /**
+   * Inspect with vue component
+   * @default true
+   */
+  withComponent?: boolean
+
+  /**
   * Default enable state
   * @default false
   */
@@ -60,6 +66,7 @@ export interface VitePluginInspectorOptions {
 
 const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   vue: 3,
+  withComponent: true,
   enabled: false,
   toggleComboKey: process.platform === "win32" ? "control-shift" : "meta-shift",
   toggleButtonVisibility: "active",
@@ -111,10 +118,15 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       const isTpl = filename.endsWith(".vue") && query.type !== "style" && !query.raw
 
       if (isJsx || isTpl)
-        return compileSFCTemplate({ code, id: filename, type: isJsx ? "jsx" : "template" })
+        return compileSFCTemplate({ code, id: filename, type: isJsx ? "jsx" : "template", withComponent: normalizedOptions.withComponent })
 
-      if (normalizedOptions.appendTo && filename.endsWith(normalizedOptions.appendTo))
-        return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
+      if (normalizedOptions.appendTo && filename.endsWith(normalizedOptions.appendTo)) {
+        const libs = ["import 'virtual:vue-inspector-path:load.js'"]
+        if (normalizedOptions.withComponent) {
+          libs.push("import 'virtual:vue-inspector-path:console.js'")
+        }
+        return `${code}\n${libs.join('\n')}`
+      }
 
       return code
     },
@@ -133,19 +145,27 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     transformIndexHtml(html) {
       if (normalizedOptions.appendTo)
         return
-      return {
-        html,
-        tags: [
-          {
-            tag: "script",
-            injectTo: "body",
-            attrs: {
-              type: "module",
-              src: "/@id/virtual:vue-inspector-path:load.js",
-            },
+      const tags = [
+        {
+          tag: "script",
+          injectTo: "body" as const,
+          attrs: {
+            type: "module",
+            src: "/@id/virtual:vue-inspector-path:load.js",
           },
-        ],
+        },
+      ]
+      if (normalizedOptions.withComponent) {
+        tags.push({
+          tag: "script",
+          injectTo: "body",
+          attrs: {
+            type: "module",
+            src: "/@id/virtual:vue-inspector-path:console.js",
+          },
+        })
       }
+      return { html, tags }
     },
     configResolved(resolvedConfig) {
       serverOptions = resolvedConfig.server
