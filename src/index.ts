@@ -138,7 +138,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         tags: [
           {
             tag: "script",
-            injectTo: "body",
+            injectTo: "body-prepend",
             attrs: {
               type: "module",
               src: "/@id/virtual:vue-inspector-path:load.js",
