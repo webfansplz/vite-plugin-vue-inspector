@@ -138,21 +138,22 @@ export default {
 
     getTargetNode(e) {
       const path = e.path ?? e.composedPath()
-      const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspector-file"))
-      if (targetNode === this.$refs.target) {
+      const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspector-options"))
+      if (targetNode === this.$refs.target || !targetNode) {
         return {
           targetNode: null,
           params: null,
         }
       }
+      const [file, line, column] = targetNode?.getAttribute?.("data-v-inspector-options")?.split("_")
       return {
         targetNode,
         params: targetNode
           ? {
-            file: targetNode?.getAttribute?.("data-v-inspector-file"),
-            line: targetNode?.getAttribute?.("data-v-inspector-line"),
-            column: targetNode?.getAttribute?.("data-v-inspector-column"),
-            title: targetNode?.getAttribute?.("data-v-inspector-title"),
+            file,
+            line,
+            column,
+            title: file,
           }
           : null,
       }

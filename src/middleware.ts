@@ -1,3 +1,4 @@
+import path from "path"
 import type { Connect } from "vite"
 import { launchEditor } from "./launch-editor"
 export const SERVER_URL = "/__open-stack-frame-in-editor"
@@ -30,7 +31,7 @@ export const launchEditorMiddleware: Connect.NextHandleFunction = (
     }
     const lineNumber = +line || 1
     const columnNumber = +column || 1
-    launchEditor(file, lineNumber, columnNumber)
+    launchEditor(path.join(process.cwd(), file), lineNumber, columnNumber)
     res.end()
   }
   else {

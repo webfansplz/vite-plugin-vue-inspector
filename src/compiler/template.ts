@@ -19,7 +19,7 @@ export async function compileSFCTemplate(
 ) {
   const s = new MagicString(code)
   const { base } = path.parse(id)
-
+  const relativePath = path.relative(process.cwd(), id)
   const result = await new Promise((resolve) => {
     switch (type) {
       case "template": {
@@ -34,7 +34,7 @@ export async function compileSFCTemplate(
                   const insertPosition = node.loc.start.offset + node.tag.length + 1
                   const { line, column } = node.loc.start
 
-                  const content = ` data-v-inspector-file="${id}" data-v-inspector-line=${line} data-v-inspector-column=${column} data-v-inspector-title="${base}"`
+                  const content = ` data-v-inspector-options="${relativePath}_${line}_${column}"`
 
                   s.prependLeft(
                     insertPosition,
@@ -72,7 +72,7 @@ export async function compileSFCTemplate(
               const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
               const { line, column } = node.loc.start
 
-              const content = ` data-v-inspector-file="${id}" data-v-inspector-line={${line}} data-v-inspector-column={${column}} data-v-inspector-title="${base}"`
+              const content = ` data-v-inspector-options="${relativePath}_${line}_${column}"`
 
               s.prependLeft(
                 insertPosition,
