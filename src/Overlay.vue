@@ -54,6 +54,7 @@ export default {
       overlayTarget: null,
       enabled: inspectorOptions.enabled,
       toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split("-"),
+      disableOnKeyup: inspectorOptions.disableOnKeyup,
       overlayVisible: false,
 
       linkQuery: {
@@ -96,6 +97,7 @@ export default {
   },
   mounted() {
     this.toggleCombo && document.body.addEventListener("keydown", this.onKeydown)
+    this.disableOnKeyup && document.body.addEventListener("keyup", this.disable)
     this.enabled && this.enable()
   },
   methods: {
