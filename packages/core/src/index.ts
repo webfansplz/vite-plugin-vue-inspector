@@ -10,7 +10,7 @@ import { launchEditorMiddleware, queryParserMiddleware } from './middleware'
 
 function getInspectorPath() {
   const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
-  return pluginPath.replace(/\/vite-plugin-vue-inspector\/dist$/, '/vite-plugin-vue-inspector/src/')
+  return pluginPath.replace(/\/dist$/, '/\/src')
 }
 
 export interface VitePluginInspectorOptions {

@@ -1,7 +1,5 @@
 {
-  "name": "vite-plugin-vue-inspector",
-  "version": "2.0.4",
-  "description": "jump to local IDE source code while click the element of browser automatically.",
+  "private": true,
   "author": "webfansplz",
   "license": "MIT",
   "homepage": "https://github.com/webfansplz/vite-plugin-vue-inspector#readme",
@@ -12,64 +10,17 @@
   "bugs": {
     "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
   },
-  "keywords": [
-    "vue",
-    "vite",
-    "vscode",
-    "vite-plugin",
-    "inspector",
-    "debug"
-  ],
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./overlay": {
-      "require": "./dist/InspectorOverlay.vue",
-      "import": "./dist/InspectorOverlay.vue"
-    },
-    "./overlay.vue": {
-      "require": "./dist/InspectorOverlay.vue",
-      "import": "./dist/InspectorOverlay.vue"
-    },
-    "./src/*": "./src/*"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "files": [
-    "dist",
-    "src/load.js",
-    "src/Overlay.vue"
-  ],
   "scripts": {
+    "play:nuxt": "pnpm run -r --filter=./packages/playground/nuxt dev",
+    "play:vue3": "pnpm run -r --filter=./packages/playground/vue3 dev",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "update-version": "esmo scripts/update-version.ts",
-    "copy-overlay": "esno scripts/copy-overlay.ts",
-    "build": "tsup src/index.ts --format cjs,esm --dts && pnpm run copy-overlay"
-  },
-  "peerDependencies": {
-    "vite": "^3.0.0-0 || ^4.0.0-0"
-  },
-  "dependencies": {
-    "@babel/core": "^7.20.7",
-    "@babel/plugin-syntax-import-meta": "^7.10.4",
-    "@babel/plugin-transform-typescript": "^7.20.7",
-    "@vue/babel-plugin-jsx": "^1.1.1",
-    "@vue/compiler-dom": "^3.2.45",
-    "esno": "^0.16.3",
-    "kolorist": "^1.6.0",
-    "magic-string": "^0.27.0",
-    "shell-quote": "^1.7.4"
+    "build": "pnpm run -r --filter=./packages/core build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.0",
-    "@types/babel__core": "^7.1.20",
     "eslint": "^8.31.0",
     "esmo": "^0.16.3",
     "fs-extra": "^11.1.0",
-    "fsxx": "^0.1.0",
-    "tsup": "^6.5.0",
     "typescript": "^4.9.4",
     "vite": "^4.0.3",
     "vue": "^3.2.45"
