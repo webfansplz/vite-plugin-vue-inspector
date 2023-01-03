@@ -1,5 +1,5 @@
 {
-  "extends": "@webfansplz",
+  "extends": "@antfu",
   "rules":{
     "no-console":0,
     "prefer-const":0,

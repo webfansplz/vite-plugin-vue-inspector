@@ -6,7 +6,7 @@ import fs from "fs"
 import path from "path"
 import child_process from "child_process"
 import os from "os"
-import chalk from "chalk"
+import { red, cyan, green } from "kolorist"
 import shellQuote from "shell-quote"
 
 function isTerminalEditor(editor: string) {
@@ -222,7 +222,7 @@ function guessEditor() {
         .toString()
       const runningProcesses = output.split("\r\n")
       for (let i = 0; i < runningProcesses.length; i++) {
-      // `Get-Process` sometimes returns empty lines
+        // `Get-Process` sometimes returns empty lines
         if (!runningProcesses[i])
           continue
 
@@ -266,25 +266,22 @@ function guessEditor() {
 function printInstructions(fileName, errorMessage) {
   console.log()
   console.log(
-    chalk.red(`Could not open ${path.basename(fileName)} in the editor.`),
+    red(`Could not open ${path.basename(fileName)} in the editor.`),
   )
   if (errorMessage) {
     if (errorMessage[errorMessage.length - 1] !== ".")
       errorMessage += "."
 
     console.log(
-      chalk.red(`The editor process exited with an error: ${errorMessage}`),
+      red(`The editor process exited with an error: ${errorMessage}`),
     )
   }
   console.log()
   console.log(
-    `To set up the editor integration, add something like ${
-      chalk.cyan("VUE_EDITOR=atom")
-    } to the ${
-      chalk.green(".env.local")
+    `To set up the editor integration, add something like ${cyan("VUE_EDITOR=atom")
+    } to the ${green(".env.local")
     } file in your project folder `
-      + `and restart the development server. Learn more: ${
-        chalk.green("https://goo.gl/MMTaZt")}`,
+    + `and restart the development server. Learn more: ${green("https://goo.gl/MMTaZt")}`,
   )
   console.log()
 }
@@ -343,14 +340,14 @@ export function launchEditor(
   ) {
     console.log()
     console.log(
-      chalk.red(`Could not open ${path.basename(fileName)} in the editor.`),
+      red(`Could not open ${path.basename(fileName)} in the editor.`),
     )
     console.log()
     console.log(
       "When running on Windows, file names are checked against a whitelist "
-        + "to protect against remote code execution attacks. File names may "
-        + "consist only of alphanumeric characters (all languages), periods, "
-        + "dashes, slashes, and underscores.",
+      + "to protect against remote code execution attacks. File names may "
+      + "consist only of alphanumeric characters (all languages), periods, "
+      + "dashes, slashes, and underscores.",
     )
     console.log()
     return
