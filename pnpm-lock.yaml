@@ -50,7 +50,7 @@ importers:
   packages/playground/nuxt:
     specifiers:
       nuxt: 3.0.0
-      vite-plugin-vue-inspector: workspace:*
+      vite-plugin-vue-inspector: 3.0.0-beta.0
     devDependencies:
       nuxt: 3.0.0
       vite-plugin-vue-inspector: link:../../core
@@ -61,7 +61,7 @@ importers:
       '@vitejs/plugin-vue-jsx': ^2.1.1
       '@vue/compiler-sfc': ^3.2.44
       sass: ^1.49.9
-      vite-plugin-vue-inspector: workspace:*
+      vite-plugin-vue-inspector: 3.0.0-beta.0
       vue: ^3.2.31
     dependencies:
       vue: 3.2.45

@@ -14,7 +14,8 @@
     "play:nuxt": "pnpm run -r --filter=./packages/playground/nuxt dev",
     "play:vue3": "pnpm run -r --filter=./packages/playground/vue3 dev",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "build": "pnpm run -r --filter=./packages/core build"
+    "build": "pnpm run -r --filter=./packages/core build",
+    "release": "pnpm run build && pnpm publish -r --filter='./packages/core' --no-git-checks --access public"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.0",
