@@ -1,12 +1,12 @@
-import { fileURLToPath } from "url"
-import { resolve, dirname } from "path"
-import { io } from "fsxx"
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
+import { io } from 'fsxx'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const packageJSON = resolve(__dirname, "../package.json")
-const nuxtExample = resolve(__dirname, "../example/nuxt/package.json")
-const vue2Example = resolve(__dirname, "../example/vue2/package.json")
-const vue3Example = resolve(__dirname, "../example/vue3/package.json")
+const packageJSON = resolve(__dirname, '../package.json')
+const nuxtExample = resolve(__dirname, '../example/nuxt/package.json')
+const vue2Example = resolve(__dirname, '../example/vue2/package.json')
+const vue3Example = resolve(__dirname, '../example/vue3/package.json')
 
 async function start() {
   io.json.spaces = 2

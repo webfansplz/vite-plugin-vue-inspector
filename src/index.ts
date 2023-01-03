@@ -1,16 +1,16 @@
-import path from "path"
-import { fileURLToPath } from "url"
-import fs from "fs"
-import { yellow, green, bold, dim } from "kolorist"
-import { normalizePath, ServerOptions } from "vite"
-import type { PluginOption } from "vite"
-import { compileSFCTemplate } from "./compiler"
-import { parseVueRequest, idToFile } from "./utils"
-import { queryParserMiddleware, launchEditorMiddleware } from "./middleware"
+import path from 'path'
+import { fileURLToPath } from 'url'
+import fs from 'fs'
+import { bold, dim, green, yellow } from 'kolorist'
+import { normalizePath } from 'vite'
+import type { PluginOption, ServerOptions } from 'vite'
+import { compileSFCTemplate } from './compiler'
+import { idToFile, parseVueRequest } from './utils'
+import { launchEditorMiddleware, queryParserMiddleware } from './middleware'
 
 function getInspectorPath() {
   const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
-  return pluginPath.replace(/\/vite-plugin-vue-inspector\/dist$/, "/vite-plugin-vue-inspector/src/")
+  return pluginPath.replace(/\/vite-plugin-vue-inspector\/dist$/, '/vite-plugin-vue-inspector/src/')
 }
 
 export interface VitePluginInspectorOptions {
@@ -41,13 +41,13 @@ export interface VitePluginInspectorOptions {
   * Toggle button visibility
   * @default 'active'
   */
-  toggleButtonVisibility?: "always" | "active" | "never"
+  toggleButtonVisibility?: 'always' | 'active' | 'never'
 
   /**
   * Toggle button display position
   * @default top-right
   */
-  toggleButtonPos?: "top-right" | "top-left" | "bottom-right" | "bottom-left"
+  toggleButtonPos?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
   /**
   * append an import to the module id ending with `appendTo` instead of adding a script into body
@@ -61,10 +61,10 @@ export interface VitePluginInspectorOptions {
 const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   vue: 3,
   enabled: false,
-  toggleComboKey: process.platform === "win32" ? "control-shift" : "meta-shift",
-  toggleButtonVisibility: "active",
-  toggleButtonPos: "top-right",
-  appendTo: "",
+  toggleComboKey: process.platform === 'win32' ? 'control-shift' : 'meta-shift',
+  toggleButtonVisibility: 'active',
+  toggleButtonPos: 'top-right',
+  appendTo: '',
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
@@ -73,33 +73,34 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
   let serverOptions: ServerOptions | undefined
 
   return {
-    name: "vite-plugin-vue-inspector",
-    enforce: "pre",
+    name: 'vite-plugin-vue-inspector',
+    enforce: 'pre',
     apply(_, { command }) {
       // apply only on serve and not for test
-      return command === "serve" && process.env.NODE_ENV !== "test"
+      return command === 'serve' && process.env.NODE_ENV !== 'test'
     },
     async resolveId(importee: string) {
-      if (importee.startsWith("virtual:vue-inspector-options")) {
+      if (importee.startsWith('virtual:vue-inspector-options')) {
         return importee
       }
-      else if (importee.startsWith("virtual:vue-inspector-path:")) {
-        const resolved = importee.replace("virtual:vue-inspector-path:", `${inspectorPath}/`)
+      else if (importee.startsWith('virtual:vue-inspector-path:')) {
+        const resolved = importee.replace('virtual:vue-inspector-path:', `${inspectorPath}/`)
         return resolved
       }
     },
 
     async load(id) {
-      if (id === "virtual:vue-inspector-options") {
+      if (id === 'virtual:vue-inspector-options') {
         return `export default ${JSON.stringify({ ...normalizedOptions, serverOptions })}`
       }
       else if (id.startsWith(inspectorPath)) {
         const { query } = parseVueRequest(id)
-        if (query.type) return
+        if (query.type)
+          return
         // read file ourselves to avoid getting shut out by vites fs.allow check
         const file = idToFile(id)
         if (fs.existsSync(file))
-          return await fs.promises.readFile(file, "utf-8")
+          return await fs.promises.readFile(file, 'utf-8')
         else
           console.error(`failed to find file for vue-inspector: ${file}, referenced by id ${id}.`)
       }
@@ -107,11 +108,11 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     transform(code, id) {
       const { filename, query } = parseVueRequest(id)
 
-      const isJsx = filename.endsWith(".jsx") || filename.endsWith(".tsx") || (filename.endsWith(".vue") && query.isJsx)
-      const isTpl = filename.endsWith(".vue") && query.type !== "style" && !query.raw
+      const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
+      const isTpl = filename.endsWith('.vue') && query.type !== 'style' && !query.raw
 
       if (isJsx || isTpl)
-        return compileSFCTemplate({ code, id: filename, type: isJsx ? "jsx" : "template" })
+        return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
 
       if (normalizedOptions.appendTo && filename.endsWith(normalizedOptions.appendTo))
         return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
@@ -125,9 +126,9 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       const _printUrls = server.printUrls
       server.printUrls = () => {
         const { toggleComboKey } = normalizedOptions
-        const keys = toggleComboKey.split("-").map(k => k[0].toUpperCase() + k.slice(1)).join(dim("+"))
+        const keys = toggleComboKey.split('-').map(k => k[0].toUpperCase() + k.slice(1)).join(dim('+'))
         _printUrls()
-        console.log(`  ${green("➜")}  ${bold("Vue Inspector")}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
+        console.log(`  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
       }
     },
     transformIndexHtml(html) {
@@ -137,11 +138,11 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         html,
         tags: [
           {
-            tag: "script",
-            injectTo: "head",
+            tag: 'script',
+            injectTo: 'head',
             attrs: {
-              type: "module",
-              src: "/@id/virtual:vue-inspector-path:load.js",
+              type: 'module',
+              src: '/@id/virtual:vue-inspector-path:load.js',
             },
           },
         ],

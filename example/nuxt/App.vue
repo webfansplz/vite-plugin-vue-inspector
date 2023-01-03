@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  name: 'App',
+}
+</script>
+
 <template>
   <div class="container">
     <div>
@@ -11,11 +17,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-export default {
-  name: "App",
-}
-</script>
+
 <style lang="sass" scoped>
 .container
   width: 100vw

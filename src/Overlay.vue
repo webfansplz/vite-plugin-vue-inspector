@@ -1,3 +1,157 @@
+<script>
+import inspectorOptions from 'virtual:vue-inspector-options'
+const isClient = typeof window !== 'undefined'
+const importMetaUrl = isClient ? new URL(import.meta.url) : {}
+const protocol = inspectorOptions.serverOptions?.https ? 'https:' : importMetaUrl?.protocol
+const hostOpts = inspectorOptions.serverOptions?.host
+const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
+const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
+const baseUrl = isClient ? `${protocol}//${host}:${port}` : ''
+export default {
+  name: 'VueInspectorOverlay',
+  data() {
+    return {
+      containerRef: null,
+      enabled: inspectorOptions.enabled,
+      toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split('-'),
+      overlayVisible: false,
+      position: {
+        x: 0,
+        y: 0,
+      },
+      linkParams: {
+        file: '',
+        line: 0,
+        column: 0,
+      },
+    }
+  },
+  computed: {
+    logoColors() {
+      return this.enabled ? ['#42D392', '#213547', '#42b883'] : ['#E2C6C6', '#E2C6C6', '#E2C6C6']
+    },
+    containerVisible() {
+      const { toggleButtonVisibility } = inspectorOptions
+      return toggleButtonVisibility === 'always' || (toggleButtonVisibility === 'active' && this.enabled)
+    },
+    containerPosition() {
+      return inspectorOptions.toggleButtonPos
+        .split('-')
+        .map(p => `${p}: 15px;`)
+        .join('')
+    },
+    bannerPosition() {
+      const [x, y] = inspectorOptions.toggleButtonPos.split('-')
+      return {
+        [x === 'top' ? 'bottom' : 'top']: '-45px',
+        [y]: 0,
+      }
+    },
+    overlayStyle() {
+      return {
+        left: `${this.position.x}px`,
+        top: `${this.position.y + 20}px`,
+      }
+    },
+  },
+  mounted() {
+    this.toggleCombo && document.body.addEventListener('keydown', this.onKeydown)
+    this.toggleEventListener()
+  },
+  methods: {
+    toggleEventListener() {
+      const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
+      listener?.('mousemove', this.updateLinkParams)
+      listener?.('click', this.openInEditor, true)
+    },
+    toggleEnabled() {
+      this.enabled = !this.enabled
+      this.overlayVisible = false
+      this.toggleEventListener()
+    },
+    onKeydown(event) {
+      if (event.repeat || event.key === undefined)
+        return
+
+      const isCombo = this.toggleCombo?.every(key => this.isKeyActive(key, event))
+      if (isCombo)
+        this.toggleEnabled()
+    },
+    isKeyActive(key, event) {
+      switch (key) {
+        case 'shift':
+        case 'control':
+        case 'alt':
+        case 'meta':
+          return event.getModifierState(key.charAt(0).toUpperCase() + key.slice(1))
+        default:
+          return key === event.key.toLowerCase()
+      }
+    },
+    isChildOf(ele, target) {
+      if (!ele || ele === document)
+        return false
+      return ele === target ? true : this.isChildOf(ele.parentNode, target)
+    },
+    getTargetNode(e) {
+      const path = e.path ?? e.composedPath()
+      const targetNode = path?.find(node => node?.hasAttribute?.('data-v-inspector-options'))
+      if (this.isChildOf(targetNode, this.$refs.containerRef) || !targetNode) {
+        return {
+          targetNode: null,
+          params: null,
+        }
+      }
+      const [file, line, column] = targetNode?.getAttribute?.('data-v-inspector-options')?.split('_')
+      return {
+        targetNode,
+        params: targetNode
+          ? {
+              file,
+              line,
+              column,
+              title: file,
+            }
+          : null,
+      }
+    },
+    openInEditor(e) {
+      const { targetNode, params } = this.getTargetNode(e)
+      if (!targetNode)
+        return
+      e.preventDefault()
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+      const { file, line, column } = params
+      this.overlayVisible = false
+      fetch(
+        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
+        {
+          mode: 'no-cors',
+        },
+      )
+    },
+    updateLinkParams(e) {
+      const { targetNode, params } = this.getTargetNode(e)
+      if (targetNode) {
+        this.overlayVisible = true
+        this.position.x = e.clientX
+        this.position.y = e.clientY
+        this.linkParams = params
+      }
+      else {
+        this.overlayVisible = false
+        this.linkParams = {
+          file: '',
+          line: 0,
+          column: 0,
+        }
+      }
+    },
+  },
+}
+</script>
+
 <template>
   <div>
     <div
@@ -63,157 +217,7 @@
     </ul>
   </div>
 </template>
-<script>
-import inspectorOptions from "virtual:vue-inspector-options"
-const isClient = typeof window !== "undefined"
-const importMetaUrl = isClient ? new URL(import.meta.url) : {}
-const protocol = inspectorOptions.serverOptions?.https ? "https:" : importMetaUrl?.protocol
-const hostOpts = inspectorOptions.serverOptions?.host
-const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
-const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
-const baseUrl = isClient ? `${protocol}//${host}:${port}` : ""
-export default {
-  name: "VueInspectorOverlay",
-  data() {
-    return {
-      containerRef: null,
-      enabled: inspectorOptions.enabled,
-      toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split("-"),
-      overlayVisible: false,
-      position: {
-        x: 0,
-        y: 0,
-      },
-      linkParams: {
-        file: "",
-        line: 0,
-        column: 0,
-      },
-    }
-  },
-  computed: {
-    logoColors() {
-      return this.enabled ? ["#42D392", "#213547", "#42b883"] : ["#E2C6C6", "#E2C6C6", "#E2C6C6"]
-    },
-    containerVisible() {
-      const { toggleButtonVisibility } = inspectorOptions
-      return toggleButtonVisibility === "always" || (toggleButtonVisibility === "active" && this.enabled)
-    },
-    containerPosition() {
-      return inspectorOptions.toggleButtonPos
-        .split("-")
-        .map(p => `${p}: 15px;`)
-        .join("")
-    },
-    bannerPosition() {
-      const [x, y] = inspectorOptions.toggleButtonPos.split("-")
-      return {
-        [x === "top" ? "bottom" : "top"]: "-45px",
-        [y]: 0,
-      }
-    },
-    overlayStyle() {
-      return {
-        left: `${this.position.x}px`,
-        top: `${this.position.y + 20}px`,
-      }
-    },
-  },
-  mounted() {
-    this.toggleCombo && document.body.addEventListener("keydown", this.onKeydown)
-    this.toggleEventListener()
-  },
-  methods: {
-    toggleEventListener() {
-      const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
-      listener?.("mousemove", this.updateLinkParams)
-      listener?.("click", this.openInEditor, true)
-    },
-    toggleEnabled() {
-      this.enabled = !this.enabled
-      this.overlayVisible = false
-      this.toggleEventListener()
-    },
-    onKeydown(event) {
-      if (event.repeat || event.key === undefined)
-        return
 
-      const isCombo = this.toggleCombo?.every(key => this.isKeyActive(key, event))
-      if (isCombo)
-        this.toggleEnabled()
-    },
-    isKeyActive(key, event) {
-      switch (key) {
-        case "shift":
-        case "control":
-        case "alt":
-        case "meta":
-          return event.getModifierState(key.charAt(0).toUpperCase() + key.slice(1))
-        default:
-          return key === event.key.toLowerCase()
-      }
-    },
-    isChildOf(ele, target) {
-      if (!ele || ele === document) return false
-      return ele === target ? true : this.isChildOf(ele.parentNode, target)
-    },
-    getTargetNode(e) {
-      const path = e.path ?? e.composedPath()
-      const targetNode = path?.find(node => node?.hasAttribute?.("data-v-inspector-options"))
-      if (this.isChildOf(targetNode, this.$refs.containerRef) || !targetNode) {
-        return {
-          targetNode: null,
-          params: null,
-        }
-      }
-      const [file, line, column] = targetNode?.getAttribute?.("data-v-inspector-options")?.split("_")
-      return {
-        targetNode,
-        params: targetNode
-          ? {
-            file,
-            line,
-            column,
-            title: file,
-          }
-          : null,
-      }
-    },
-    openInEditor(e) {
-      const { targetNode, params } = this.getTargetNode(e)
-      if (!targetNode) return
-      e.preventDefault()
-      e.stopPropagation()
-      e.stopImmediatePropagation()
-      const { file, line, column } = params
-      this.overlayVisible = false
-      fetch(
-        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
-        {
-          mode: "no-cors",
-        },
-      )
-    },
-    updateLinkParams(e) {
-      const { targetNode, params } = this.getTargetNode(e)
-      if (targetNode) {
-        this.overlayVisible = true
-        this.position.x = e.clientX
-        this.position.y = e.clientY
-        this.linkParams = params
-      }
-      else {
-        this.overlayVisible = false
-        this.linkParams = {
-          file: "",
-          line: 0,
-          column: 0,
-        }
-      }
-    },
-  },
-}
-</script>
 <style scoped>
 .vue-inspector-container {
   cursor: pointer;
@@ -276,5 +280,4 @@ export default {
   font-family: ui-sans-serif;
   font-weight: normal;
 }
-
 </style>

@@ -1,3 +1,15 @@
+<script lang="ts">
+import Hi from './Hi.vue'
+import Welcome from './Welcome'
+export default {
+  name: 'App',
+  components: {
+    Hi,
+    Welcome,
+  },
+}
+</script>
+
 <template>
   <div class="container">
     <div>
@@ -11,17 +23,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import Hi from "./Hi.vue"
-import Welcome from "./Welcome"
-export default {
-  name: "App",
-  components: {
-    Hi,
-    Welcome,
-  },
-}
-</script>
+
 <style lang="sass" scoped>
 .container
   width: 100vw

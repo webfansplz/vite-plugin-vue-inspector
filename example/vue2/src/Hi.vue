@@ -1,16 +1,9 @@
-<template>
-  <div>
-    <h3>Hi</h3>
-    <!--  -->
-    <Render :component="boom" />
-  </div>
-</template>
 <script lang="tsx">
-import { defineComponent } from "@vue/composition-api"
-import { CreateElement } from "vue"
+import { defineComponent } from '@vue/composition-api'
+import type { CreateElement } from 'vue'
 
 export default defineComponent({
-  name: "Hi",
+  name: 'Hi',
   components: {
     Render: {
       functional: true,
@@ -29,6 +22,15 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div>
+    <h3>Hi</h3>
+    <!--  -->
+    <Render :component="boom" />
+  </div>
+</template>
+
 <style lang="sass" scoped>
 h3
   font-size: 26px

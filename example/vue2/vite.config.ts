@@ -1,6 +1,6 @@
-import { defineConfig } from "vite"
-import { createVuePlugin } from "vite-plugin-vue2"
-import Inspector from "vite-plugin-vue-inspector"
+import { defineConfig } from 'vite'
+import { createVuePlugin } from 'vite-plugin-vue2'
+import Inspector from 'vite-plugin-vue-inspector'
 
 export default defineConfig({
   plugins: [
@@ -12,7 +12,7 @@ export default defineConfig({
     }),
     Inspector({
       vue: 2,
-      toggleButtonVisibility: "always",
+      toggleButtonVisibility: 'always',
       enabled: true,
     }),
   ],
