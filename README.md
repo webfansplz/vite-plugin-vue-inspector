@@ -1,6 +1,6 @@
 
 <p align="center">
-<a href="https://github.com/webfansplz/vite-plugin-vue-inspector"><img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/logo.png" alt="vite-plugin-vue-inspector"></a>
+<a href="https://github.com/webfansplz/vite-plugin-vue-inspector"><img src="./logo.svg" width="180" alt="vite-plugin-vue-inspector"></a>
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-<a href="https://stackblitz.com/edit/vitejs-vite-te3qgo?file=vite.config.ts&terminal=dev"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
+<a href="https://stackblitz.com/edit/vitejs-vite-rbr2as?file=src%2FApp.vue"><img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt=""></a>
 </p>
 
 ## 📖 Introduction
@@ -18,7 +18,7 @@
 A vite plugin which provides the ability that to jump to the local IDE when you click the element of browser automatically. It supports Vue2 & 3 & SSR.
 
 <p align="center">
-<img src="https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/vite-plugin-vue-inspector.gif" alt="vite-plugin-vue-inspector">
+<img src="./public/preview.gif" alt="vite-plugin-vue-inspector">
 </p>
 
 ## 📦 Installation
@@ -41,9 +41,9 @@ npm install vite-plugin-vue-inspector -D
 ```ts
 // for Vue2
 
-import { defineConfig } from "vite"
-import { createVuePlugin } from "vite-plugin-vue2"
-import Inspector from "vite-plugin-vue-inspector"
+import { defineConfig } from 'vite'
+import { createVuePlugin } from 'vite-plugin-vue2'
+import Inspector from 'vite-plugin-vue-inspector'
 
 export default defineConfig({
   plugins: [
@@ -58,9 +58,9 @@ export default defineConfig({
 ```ts
 // for Vue3
 
-import { defineConfig } from "vite"
-import Vue from "@vitejs/plugin-vue"
-import Inspector from "vite-plugin-vue-inspector"
+import { defineConfig } from 'vite'
+import Vue from '@vitejs/plugin-vue'
+import Inspector from 'vite-plugin-vue-inspector'
 
 export default defineConfig({
   plugins: [Vue(), Inspector()],
@@ -72,18 +72,17 @@ export default defineConfig({
 // nuxt.config.ts
 
 import { defineNuxtConfig } from 'nuxt'
-import Inspector from "vite-plugin-vue-inspector"
+import Inspector from 'vite-plugin-vue-inspector'
 
 export default defineNuxtConfig({
   vite: {
-    plugins:[
+    plugins: [
       Inspector({
-        appendTo: "entry.mjs"
+        appendTo: 'entry.mjs'
       })
     ]
   }
 })
-
 ```
 
 ### Options
@@ -118,13 +117,13 @@ interface VitePluginInspectorOptions {
   * Toggle button visibility
   * @default 'active'
   */
-  toggleButtonVisibility?: "always" | "active" | "never"
+  toggleButtonVisibility?: 'always' | 'active' | 'never'
 
   /**
   * Toggle button display position
   * @default top-right
   */
-  toggleButtonPos?: "top-right" | "top-left" | "bottom-right" | "bottom-left"
+  toggleButtonPos?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
   /**
   * append an import to the module id ending with `appendTo` instead of adding a script into body
@@ -138,9 +137,9 @@ interface VitePluginInspectorOptions {
 
 ### Example
 
-- [Vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue2)
-- [Vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/vue3)
-- [Nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/example/nuxt)
+- [Vue2](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/packages/playground/vue2)
+- [Vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/packages/playground/vue3)
+- [Nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/packages/playground/nuxt)
 
 ## 🔌  Configuration IDE / Editor
 
@@ -152,7 +151,7 @@ For example, if you want it always open VSCode when inspection clicked, set `exp
 ### VSCode
 
 - install VSCode command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
-  ![install-vscode-cli](https://github.com/webfansplz/vite-plugin-vue-inspector/blob/main/docs/images/install-vscode-cli.png)
+  ![install-vscode-cli](./public/install-vscode-cli.png)
 
 - set env to shell, like `.bashrc` or `.zshrc`  
 
