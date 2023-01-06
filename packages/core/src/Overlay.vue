@@ -145,6 +145,7 @@ export default {
           column: 0,
         }
       }
+      this.onUpdated()
     },
 
     // Public methods
@@ -154,7 +155,7 @@ export default {
       this.toggleEnabled()
     },
     disable() {
-      if (this.disable)
+      if (!this.enabled)
         return
       this.toggleEnabled()
     },
@@ -162,9 +163,12 @@ export default {
       return fetch(
         `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
         {
-          mode: "no-cors",
+          mode: 'no-cors',
         },
       )
+    },
+    onUpdated() {
+      // to be replaced programmatically
     },
   },
 }

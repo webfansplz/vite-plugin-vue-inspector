@@ -14,10 +14,22 @@ function getInspectorPath() {
 }
 
 export interface VueInspectorClient {
+  enabled: boolean
+  position: {
+    x: number
+    y: number
+  }
+  linkParams: {
+    file: string
+    line: number
+    column: number
+  }
+
   enable: () => void
   disable: () => void
   toggleEnabled: () => void
   openInEditor: (baseUrl: string, file: string, line: number, column: number) => void
+  onUpdated: () => void
 }
 
 export interface VitePluginInspectorOptions {
