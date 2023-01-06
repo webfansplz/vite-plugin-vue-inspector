@@ -13,7 +13,7 @@ function getInspectorPath() {
   return pluginPath.replace(/\/dist$/, '/\/src')
 }
 
-export interface VitePluginInspectorClient {
+export interface VueInspectorClient {
   enable: () => void
   disable: () => void
   toggleEnabled: () => void

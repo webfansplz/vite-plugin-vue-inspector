@@ -197,6 +197,23 @@ export VUE_EDITOR=vim
 - It only work in develop mode .
 - It does not currently support `Template Engine (e.g. pug)` .
 
+## 👨‍💻 Programmatic Usage
+
+You can also use control inspector programmatically, by accessing the `__VUE_INSPECTOR__` global variable.
+
+```ts
+import type { VueInspectorClient } from 'vite-plugin-vue-inspector'
+
+const inspector: VueInspectorClient = window.__VUE_INSPECTOR__
+
+if (inspector) {
+  // enable inspector
+  inspector.enable()
+  // or
+  inspector.disable()
+}
+```
+
 ## 🌸 Credits
 
 This project is inspired by [react-dev-inspector](https://github.com/zthxxx/react-dev-inspector) .
