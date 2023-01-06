@@ -57,12 +57,15 @@ export default {
   mounted() {
     this.toggleCombo && document.body.addEventListener('keydown', this.onKeydown)
     this.toggleEventListener()
+
+    // Expose control to global
+    window.__VUE_INSPECTOR__ = this
   },
   methods: {
     toggleEventListener() {
       const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
       listener?.('mousemove', this.updateLinkParams)
-      listener?.('click', this.openInEditor, true)
+      listener?.('click', this.handleClick, true)
     },
     toggleEnabled() {
       this.enabled = !this.enabled
@@ -115,7 +118,7 @@ export default {
           : null,
       }
     },
-    openInEditor(e) {
+    handleClick(e) {
       const { targetNode, params } = this.getTargetNode(e)
       if (!targetNode)
         return
@@ -124,12 +127,7 @@ export default {
       e.stopImmediatePropagation()
       const { file, line, column } = params
       this.overlayVisible = false
-      fetch(
-        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
-        {
-          mode: 'no-cors',
-        },
-      )
+      this.openInEditor(baseUrl, file, line, column)
     },
     updateLinkParams(e) {
       const { targetNode, params } = this.getTargetNode(e)
@@ -147,6 +145,26 @@ export default {
           column: 0,
         }
       }
+    },
+
+    // Public methods
+    enable() {
+      if (this.enabled)
+        return
+      this.toggleEnabled()
+    },
+    disable() {
+      if (this.disable)
+        return
+      this.toggleEnabled()
+    },
+    openInEditor(baseUrl, file, line, column) {
+      return fetch(
+        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
+        {
+          mode: "no-cors",
+        },
+      )
     },
   },
 }
