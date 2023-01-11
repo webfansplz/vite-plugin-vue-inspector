@@ -245,7 +245,7 @@ export default {
   cursor: pointer;
   position: fixed;
   text-align: center;
-  z-index: 10000000;
+  z-index: 2147483647;
 }
 
 .vue-inspector-banner {
@@ -279,7 +279,7 @@ export default {
 }
 
 .vue-inspector-overlay {
-  z-index: 10000000;
+  z-index: 2147483647;
   position: fixed;
   padding: 5px 8px;
   border-radius: 4px;
