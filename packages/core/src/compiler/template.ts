@@ -27,7 +27,7 @@ export async function compileSFCTemplate(
             (node) => {
               if (node.type === 1) {
                 if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
-                  if (node.loc.source.includes('data-v-inspector-file'))
+                  if (node.loc.source.includes('data-v-inspector-options'))
                     return
 
                   const insertPosition = node.loc.start.offset + node.tag.length + 1
@@ -64,7 +64,7 @@ export async function compileSFCTemplate(
         babelTraverse(ast, {
           enter({ node }) {
             if (node.type === 'JSXElement') {
-              if (node.openingElement.attributes.some(attr => attr.type !== 'JSXSpreadAttribute' && attr.name.name === 'data-v-inspector-file',
+              if (node.openingElement.attributes.some(attr => attr.type !== 'JSXSpreadAttribute' && attr.name.name === 'data-v-inspector-options',
               ))
                 return
 
