@@ -37,7 +37,8 @@
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "stub": "unbuild",
-    "build": "tsup"
+    "build": "tsup",
+    "bump": "bumpp"
   },
   "peerDependencies": {
     "vite": "^3.0.0-0 || ^4.0.0-0"
