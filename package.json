@@ -13,7 +13,9 @@
   "scripts": {
     "play:nuxt": "pnpm run -r --filter=./packages/playground/nuxt dev",
     "play:vue3": "pnpm run -r --filter=./packages/playground/vue3 dev",
+    "play:vue2": "pnpm run -r --filter=./packages/playground/vue2 dev",
     "lint": "eslint --fix --ext .js,.ts,.vue .",
+    "stub": "pnpm run -r --filter=./packages/core stub",
     "build": "pnpm run -r --filter=./packages/core build",
     "release": "pnpm run build && pnpm publish -r --filter='./packages/core' --no-git-checks --access public"
   },

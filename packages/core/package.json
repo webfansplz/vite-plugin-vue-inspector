@@ -22,12 +22,12 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     },
     "./src/*": "./src/*"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "files": [
     "dist",
@@ -36,7 +36,8 @@
   ],
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "build": "tsup src/index.ts --format cjs,esm --dts"
+    "stub": "unbuild",
+    "build": "tsup"
   },
   "peerDependencies": {
     "vite": "^3.0.0-0 || ^4.0.0-0"
@@ -54,6 +55,18 @@
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.20",
-    "tsup": "^5.12.1"
+    "tsup": "^5.12.1",
+    "unbuild": "^1.0.2",
+    "unplugin": "^1.0.1"
+  },
+  "unbuild": {
+    "entries": [
+      "./src/index"
+    ],
+    "clean": true,
+    "declaration": true,
+    "rollup": {
+      "emitCJS": true
+    }
   }
 }
