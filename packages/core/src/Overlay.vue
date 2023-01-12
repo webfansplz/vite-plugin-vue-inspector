@@ -97,6 +97,7 @@ export default {
       return ele === target ? true : this.isChildOf(ele.parentNode, target)
     },
     getTargetNode(e) {
+      const splitRE = /(.+)_([\d]+)_([\d]+)$/
       const path = e.path ?? e.composedPath()
       const targetNode = path?.find(node => node?.hasAttribute?.('data-v-inspector-options'))
       if (this.isChildOf(targetNode, this.$refs.containerRef) || !targetNode) {
@@ -105,7 +106,7 @@ export default {
           params: null,
         }
       }
-      const [file, line, column] = targetNode?.getAttribute?.('data-v-inspector-options')?.split('_')
+      const [_, file, line, column] = targetNode?.getAttribute?.('data-v-inspector-options')?.match(splitRE)
       return {
         targetNode,
         params: targetNode
