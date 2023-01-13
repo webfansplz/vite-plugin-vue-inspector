@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       containerRef: null,
+      floatsRef: null,
       enabled: inspectorOptions.enabled,
       toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split('-'),
       overlayVisible: false,
@@ -49,9 +50,20 @@ export default {
         [y]: 0,
       }
     },
-    overlayStyle() {
-      const x = this.position.x + (this.position.width / 2)
-      const y = this.position.y + (this.position.height / 2)
+    floatsStyle() {
+      let margin = 10
+      let x = this.position.x + (this.position.width / 2)
+      let y = this.position.y + this.position.height + 5
+      const floatsRef = this.$refs.floatsRef
+      let floatsWidth = floatsRef?.clientWidth ?? 0
+      let floatsHeight = floatsRef?.clientHeight ?? 0
+
+      x = Math.max(margin, x)
+      x = Math.min(x, window.innerWidth - floatsWidth - margin)
+
+      y = Math.max(margin, y)
+      y = Math.min(y, window.innerHeight - floatsHeight - margin)
+
       return {
         left: `${x}px`,
         top: `${y}px`,
@@ -238,21 +250,22 @@ export default {
       </a>
     </div>
     <!-- Overlay -->
-    <ul
-      v-if="overlayVisible"
-      class="vue-inspector-overlay"
-      :style="overlayStyle"
-    >
-      <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
-      <div class="tip">
-        Click to go to the file
+    <template v-if="overlayVisible">
+      <div
+        ref="floatsRef"
+        class="vue-inspector-floats"
+        :style="floatsStyle"
+      >
+        <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
+        <div class="tip">
+          Click to go to the file
+        </div>
       </div>
-    </ul>
-    <div
-      v-if="overlayVisible"
-      class="vue-inspector-size-indicator"
-      :style="sizeIndicatorStyle"
-    />
+      <div
+        class="vue-inspector-size-indicator"
+        :style="sizeIndicatorStyle"
+      />
+    </template>
   </div>
 </template>
 
@@ -294,7 +307,7 @@ export default {
   display: none;
 }
 
-.vue-inspector-overlay {
+.vue-inspector-floats {
   z-index: 2147483647;
   position: fixed;
   padding: 5px 8px;
@@ -309,7 +322,7 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-.vue-inspector-overlay .tip {
+.vue-inspector-floats .tip {
   font-size: 11px;
   opacity: 0.7;
 }
