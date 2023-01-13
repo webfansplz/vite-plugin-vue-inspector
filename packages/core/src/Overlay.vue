@@ -241,19 +241,19 @@ export default {
       <!-- Banner  -->
       <a
         :style="bannerPosition"
-        class="vue-inspector-banner"
+        class="vue-inspector-banner vue-inspector-card"
         href="https://github.com/webfansplz/vite-plugin-vue-inspector"
         target="_blank"
       >
-        <span>`vite-plugin-vue-inspector`</span>
-        Click Element › Open IDE › Link to File
+        <div>vite-plugin-vue-inspector</div>
+        <div class="tip">Click on a element › Open IDE › Link to File</div>
       </a>
     </div>
     <!-- Overlay -->
     <template v-if="overlayVisible">
       <div
         ref="floatsRef"
-        class="vue-inspector-floats"
+        class="vue-inspector-floats vue-inspector-card"
         :style="floatsStyle"
       >
         <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
@@ -278,25 +278,29 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.vue-inspector-banner {
-  display:none;
-  position: absolute;
-  margin:0;
-  padding:5px;
-  width: 260px;
-  border-radius: 3px;
-  font-weight: 500;
-  font-size:11px;
+.vue-inspector-card {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px 8px;
+  border-radius: 4px;
+  text-align: left;
   color:#e9e9e9;
+  font-size: 14px;
   background-color:#42b883;
-  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-.vue-inspector-banner span {
-  display: block;
-  font-size:12px;
-  color:#213547;
-  font-weight: 700;
+.vue-inspector-card .tip {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.vue-inspector-banner {
+  display: none;
+  position: absolute;
+  margin: 0;
+  width: 260px;
+  text-decoration: none;
 }
 
 .vue-inspector-container:hover .vue-inspector-banner {
@@ -310,21 +314,9 @@ export default {
 .vue-inspector-floats {
   z-index: 2147483647;
   position: fixed;
-  padding: 5px 8px;
-  border-radius: 4px;
-  text-align: left;
-  color:#e9e9e9;
-  background-color:#42b883;
   transform: translateX(-50%);
   transition: all 0.1s ease-in;
   pointer-events: none;
-  font-family: Arial, Helvetica, sans-serif;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-}
-
-.vue-inspector-floats .tip {
-  font-size: 11px;
-  opacity: 0.7;
 }
 
 .vue-inspector-size-indicator {
