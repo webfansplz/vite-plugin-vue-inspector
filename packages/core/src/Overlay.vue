@@ -245,7 +245,7 @@ export default {
     >
       <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
       <div class="tip">
-        Click to go the the file
+        Click to go to the file
       </div>
     </ul>
     <div
