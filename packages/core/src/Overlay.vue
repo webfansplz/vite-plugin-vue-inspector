@@ -18,6 +18,8 @@ export default {
       position: {
         x: 0,
         y: 0,
+        width: 0,
+        height: 0,
       },
       linkParams: {
         file: '',
@@ -48,9 +50,19 @@ export default {
       }
     },
     overlayStyle() {
+      const x = this.position.x + (this.position.width / 2)
+      const y = this.position.y + (this.position.height / 2)
+      return {
+        left: `${x}px`,
+        top: `${y}px`,
+      }
+    },
+    sizeIndicatorStyle() {
       return {
         left: `${this.position.x}px`,
-        top: `${this.position.y + 20}px`,
+        top: `${this.position.y}px`,
+        width: `${this.position.width}px`,
+        height: `${this.position.height}px`,
       }
     },
   },
@@ -133,9 +145,12 @@ export default {
     updateLinkParams(e) {
       const { targetNode, params } = this.getTargetNode(e)
       if (targetNode) {
+        const rect = targetNode.getBoundingClientRect()
         this.overlayVisible = true
-        this.position.x = e.clientX
-        this.position.y = e.clientY
+        this.position.x = rect.x
+        this.position.y = rect.y
+        this.position.width = rect.width
+        this.position.height = rect.height
         this.linkParams = params
       }
       else {
@@ -228,16 +243,16 @@ export default {
       class="vue-inspector-overlay"
       :style="overlayStyle"
     >
-      <li>
-        File: <em>{{ `<${linkParams.title}>` }}</em>
-      </li>
-      <li>
-        Line: <em>{{ linkParams.line }}</em>
-      </li>
-      <li>
-        Column: <em>{{ linkParams.column }}</em>
-      </li>
+      <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
+      <div class="tip">
+        Click to go the the file
+      </div>
     </ul>
+    <div
+      v-if="overlayVisible"
+      class="vue-inspector-size-indicator"
+      :style="sizeIndicatorStyle"
+    />
   </div>
 </template>
 
@@ -247,11 +262,11 @@ export default {
   position: fixed;
   text-align: center;
   z-index: 2147483647;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .vue-inspector-banner {
   display:none;
-  font-family: ui-sans-serif;
   position: absolute;
   margin:0;
   padding:5px;
@@ -285,22 +300,27 @@ export default {
   padding: 5px 8px;
   border-radius: 4px;
   text-align: left;
-  background-color:#42b883;
   color:#e9e9e9;
+  background-color:#42b883;
   transform: translateX(-50%);
+  transition: all 0.1s ease-in;
+  pointer-events: none;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-.vue-inspector-overlay li {
-  font-size:12px;
-  font-family: ui-sans-serif;
-  font-weight: 500;
-  line-height: 18px;
-  list-style-type: none;
+.vue-inspector-overlay .tip {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
-.vue-inspector-overlay em {
-  font-style: normal;
-  font-family: ui-sans-serif;
-  font-weight: normal;
+.vue-inspector-size-indicator {
+  z-index: 2147483646;
+  position: fixed;
+  background-color:#42b88325;
+  border: 1px solid #42b88350;
+  border-radius: 5px;
+  transition: all 0.1s ease-in;
+  pointer-events: none;
 }
 </style>
