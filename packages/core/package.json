@@ -39,8 +39,7 @@
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
     "stub": "unbuild",
-    "build": "tsup",
-    "bump": "bumpp"
+    "build": "tsup"
   },
   "peerDependencies": {
     "vite": "^3.0.0-0 || ^4.0.0-0"
@@ -58,8 +57,6 @@
   },
   "devDependencies": {
     "@types/babel__core": "^7.1.20",
-    "tsup": "^5.12.1",
-    "unbuild": "^1.0.2",
     "unplugin": "^1.0.1"
   },
   "unbuild": {

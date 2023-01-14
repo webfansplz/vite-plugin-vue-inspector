@@ -38,7 +38,6 @@
     "dist"
   ],
   "scripts": {
-    "bump": "bumpp --no-commit --no-tag --no-push",
     "build": "tsup",
     "build:fix": "tsx scripts/postbuild.ts"
   },

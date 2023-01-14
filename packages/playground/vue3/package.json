@@ -1,4 +1,5 @@
 {
+  "name": "playground-vue3",
   "private": true,
   "scripts": {
     "dev": "vite dev",
