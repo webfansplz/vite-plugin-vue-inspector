@@ -1,4 +1,5 @@
 {
+  "name": "playground-vue2",
   "private": true,
   "scripts": {
     "dev": "vite dev",
@@ -11,6 +12,7 @@
   },
   "devDependencies": {
     "sass": "^1.49.9",
+    "unplugin-vue-inspector": "workspace:*",
     "vite-plugin-vue-inspector": "workspace:*",
     "vite-plugin-vue2": "^1.9.3"
   }
