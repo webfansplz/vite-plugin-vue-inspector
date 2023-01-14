@@ -24,14 +24,15 @@ A vite plugin which provides the ability that to jump to the local IDE when you 
 ## 📦 Installation
 
 ```bash
-# pnpm 
+
+# vite-plugin-vue-inspector 
+
 pnpm install vite-plugin-vue-inspector -D
 
-# yarn
-yarn add vite-plugin-vue-inspector -D
+# unplugin-vue-inspector
 
-# npm
-npm install vite-plugin-vue-inspector -D
+pnpm install unplugin-vue-inspector -D
+
 ```
 
 ## 🦄 Usage
@@ -41,9 +42,9 @@ npm install vite-plugin-vue-inspector -D
 ```ts
 // for Vue2
 
-import { defineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
-import Inspector from 'vite-plugin-vue-inspector'
+import { defineConfig, } from 'vite'
+import { createVuePlugin, } from 'vite-plugin-vue2'
+import Inspector from 'unplugin-vue-inspector/vite' // OR vite-plugin-vue-inspector
 
 export default defineConfig({
   plugins: [
@@ -60,7 +61,7 @@ export default defineConfig({
 
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import Inspector from 'vite-plugin-vue-inspector'
+import Inspector from 'unplugin-vue-inspector/vite' // OR vite-plugin-vue-inspector
 
 export default defineConfig({
   plugins: [Vue(), Inspector()],
@@ -71,8 +72,19 @@ export default defineConfig({
 // for Nuxt3
 // nuxt.config.ts
 
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 import Inspector from 'vite-plugin-vue-inspector'
+
+export default defineNuxtConfig({
+  modules: [
+    ['unplugin-vue-inspector/nuxt', {
+      enabled: true,
+      toggleButtonVisibility: 'always',
+    }],
+  ],
+})
+
+// OR
 
 export default defineNuxtConfig({
   vite: {
