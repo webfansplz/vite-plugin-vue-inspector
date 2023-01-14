@@ -1,4 +1,5 @@
 {
+  "name": "playground-nuxt",
   "private": true,
   "scripts": {
     "build": "nuxi build",
@@ -7,6 +8,7 @@
   },
   "devDependencies": {
     "nuxt": "3.0.0",
+    "unplugin-vue-inspector": "workspace:*",
     "vite-plugin-vue-inspector": "workspace:*"
   }
 }

@@ -1,0 +1,53 @@
+{
+  "name": "unplugin-vue-inspector",
+  "version": "0.0.1",
+  "author": "webfansplz",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "require": "./dist/vite.js",
+      "import": "./dist/vite.mjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "require": "./dist/nuxt.js",
+      "import": "./dist/nuxt.mjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "require": "./dist/types.cjs",
+      "import": "./dist/types.js"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:fix": "tsx scripts/postbuild.ts"
+  },
+  "dependencies": {
+    "kolorist": "^1.6.0",
+    "unplugin": "^1.0.1",
+    "vite-plugin-vue-inspector": "workspace:*"
+  },
+  "devDependencies": {
+    "chalk": "^5.2.0",
+    "fast-glob": "^3.2.12"
+  }
+}
