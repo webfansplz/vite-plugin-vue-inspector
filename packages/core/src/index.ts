@@ -77,7 +77,7 @@ export interface VitePluginInspectorOptions {
   appendTo?: string
 }
 
-const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
+export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   vue: 3,
   enabled: false,
   toggleComboKey: process.platform === 'win32' ? 'control-shift' : 'meta-shift',
