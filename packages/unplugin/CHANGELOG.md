@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.0.4
+
+### Patch Changes
+
+- docs: readme
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.1.3
+
 ## 0.0.3
 
 ### Patch Changes
