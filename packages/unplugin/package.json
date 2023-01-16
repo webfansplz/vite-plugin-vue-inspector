@@ -1,7 +1,25 @@
 {
   "name": "unplugin-vue-inspector",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "description": "jump to local IDE source code while click the element of browser automatically.",
   "author": "webfansplz",
+  "license": "MIT",
+  "homepage": "https://github.com/webfansplz/vite-plugin-vue-inspector#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webfansplz/vite-plugin-vue-inspector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
+  },
+  "keywords": [
+    "vue",
+    "vite",
+    "vscode",
+    "unplugin",
+    "inspector",
+    "debug"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
