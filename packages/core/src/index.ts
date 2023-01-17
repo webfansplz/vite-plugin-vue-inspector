@@ -7,11 +7,6 @@ import type { PluginOption, ServerOptions } from 'vite'
 import { compileSFCTemplate } from './compiler'
 import { idToFile, parseVueRequest } from './utils'
 
-function getInspectorPath() {
-  const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
-  return pluginPath.replace(/\/dist$/, '/\/src')
-}
-
 export interface VueInspectorClient {
   enabled: boolean
   position: {
@@ -74,6 +69,21 @@ export interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string
+}
+
+const toggleComboKeysMap = {
+  control: process.platform === 'win32' ? 'Ctrl(^)' : 'Control(^)',
+  meta: 'Command(⌘)',
+  shift: 'Shift(⇧)',
+}
+
+function getInspectorPath() {
+  const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
+  return pluginPath.replace(/\/dist$/, '/\/src')
+}
+
+export function normalizeComboKeyPrint(toggleComboKey: string) {
+  return toggleComboKey.split('-').map(key => toggleComboKeysMap[key] || key[0].toUpperCase() + key.slice(1)).join(dim('+'))
 }
 
 export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
@@ -139,9 +149,10 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     },
     configureServer(server) {
       const _printUrls = server.printUrls
+
       server.printUrls = () => {
         const { toggleComboKey } = normalizedOptions
-        const keys = toggleComboKey.split('-').map(k => k[0].toUpperCase() + k.slice(1)).join(dim('+'))
+        const keys = normalizeComboKeyPrint(toggleComboKey)
         _printUrls()
         console.log(`  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
       }
