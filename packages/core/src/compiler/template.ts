@@ -33,7 +33,7 @@ export async function compileSFCTemplate(
                   const insertPosition = node.loc.start.offset + node.tag.length + 1
                   const { line, column } = node.loc.start
 
-                  const content = ` data-v-inspector-options="${relativePath}_${line}_${column}"`
+                  const content = ` data-v-inspector-options="${relativePath}:${line}:${column}"`
 
                   s.prependLeft(
                     insertPosition,
@@ -71,7 +71,7 @@ export async function compileSFCTemplate(
               const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
               const { line, column } = node.loc.start
 
-              const content = ` data-v-inspector-options="${relativePath}_${line}_${column}"`
+              const content = ` data-v-inspector-options="${relativePath}:${line}:${column}"`
 
               s.prependLeft(
                 insertPosition,
