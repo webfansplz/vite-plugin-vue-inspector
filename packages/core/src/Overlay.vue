@@ -188,8 +188,12 @@ export default {
       this.toggleEnabled()
     },
     openInEditor(baseUrl, file, line, column) {
+      /**
+       * Vite built-in support
+       * https://github.com/vitejs/vite/blob/d59e1acc2efc0307488364e9f2fad528ec57f204/packages/vite/src/node/server/index.ts#L569-L570
+       * */
       return fetch(
-        `${baseUrl}/__open-stack-frame-in-editor?file=${file}&line=${line}&column=${column}`,
+        `${baseUrl}/__open-in-editor?file=${file}:${line}:${column}`,
         {
           mode: 'no-cors',
         },

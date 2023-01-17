@@ -6,7 +6,6 @@ import { normalizePath } from 'vite'
 import type { PluginOption, ServerOptions } from 'vite'
 import { compileSFCTemplate } from './compiler'
 import { idToFile, parseVueRequest } from './utils'
-import { launchEditorMiddleware, queryParserMiddleware } from './middleware'
 
 function getInspectorPath() {
   const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
@@ -139,9 +138,6 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       return code
     },
     configureServer(server) {
-      server.middlewares.use(queryParserMiddleware)
-      server.middlewares.use(launchEditorMiddleware)
-
       const _printUrls = server.printUrls
       server.printUrls = () => {
         const { toggleComboKey } = normalizedOptions
