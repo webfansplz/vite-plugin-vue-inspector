@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.2.1
+
+### Patch Changes
+
+- introduce `data-v-inspector-ignore` options
+
 ## 3.2.0
 
 ### Minor Changes

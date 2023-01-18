@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.1.1
+
+### Patch Changes
+
+- introduce `data-v-inspector-ignore` options
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.2.1
+
 ## 0.1.0
 
 ### Minor Changes
