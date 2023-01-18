@@ -7,6 +7,10 @@ const hostOpts = inspectorOptions.serverOptions?.host
 const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
 const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
 const baseUrl = isClient ? `${protocol}//${host}:${port}` : ''
+
+const KEY_DATA = 'data-v-inspector-options'
+const KEY_IGNORE = 'data-v-inspector-ignore'
+
 export default {
   name: 'VueInspectorOverlay',
   data() {
@@ -27,6 +31,7 @@ export default {
         line: 0,
         column: 0,
       },
+      KEY_IGNORE,
     }
   },
   computed: {
@@ -123,17 +128,25 @@ export default {
     getTargetNode(e) {
       const splitRE = /(.+):([\d]+):([\d]+)$/
       const path = e.path ?? e.composedPath()
-      const targetNode = path?.find(node => node?.hasAttribute?.('data-v-inspector-options'))
-      if (this.isChildOf(targetNode, this.$refs.containerRef) || !targetNode) {
+      if (!path) {
         return {
           targetNode: null,
           params: null,
         }
       }
-      const [_, file, line, column] = targetNode?.getAttribute?.('data-v-inspector-options')?.match(splitRE)
+      const ignoreIndex = path.findIndex(node => node?.hasAttribute?.(KEY_IGNORE))
+      const targetNode = path.slice(ignoreIndex + 1).find(node => node?.hasAttribute?.(KEY_DATA))
+      if (!targetNode) {
+        return {
+          targetNode: null,
+          params: null,
+        }
+      }
+      const match = targetNode.getAttribute(KEY_DATA)?.match(splitRE)
+      const [_, file, line, column] = match || []
       return {
         targetNode,
-        params: targetNode
+        params: match
           ? {
               file,
               line,
@@ -207,7 +220,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div v-bind="{ [KEY_IGNORE]: 'true' }">
     <div
       v-if="containerVisible"
       ref="containerRef"
@@ -254,7 +267,7 @@ export default {
       </a>
     </div>
     <!-- Overlay -->
-    <template v-if="overlayVisible">
+    <template v-if="overlayVisible && linkParams">
       <div
         ref="floatsRef"
         class="vue-inspector-floats vue-inspector-card"
