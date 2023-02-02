@@ -8,6 +8,8 @@ import importMeta from '@babel/plugin-syntax-import-meta'
 import { parseJSXIdentifier } from '../utils'
 
 const EXCLUDE_TAG = ['template', 'script', 'style']
+const KEY_DATA = 'data-v-inspector'
+
 interface CompileSFCTemplateOptions {
   code: string
   id: string
@@ -27,17 +29,18 @@ export async function compileSFCTemplate(
             (node) => {
               if (node.type === 1) {
                 if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
-                  if (node.loc.source.includes('data-v-inspector-options'))
+                  if (node.loc.source.includes(KEY_DATA))
                     return
 
-                  const insertPosition = node.loc.start.offset + node.tag.length + 1
+                  const insertPosition = Math.max(...node.props.map(i => i.loc.end.offset))
                   const { line, column } = node.loc.start
 
-                  const content = ` data-v-inspector-options="${relativePath}:${line}:${column}"`
+                  const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
 
                   s.prependLeft(
                     insertPosition,
-                    content)
+                    content,
+                  )
                 }
               }
             },
@@ -64,14 +67,14 @@ export async function compileSFCTemplate(
         babelTraverse(ast, {
           enter({ node }) {
             if (node.type === 'JSXElement') {
-              if (node.openingElement.attributes.some(attr => attr.type !== 'JSXSpreadAttribute' && attr.name.name === 'data-v-inspector-options',
+              if (node.openingElement.attributes.some(attr => attr.type !== 'JSXSpreadAttribute' && attr.name.name === KEY_DATA,
               ))
                 return
 
               const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
               const { line, column } = node.loc.start
 
-              const content = ` data-v-inspector-options="${relativePath}:${line}:${column}"`
+              const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
 
               s.prependLeft(
                 insertPosition,
