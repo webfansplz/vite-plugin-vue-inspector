@@ -13,10 +13,10 @@ export default (options: Options, nuxt: any) => {
   })
   let printed = false
   nuxt.hook('vite:serverCreated', () => {
-    if (printed)
-      return
     const normalizedOptions = { ...DEFAULT_INSPECTOR_OPTIONS, ...options }
     const { toggleComboKey } = normalizedOptions
+    if (printed || !toggleComboKey)
+      return
     const keys = normalizeComboKeyPrint(toggleComboKey)
     console.log(`  ${'> Vue Inspector'}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
     printed = true
