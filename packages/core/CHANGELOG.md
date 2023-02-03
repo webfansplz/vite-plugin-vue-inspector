@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.3.0
+
+### Minor Changes
+
+- feat: disable toggleComboKey option
+
 ## 3.2.2
 
 ### Patch Changes
