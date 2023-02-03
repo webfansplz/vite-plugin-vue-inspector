@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "stub": "unbuild",
+    "dev": "tsup --watch",
     "build": "tsup"
   },
   "peerDependencies": {
@@ -58,15 +58,5 @@
   "devDependencies": {
     "@types/babel__core": "^7.1.20",
     "unplugin": "^1.0.1"
-  },
-  "unbuild": {
-    "entries": [
-      "./src/index"
-    ],
-    "clean": true,
-    "declaration": true,
-    "rollup": {
-      "emitCJS": true
-    }
   }
 }

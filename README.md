@@ -122,8 +122,9 @@ interface VitePluginInspectorOptions {
   * examples: control-shift, control-o, control-alt-s  meta-x control-meta
   * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
   * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+  * You can also disable it by setting `false`.
   */
-  toggleComboKey?: string
+  toggleComboKey?: string | false
 
   /**
   * Toggle button visibility

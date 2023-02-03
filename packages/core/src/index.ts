@@ -47,8 +47,9 @@ export interface VitePluginInspectorOptions {
   * examples: control-shift, control-o, control-alt-s  meta-x control-meta
   * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
   * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+  * You can also disable it by setting `false`.
   */
-  toggleComboKey?: string
+  toggleComboKey?: string | false
 
   /**
   * Toggle button visibility
@@ -149,13 +150,13 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     },
     configureServer(server) {
       const _printUrls = server.printUrls
+      const { toggleComboKey } = normalizedOptions
 
-      server.printUrls = () => {
-        const { toggleComboKey } = normalizedOptions
+      toggleComboKey && (server.printUrls = () => {
         const keys = normalizeComboKeyPrint(toggleComboKey)
         _printUrls()
         console.log(`  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
-      }
+      })
     },
     transformIndexHtml(html) {
       if (normalizedOptions.appendTo)

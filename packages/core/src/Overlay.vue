@@ -18,7 +18,7 @@ export default {
       containerRef: null,
       floatsRef: null,
       enabled: inspectorOptions.enabled,
-      toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase().split('-'),
+      toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase?.()?.split?.('-') ?? false,
       overlayVisible: false,
       position: {
         x: 0,
