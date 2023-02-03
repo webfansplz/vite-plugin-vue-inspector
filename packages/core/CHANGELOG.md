@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.2.2
+
+### Patch Changes
+
+- feat: append attribute at the end
+
 ## 3.2.1
 
 ### Patch Changes

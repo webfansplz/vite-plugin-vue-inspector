@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.1.2
+
+### Patch Changes
+
+- feat: append attribute at the end
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.2.2
+
 ## 0.1.1
 
 ### Patch Changes
