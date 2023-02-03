@@ -32,7 +32,7 @@ export async function compileSFCTemplate(
                   if (node.loc.source.includes(KEY_DATA))
                     return
 
-                  const insertPosition = Math.max(...node.props.map(i => i.loc.end.offset))
+                  const insertPosition = node.props.length ? Math.max(...node.props.map(i => i.loc.end.offset)) : node.loc.start.offset + node.tag.length + 1
                   const { line, column } = node.loc.start
 
                   const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
@@ -71,7 +71,7 @@ export async function compileSFCTemplate(
               ))
                 return
 
-              const insertPosition = node.start + parseJSXIdentifier(node.openingElement.name as any).length + 1
+              const insertPosition = node.openingElement.end - 1
               const { line, column } = node.loc.start
 
               const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
