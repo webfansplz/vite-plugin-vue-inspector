@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.3.1
+
+### Patch Changes
+
+- fix: combo key name
+
 ## 3.3.0
 
 ### Minor Changes

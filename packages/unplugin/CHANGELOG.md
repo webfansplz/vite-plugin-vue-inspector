@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.2.1
+
+### Patch Changes
+
+- fix: combo key name
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.3.1
+
 ## 0.2.0
 
 ### Minor Changes
