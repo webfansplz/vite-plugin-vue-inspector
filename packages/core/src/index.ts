@@ -73,7 +73,7 @@ export interface VitePluginInspectorOptions {
 }
 
 const toggleComboKeysMap = {
-  control: process.platform === 'win32' ? 'Ctrl(^)' : 'Control(^)',
+  control: process.platform === 'darwin' ? 'Control(^)' : 'Ctrl(^)',
   meta: 'Command(⌘)',
   shift: 'Shift(⇧)',
 }
@@ -90,7 +90,7 @@ export function normalizeComboKeyPrint(toggleComboKey: string) {
 export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   vue: 3,
   enabled: false,
-  toggleComboKey: process.platform === 'win32' ? 'control-shift' : 'meta-shift',
+  toggleComboKey: process.platform === 'darwin' ? 'meta-shift' : 'control-shift',
   toggleButtonVisibility: 'active',
   toggleButtonPos: 'top-right',
   appendTo: '',
