@@ -56,30 +56,24 @@ export default {
       }
     },
     floatsStyle() {
-      let margin = 10
-      let x = this.position.x + (this.position.width / 2)
-      let y = this.position.y + this.position.height + 5
-      const floatsRef = this.$refs.floatsRef
-      let floatsWidth = floatsRef?.clientWidth ?? 0
-      let floatsHeight = floatsRef?.clientHeight ?? 0
-
-      x = Math.max(margin, x)
-      x = Math.min(x, window.innerWidth - floatsWidth - margin)
-
-      y = Math.max(margin, y)
-      y = Math.min(y, window.innerHeight - floatsHeight - margin)
-
+      const { innerHeight, innerWidth } = window
+      const { x, y, width, height } = this.position
+      const margin = 10
+      const { clientWidth: floatsWidth, clientHeight: floatsHeight } = this.$refs.floatsRef || { clientWidth: 0, floatsHeight: 0 }
+      const left = `${Math.min(Math.max(margin, x + (width / 2)), innerWidth - floatsWidth - margin)}px`
+      const top = `${Math.min(Math.max(margin, y + height + 5), innerHeight - floatsHeight - margin)}px`
       return {
-        left: `${x}px`,
-        top: `${y}px`,
+        left,
+        top,
       }
     },
     sizeIndicatorStyle() {
+      const { x, y, width, height } = this.position
       return {
-        left: `${this.position.x}px`,
-        top: `${this.position.y}px`,
-        width: `${this.position.width}px`,
-        height: `${this.position.height}px`,
+        left: `${x}px`,
+        top: `${y}px`,
+        width: `${width}px`,
+        height: `${height}px`,
       }
     },
   },
@@ -170,12 +164,12 @@ export default {
     updateLinkParams(e) {
       const { targetNode, params } = this.getTargetNode(e)
       if (targetNode) {
-        const rect = targetNode.getBoundingClientRect()
+        const { x, y, width, height } = targetNode.getBoundingClientRect()
         this.overlayVisible = true
-        this.position.x = rect.x
-        this.position.y = rect.y
-        this.position.width = rect.width
-        this.position.height = rect.height
+        this.position.x = x
+        this.position.y = y
+        this.position.width = width
+        this.position.height = height
         this.linkParams = params
       }
       else {
