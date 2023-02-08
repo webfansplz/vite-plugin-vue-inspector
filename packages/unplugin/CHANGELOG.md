@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.2.2
+
+### Patch Changes
+
+- fix: jsx self-closing tags handle
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.3.2
+
 ## 0.2.1
 
 ### Patch Changes
