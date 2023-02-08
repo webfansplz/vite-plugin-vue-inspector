@@ -71,7 +71,7 @@ export async function compileSFCTemplate(
               ))
                 return
 
-              const insertPosition = node.openingElement.end - 1
+              const insertPosition = node.openingElement.end - (node.openingElement.selfClosing ? 2 : 1)
               const { line, column } = node.loc.start
 
               const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
