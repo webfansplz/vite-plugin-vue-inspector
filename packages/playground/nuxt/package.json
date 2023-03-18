@@ -7,7 +7,7 @@
     "preview": "nuxi preview"
   },
   "devDependencies": {
-    "nuxt": "3.0.0",
+    "nuxt": "3.3.1",
     "unplugin-vue-inspector": "workspace:*",
     "vite-plugin-vue-inspector": "workspace:*"
   }
