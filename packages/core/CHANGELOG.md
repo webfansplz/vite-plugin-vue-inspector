@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.4.0
+
+### Minor Changes
+
+- fix: compactible with Nuxt 3.3
+
 ## 3.3.2
 
 ### Patch Changes
