@@ -69,7 +69,7 @@ export interface VitePluginInspectorOptions {
   *
   * WARNING: only set this if you know exactly what it does.
   */
-  appendTo?: string
+  appendTo?: string | RegExp
 }
 
 const toggleComboKeysMap = {
@@ -98,8 +98,15 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
   const inspectorPath = getInspectorPath()
-  const normalizedOptions = { ...DEFAULT_INSPECTOR_OPTIONS, ...options }
+  const normalizedOptions = {
+    ...DEFAULT_INSPECTOR_OPTIONS,
+    ...options,
+  }
   let serverOptions: ServerOptions | undefined
+
+  const {
+    appendTo,
+  } = normalizedOptions
 
   return {
     name: 'vite-plugin-vue-inspector',
@@ -143,10 +150,12 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       if (isJsx || isTpl)
         return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
 
-      if (normalizedOptions.appendTo && filename.endsWith(normalizedOptions.appendTo))
-        return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
+      if (!appendTo)
+        return
 
-      return code
+      if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
+        || (appendTo instanceof RegExp && appendTo.test(filename)))
+        return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
     },
     configureServer(server) {
       const _printUrls = server.printUrls
@@ -159,7 +168,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       })
     },
     transformIndexHtml(html) {
-      if (normalizedOptions.appendTo)
+      if (appendTo)
         return
       return {
         html,

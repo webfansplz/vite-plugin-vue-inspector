@@ -71,7 +71,6 @@ export default defineConfig({
 ```ts
 // for Nuxt3
 // nuxt.config.ts
-
 import { defineNuxtConfig } from 'nuxt/config'
 import Inspector from 'vite-plugin-vue-inspector'
 
@@ -82,18 +81,6 @@ export default defineNuxtConfig({
       toggleButtonVisibility: 'always',
     }],
   ],
-})
-
-// OR
-
-export default defineNuxtConfig({
-  vite: {
-    plugins: [
-      Inspector({
-        appendTo: 'entry.mjs'
-      })
-    ]
-  }
 })
 ```
 
@@ -144,7 +131,7 @@ interface VitePluginInspectorOptions {
   *
   * WARNING: only set this if you know exactly what it does.
   */
-  appendTo?: string
+  appendTo?: string | RegExp
 }
 ```
 

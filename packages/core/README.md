@@ -83,22 +83,9 @@ export default defineNuxtConfig({
     }],
   ],
 })
-
-// OR
-
-export default defineNuxtConfig({
-  vite: {
-    plugins: [
-      Inspector({
-        appendTo: 'entry.mjs'
-      })
-    ]
-  }
-})
 ```
 
 ### Options
-
 
 ```ts
 interface VitePluginInspectorOptions {
@@ -143,7 +130,7 @@ interface VitePluginInspectorOptions {
   *
   * WARNING: only set this if you know exactly what it does.
   */
-  appendTo?: string
+  appendTo?: string | RegExp
 }
 ```
 
