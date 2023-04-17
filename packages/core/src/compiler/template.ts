@@ -35,7 +35,7 @@ export async function compileSFCTemplate(
                   const insertPosition = node.props.length ? Math.max(...node.props.map(i => i.loc.end.offset)) : node.loc.start.offset + node.tag.length + 1
                   const { line, column } = node.loc.start
 
-                  const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
+                  const content = ` ${KEY_DATA}="${encodeURI(relativePath)}:${line}:${column}"`
 
                   s.prependLeft(
                     insertPosition,
@@ -74,7 +74,7 @@ export async function compileSFCTemplate(
               const insertPosition = node.openingElement.end - (node.openingElement.selfClosing ? 2 : 1)
               const { line, column } = node.loc.start
 
-              const content = ` ${KEY_DATA}="${relativePath}:${line}:${column}"`
+              const content = ` ${KEY_DATA}="${encodeURI(relativePath)}:${line}:${column}"`
 
               s.prependLeft(
                 insertPosition,
