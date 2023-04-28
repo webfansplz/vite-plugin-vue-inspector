@@ -80,7 +80,7 @@ const toggleComboKeysMap = {
 
 function getInspectorPath() {
   const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
-  return pluginPath.replace(/\/dist$/, '/\/src')
+  return pluginPath.replace(/\/dist$/, '/src')
 }
 
 export function normalizeComboKeyPrint(toggleComboKey: string) {
