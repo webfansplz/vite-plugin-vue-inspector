@@ -23,9 +23,17 @@ function load() {
   const { vue } = inspectorOptions
   // vue 2/3 compatibility
   vue === 3
-    ? Vue.createApp(App).mount(`#${CONTAINER_ID}`)
+    ? Vue.createApp({
+      render: () => Vue.h(App),
+      devtools: {
+        hide: true,
+      },
+    }).mount(`#${CONTAINER_ID}`)
     : new Vue.default({
       render: h => h(App),
+      devtools: {
+        hide: true,
+      },
     }).$mount(`#${CONTAINER_ID}`)
 }
 
