@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.2.4
+
+### Patch Changes
+
+- fix: inspector path and hide injected app in Vue devtools
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.4.1
+
 ## 0.2.3
 
 ### Patch Changes
