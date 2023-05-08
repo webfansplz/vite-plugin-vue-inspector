@@ -6,6 +6,7 @@ import vueJsxPlugin from '@vue/babel-plugin-jsx'
 import typescriptPlugin from '@babel/plugin-transform-typescript'
 import importMeta from '@babel/plugin-syntax-import-meta'
 import { parseJSXIdentifier } from '../utils'
+import { normalizePath } from 'vite'
 
 const EXCLUDE_TAG = ['template', 'script', 'style']
 const KEY_DATA = 'data-v-inspector'
@@ -19,7 +20,7 @@ export async function compileSFCTemplate(
   { code, id, type }: CompileSFCTemplateOptions,
 ) {
   const s = new MagicString(code)
-  const relativePath = path.relative(process.cwd(), id)
+  const relativePath = normalizePath(path.relative(process.cwd(), id))
   const result = await new Promise((resolve) => {
     switch (type) {
       case 'template': {
