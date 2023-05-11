@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.4.2
+
+### Patch Changes
+
+- fix: normalize path in `data-v-inspector` attribute
+
 ## 3.4.1
 
 ### Patch Changes

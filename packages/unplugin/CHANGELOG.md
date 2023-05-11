@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.2.5
+
+### Patch Changes
+
+- fix: normalize path in `data-v-inspector` attribute
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.4.2
+
 ## 0.2.4
 
 ### Patch Changes
