@@ -26,6 +26,7 @@ export default {
         width: 0,
         height: 0,
       },
+      floatsStyle: {},
       linkParams: {
         file: '',
         line: 0,
@@ -33,6 +34,31 @@ export default {
       },
       KEY_IGNORE,
     }
+  },
+  watch: {
+      position: {
+          handler() {
+              this.$nextTick(() => {
+                  let margin = 10;
+                  let x = this.position.x + this.position.width / 2;
+                  let y = this.position.y + this.position.height + 5;
+                  const floatsRef = this.$refs.floatsRef;
+                  let floatsWidth = floatsRef?.clientWidth ?? 0;
+                  let floatsHeight = floatsRef?.clientHeight ?? 0;
+
+                  x = Math.max(margin, x);
+                  x = Math.min(x, window.innerWidth - floatsWidth - margin);
+
+                  y = Math.max(margin, y);
+                  y = Math.min(y, window.innerHeight - floatsHeight - margin);
+                  this.floatsStyle = {
+                      left: `${x}px`,
+                      top: `${y}px`,
+                  };
+              });
+          },
+          deep: true,
+      },
   },
   computed: {
     logoColors() {
@@ -53,25 +79,6 @@ export default {
       return {
         [x === 'top' ? 'bottom' : 'top']: '-45px',
         [y]: 0,
-      }
-    },
-    floatsStyle() {
-      let margin = 10
-      let x = this.position.x + (this.position.width / 2)
-      let y = this.position.y + this.position.height + 5
-      const floatsRef = this.$refs.floatsRef
-      let floatsWidth = floatsRef?.clientWidth ?? 0
-      let floatsHeight = floatsRef?.clientHeight ?? 0
-
-      x = Math.max(margin, x)
-      x = Math.min(x, window.innerWidth - floatsWidth - margin)
-
-      y = Math.max(margin, y)
-      y = Math.min(y, window.innerHeight - floatsHeight - margin)
-
-      return {
-        left: `${x}px`,
-        top: `${y}px`,
       }
     },
     sizeIndicatorStyle() {
