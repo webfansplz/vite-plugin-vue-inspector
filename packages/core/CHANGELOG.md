@@ -1,5 +1,29 @@
 # vite-plugin-vue-inspector
 
+## 3.4.2
+
+### Patch Changes
+
+- fix: normalize path in `data-v-inspector` attribute
+
+## 3.4.1
+
+### Patch Changes
+
+- fix: inspector path and hide injected app in Vue devtools
+
+## 3.4.0
+
+### Minor Changes
+
+- fix: compactible with Nuxt 3.3
+
+## 3.3.2
+
+### Patch Changes
+
+- fix: jsx self-closing tags handle
+
 ## 3.3.1
 
 ### Patch Changes

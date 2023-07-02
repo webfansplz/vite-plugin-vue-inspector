@@ -71,7 +71,6 @@ export default defineConfig({
 ```ts
 // for Nuxt3
 // nuxt.config.ts
-
 import { defineNuxtConfig } from 'nuxt/config'
 import Inspector from 'vite-plugin-vue-inspector'
 
@@ -82,18 +81,6 @@ export default defineNuxtConfig({
       toggleButtonVisibility: 'always',
     }],
   ],
-})
-
-// OR
-
-export default defineNuxtConfig({
-  vite: {
-    plugins: [
-      Inspector({
-        appendTo: 'entry.mjs'
-      })
-    ]
-  }
 })
 ```
 
@@ -144,7 +131,7 @@ interface VitePluginInspectorOptions {
   *
   * WARNING: only set this if you know exactly what it does.
   */
-  appendTo?: string
+  appendTo?: string | RegExp
 }
 ```
 
@@ -158,12 +145,12 @@ interface VitePluginInspectorOptions {
 
 It uses an **environment variable** named **`VUE_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
 
-For example, if you want it always open VSCode when inspection clicked, set `export VUE_EDITOR=code` in your shell.
+For example, if you want it always open VS Code when inspection clicked, set `export VUE_EDITOR=code` in your shell.
 
 
-### VSCode
+### VS Code
 
-- install VSCode command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
+- install VS Code command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
   ![install-vscode-cli](./public/install-vscode-cli.png)
 
 - set env to shell, like `.bashrc` or `.zshrc`  
@@ -173,6 +160,23 @@ For example, if you want it always open VSCode when inspection clicked, set `exp
   ```
 
 <br />
+
+### VS Code with WSL (Windows)
+
+- add the configuration in the `settings.json`
+
+- restart the VS Code (All Windows should be closed to take effect)
+
+```json
+{
+  // other config...
+
+  "terminal.integrated.env.linux": {
+    "EDITOR": "code"
+  }
+}
+```
+
 
 ### WebStorm  
 

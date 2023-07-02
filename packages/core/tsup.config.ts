@@ -8,6 +8,7 @@ export default defineConfig({
     if (options.format === 'cjs')
       options.outExtension = { '.js': '.cjs' }
   },
+  shims: true,
   entry: [
     'src/index.ts',
   ],
