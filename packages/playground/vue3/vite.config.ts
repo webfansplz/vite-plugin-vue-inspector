@@ -10,6 +10,10 @@ export default defineConfig({
     Inspector({
       enabled: true,
       toggleButtonVisibility: 'always',
+      proxyHost: 'localhost'
     }),
   ],
+  server: {
+    host: '0.0.0.0',
+  }
 })

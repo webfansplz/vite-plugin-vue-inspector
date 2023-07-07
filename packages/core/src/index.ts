@@ -70,6 +70,13 @@ export interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string | RegExp
+
+  /**
+  * to prevent a 502 error after configuring the proxy,
+  * priority will be given to the host passed in,
+  * and then the host configured in Vite server settings will be used as a fallback.
+  */
+  proxyHost?: string
 }
 
 const toggleComboKeysMap = {
@@ -94,6 +101,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonVisibility: 'active',
   toggleButtonPos: 'top-right',
   appendTo: '',
+  proxyHost: ''
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
