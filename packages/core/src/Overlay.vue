@@ -303,7 +303,6 @@ export default {
   color:#e9e9e9;
   font-size: 14px;
   background-color:#42b883;
-  font-family: Arial, Helvetica, sans-serif;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
