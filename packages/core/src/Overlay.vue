@@ -93,8 +93,8 @@ export default {
   methods: {
     toggleEventListener() {
       const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
-      listener?.('mousemove', this.updateLinkParams)
-      listener?.('click', this.handleClick, true)
+      listener?.call(document.body, 'mousemove', this.updateLinkParams)
+      listener?.call(document.body, 'click', this.handleClick, true)
     },
     toggleEnabled() {
       this.enabled = !this.enabled
