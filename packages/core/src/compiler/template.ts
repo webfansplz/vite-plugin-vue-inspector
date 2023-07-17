@@ -15,9 +15,10 @@ interface CompileSFCTemplateOptions {
   code: string
   id: string
   type: 'template' | 'jsx'
+  babelPlugins?: any[]
 }
 export async function compileSFCTemplate(
-  { code, id, type }: CompileSFCTemplateOptions,
+  { code, id, type, babelPlugins = [] }: CompileSFCTemplateOptions,
 ) {
   const s = new MagicString(code)
   const relativePath = normalizePath(path.relative(process.cwd(), id))
@@ -62,6 +63,7 @@ export async function compileSFCTemplate(
               typescriptPlugin,
               { isTSX: true, allowExtensions: true },
             ],
+            ...babelPlugins
           ],
         })
 

@@ -70,6 +70,11 @@ export interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string | RegExp
+
+  /**
+  * user custom babel plugins list, when set, the extra plugins will be append to the default plugins
+  */
+  babelPlugins?: any[]
 }
 
 const toggleComboKeysMap = {
@@ -94,6 +99,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonVisibility: 'active',
   toggleButtonPos: 'top-right',
   appendTo: '',
+  babelPlugins: [] as any []
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
@@ -147,8 +153,9 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
       const isTpl = filename.endsWith('.vue') && query.type !== 'style' && !query.raw
 
+      const { babelPlugins } = normalizedOptions
       if (isJsx || isTpl)
-        return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
+        return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template', babelPlugins })
 
       if (!appendTo)
         return
