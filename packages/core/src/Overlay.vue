@@ -94,6 +94,7 @@ export default {
     toggleEventListener() {
       const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
       listener?.('mousemove', this.updateLinkParams)
+      listener?.('resize', this.clearLinkParams, true)
       listener?.('click', this.handleClick, true)
     },
     toggleEnabled() {
@@ -179,14 +180,17 @@ export default {
         this.linkParams = params
       }
       else {
-        this.overlayVisible = false
-        this.linkParams = {
-          file: '',
-          line: 0,
-          column: 0,
-        }
+        this.clearLinkParams()
       }
       this.onUpdated()
+    },
+    clearLinkParams() {
+      this.overlayVisible = false
+      this.linkParams = {
+        file: '',
+        line: 0,
+        column: 0,
+      }
     },
 
     // Public methods
