@@ -6,7 +6,7 @@ const protocol = inspectorOptions.serverOptions?.https ? 'https:' : importMetaUr
 const hostOpts = inspectorOptions.serverOptions?.host
 const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
 const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
-const baseUrl = isClient ? `${protocol}//${host}:${port}` : ''
+const baseUrl = isClient ? inspectorOptions.openInEditorHost || `${protocol}//${host}:${port}` : ''
 
 const KEY_DATA = 'data-v-inspector'
 const KEY_IGNORE = 'data-v-inspector-ignore'

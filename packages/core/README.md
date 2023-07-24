@@ -71,7 +71,6 @@ export default defineConfig({
 ```ts
 // for Nuxt3
 // nuxt.config.ts
-
 import { defineNuxtConfig } from 'nuxt/config'
 import Inspector from 'vite-plugin-vue-inspector'
 
@@ -86,6 +85,7 @@ export default defineNuxtConfig({
 ```
 
 ### Options
+
 
 ```ts
 interface VitePluginInspectorOptions {
@@ -109,8 +109,9 @@ interface VitePluginInspectorOptions {
   * examples: control-shift, control-o, control-alt-s  meta-x control-meta
   * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
   * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+  * You can also disable it by setting `false`.
   */
-  toggleComboKey?: string
+  toggleComboKey?: string | false
 
   /**
   * Toggle button visibility
@@ -131,6 +132,12 @@ interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string | RegExp
+
+  /**
+  * Customize openInEditor host (e.g. http://localhost:3000)
+  * @default false
+  */
+  openInEditorHost?: string | false
 }
 ```
 
@@ -144,12 +151,12 @@ interface VitePluginInspectorOptions {
 
 It uses an **environment variable** named **`VUE_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
 
-For example, if you want it always open VSCode when inspection clicked, set `export VUE_EDITOR=code` in your shell.
+For example, if you want it always open VS Code when inspection clicked, set `export VUE_EDITOR=code` in your shell.
 
 
-### VSCode
+### VS Code
 
-- install VSCode command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
+- install VS Code command line tools, [see the official docs](https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line)
   ![install-vscode-cli](./public/install-vscode-cli.png)
 
 - set env to shell, like `.bashrc` or `.zshrc`  
@@ -159,6 +166,23 @@ For example, if you want it always open VSCode when inspection clicked, set `exp
   ```
 
 <br />
+
+### VS Code with WSL (Windows)
+
+- add the configuration in the `settings.json`
+
+- restart the VS Code (All Windows should be closed to take effect)
+
+```json
+{
+  // other config...
+
+  "terminal.integrated.env.linux": {
+    "EDITOR": "code"
+  }
+}
+```
+
 
 ### WebStorm  
 
