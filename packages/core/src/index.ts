@@ -1,6 +1,6 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import fs from 'fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import fs from 'node:fs'
 import { bold, dim, green, yellow } from 'kolorist'
 import { normalizePath } from 'vite'
 import type { PluginOption, ServerOptions } from 'vite'
@@ -70,6 +70,12 @@ export interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string | RegExp
+
+  /**
+  * Customize openInEditor host (e.g. http://localhost:3000)
+  * @default false
+  */
+  openInEditorHost?: string | false
 }
 
 const toggleComboKeysMap = {
@@ -94,6 +100,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonVisibility: 'active',
   toggleButtonPos: 'top-right',
   appendTo: '',
+  openInEditorHost: false,
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
