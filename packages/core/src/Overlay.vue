@@ -181,7 +181,7 @@ export default {
         this.linkParams = params
       }
       else {
-        this.clearLinkParams()
+        this.closeOverlay()
       }
       this.onUpdated()
     },
