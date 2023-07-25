@@ -6,7 +6,7 @@ const protocol = inspectorOptions.serverOptions?.https ? 'https:' : importMetaUr
 const hostOpts = inspectorOptions.serverOptions?.host
 const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
 const port = inspectorOptions.serverOptions?.port ?? importMetaUrl?.port
-const baseUrl = isClient ? `${protocol}//${host}:${port}` : ''
+const baseUrl = isClient ? inspectorOptions.openInEditorHost || `${protocol}//${host}:${port}` : ''
 
 const KEY_DATA = 'data-v-inspector'
 const KEY_IGNORE = 'data-v-inspector-ignore'
@@ -93,9 +93,10 @@ export default {
   methods: {
     toggleEventListener() {
       const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
-      listener?.('mousemove', this.updateLinkParams)
-      listener?.('resize', this.clearLinkParams, true)
-      listener?.('click', this.handleClick, true)
+      
+      listener?.call(document.body, 'mousemove', this.updateLinkParams)
+      listener?.call(document.body, 'resize', this.closeOverlay, true)
+      listener?.call(document.body, 'click', this.handleClick, true)
     },
     toggleEnabled() {
       this.enabled = !this.enabled
@@ -184,7 +185,7 @@ export default {
       }
       this.onUpdated()
     },
-    clearLinkParams() {
+    closeOverlay() {
       this.overlayVisible = false
       this.linkParams = {
         file: '',

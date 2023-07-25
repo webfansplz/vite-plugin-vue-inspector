@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 0.3.0
+
+### Minor Changes
+
+- chore: release
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.5.0
+
 ## 0.2.5
 
 ### Patch Changes
