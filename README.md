@@ -132,6 +132,12 @@ interface VitePluginInspectorOptions {
   * WARNING: only set this if you know exactly what it does.
   */
   appendTo?: string | RegExp
+
+  /**
+  * Customize openInEditor host (e.g. http://localhost:3000)
+  * @default false
+  */
+  openInEditorHost?: string | false
 }
 ```
 
