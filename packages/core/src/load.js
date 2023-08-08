@@ -37,4 +37,8 @@ function load() {
     }).$mount(`#${CONTAINER_ID}`)
 }
 
-load()
+if (inspectorOptions.lazyLoad)
+  setTimeout(load, inspectorOptions.lazyLoad)
+
+else
+  load()

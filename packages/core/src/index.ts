@@ -76,6 +76,12 @@ export interface VitePluginInspectorOptions {
   * @default false
   */
   openInEditorHost?: string | false
+
+  /**
+   * lazy load inspector times (ms)
+   * @default false
+  */
+  lazyLoad?: number | false
 }
 
 const toggleComboKeysMap = {
@@ -101,6 +107,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonPos: 'top-right',
   appendTo: '',
   openInEditorHost: false,
+  lazyLoad: false,
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
