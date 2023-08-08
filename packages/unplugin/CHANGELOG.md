@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 0.4.0
+
+### Minor Changes
+
+- feat: introducing `lazyLoad` option
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.6.0
+
 ## 0.3.0
 
 ### Minor Changes

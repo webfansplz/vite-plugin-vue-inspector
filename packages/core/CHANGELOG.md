@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.6.0
+
+### Minor Changes
+
+- feat: introducing `lazyLoad` option
+
 ## 3.5.0
 
 ### Minor Changes
