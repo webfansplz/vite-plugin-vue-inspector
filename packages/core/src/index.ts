@@ -84,10 +84,10 @@ export interface VitePluginInspectorOptions {
   lazyLoad?: number | false
 
   /**
-   * close inspector when editor open
+   * disable inspector on editor open
    * @default false
    */
-  closeWhenEditorOpen?: boolean
+  disableInspectorOnEditorOpen?: boolean
 }
 
 const toggleComboKeysMap = {

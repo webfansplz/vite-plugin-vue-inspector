@@ -19,7 +19,7 @@ export default {
       floatsRef: null,
       enabled: inspectorOptions.enabled,
       toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase?.()?.split?.('-') ?? false,
-      closeWhenEditorOpen: inspectorOptions.closeWhenEditorOpen,
+      disableInspectorOnEditorOpen: inspectorOptions.disableInspectorOnEditorOpen,
       overlayVisible: false,
       position: {
         x: 0,
@@ -218,7 +218,7 @@ export default {
         },
       )
 
-      if (this.closeWhenEditorOpen)
+      if (this.disableInspectorOnEditorOpen)
         promise.then(this.disable)
 
       return promise
