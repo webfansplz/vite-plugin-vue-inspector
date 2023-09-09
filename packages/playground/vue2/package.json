@@ -8,6 +8,7 @@
   "dependencies": {
     "@vue/composition-api": "^1.7.1",
     "vue": "2.7.14",
+    "vue-property-decorator": "^9.1.2",
     "vue-template-compiler": "2.7.14"
   },
   "devDependencies": {
