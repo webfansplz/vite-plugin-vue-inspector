@@ -1,5 +1,15 @@
 # vite-plugin-vue-inspector
 
+## 3.7.0
+
+### Minor Changes
+
+- feat: close overlay when resizing the window (#71)
+
+- feat: introducing `disableInspectorOnEditorOpen` option (#77)
+
+- feat: support `decorators` and `import-attributes` syntax (#79)
+
 ## 3.6.0
 
 ### Minor Changes
