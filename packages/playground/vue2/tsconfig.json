@@ -6,7 +6,8 @@
     "strict": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "experimentalDecorators": true
   },
-  "include": ["src"],
+  "include": ["src"]
 }

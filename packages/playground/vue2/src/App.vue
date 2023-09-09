@@ -1,11 +1,13 @@
 <script lang="ts">
 import Hi from './Hi.vue'
 import Welcome from './Welcome'
+import Count from './Count.vue'
 export default {
   name: 'App',
   components: {
     Hi,
     Welcome,
+    Count,
   },
 }
 </script>
@@ -15,6 +17,7 @@ export default {
     <div>
       <Hi />
       <Welcome />
+      <Count />
       <!--  -->
       <!--  -->
       <!--  -->

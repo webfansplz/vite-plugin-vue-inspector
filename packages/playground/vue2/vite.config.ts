@@ -14,6 +14,7 @@ export default defineConfig({
       vue: 2,
       toggleButtonVisibility: 'always',
       enabled: true,
+      disableInspectorOnEditorOpen: true,
     }),
   ],
 })

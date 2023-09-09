@@ -1,11 +1,12 @@
-import path from 'path'
+import path from 'node:path'
 import MagicString from 'magic-string'
 import { parse as vueParse, transform as vueTransform } from '@vue/compiler-dom'
 import { parse as babelParse, traverse as babelTraverse } from '@babel/core'
 import vueJsxPlugin from '@vue/babel-plugin-jsx'
 import typescriptPlugin from '@babel/plugin-transform-typescript'
 import importMeta from '@babel/plugin-syntax-import-meta'
-import { parseJSXIdentifier } from '../utils'
+import decoratorsPlugin from '@babel/plugin-proposal-decorators'
+import importAttributesPlugin from '@babel/plugin-syntax-import-attributes'
 import { normalizePath } from 'vite'
 
 const EXCLUDE_TAG = ['template', 'script', 'style']
@@ -61,6 +62,14 @@ export async function compileSFCTemplate(
             [
               typescriptPlugin,
               { isTSX: true, allowExtensions: true },
+            ],
+            [
+              decoratorsPlugin,
+              { legacy: true },
+            ],
+            [
+              importAttributesPlugin,
+              { deprecatedAssertSyntax: true },
             ],
           ],
         })
