@@ -19,6 +19,7 @@ export default {
       floatsRef: null,
       enabled: inspectorOptions.enabled,
       toggleCombo: inspectorOptions.toggleComboKey?.toLowerCase?.()?.split?.('-') ?? false,
+      disableInspectorOnEditorOpen: inspectorOptions.disableInspectorOnEditorOpen,
       overlayVisible: false,
       position: {
         x: 0,
@@ -210,12 +211,17 @@ export default {
        * Vite built-in support
        * https://github.com/vitejs/vite/blob/d59e1acc2efc0307488364e9f2fad528ec57f204/packages/vite/src/node/server/index.ts#L569-L570
        * */
-      return fetch(
+      const promise = fetch(
         `${baseUrl}/__open-in-editor?file=${file}:${line}:${column}`,
         {
           mode: 'no-cors',
         },
       )
+
+      if (this.disableInspectorOnEditorOpen)
+        promise.then(this.disable)
+
+      return promise
     },
     onUpdated() {
       // to be replaced programmatically

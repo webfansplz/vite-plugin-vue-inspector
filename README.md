@@ -138,6 +138,12 @@ interface VitePluginInspectorOptions {
   * @default false
   */
   openInEditorHost?: string | false
+
+  /**
+   * disable inspector on editor open
+   * @default false
+   */
+  disableInspectorOnEditorOpen?: boolean
 }
 ```
 
