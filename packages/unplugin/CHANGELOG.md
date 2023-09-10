@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.5.1
+
+### Patch Changes
+
+- fix: respect `server.port` when setting custom host (#74)
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.7.1
+
 ## 0.5.0
 
 ### Minor Changes

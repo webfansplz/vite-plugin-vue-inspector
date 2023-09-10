@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.7.1
+
+### Patch Changes
+
+- fix: respect `server.port` when setting custom host (#74)
+
 ## 3.7.0
 
 ### Minor Changes
