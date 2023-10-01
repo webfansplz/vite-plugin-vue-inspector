@@ -1,6 +1,6 @@
 {
   "name": "unplugin-vue-inspector",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "jump to local IDE source code while click the element of browser automatically.",
   "author": "webfansplz",
   "license": "MIT",

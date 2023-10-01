@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 3.7.2
+
+### Patch Changes
+
+- perf: remove unnecessary dependencies (#80)
+
 ## 3.7.1
 
 ### Patch Changes

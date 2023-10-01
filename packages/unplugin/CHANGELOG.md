@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 0.5.2
+
+### Patch Changes
+
+- perf: remove unnecessary dependencies (#80)
+- Updated dependencies
+  - vite-plugin-vue-inspector@3.7.2
+
 ## 0.5.1
 
 ### Patch Changes
