@@ -20,19 +20,19 @@
     "release": "pnpm build && changeset && changeset version && changeset publish"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.36.0",
-    "@changesets/cli": "^2.26.0",
-    "@types/node": "^20.4.4",
-    "eslint": "^8.36.0",
-    "esmo": "^0.16.3",
-    "fs-extra": "^11.1.0",
+    "@antfu/eslint-config": "^0.43.1",
+    "@changesets/cli": "^2.26.2",
+    "@types/node": "^20.8.0",
+    "eslint": "^8.50.0",
+    "esmo": "^0.17.0",
+    "fs-extra": "^11.1.1",
     "nodemon": "^3.0.1",
-    "tsup": "^6.6.3",
-    "tsx": "^3.12.5",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.0",
-    "vite-plugin-inspect": "^0.7.38",
-    "vue": "^3.2.47"
+    "tsup": "^7.2.0",
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-inspect": "^0.7.40",
+    "vue": "^3.3.4"
   },
   "pnpm": {
     "packageExtensions": {

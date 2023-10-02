@@ -6,13 +6,13 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
-    "@vitejs/plugin-vue-jsx": "^3.0.1",
-    "@vue/compiler-sfc": "^3.2.47",
-    "sass": "^1.59.3",
+    "@vitejs/plugin-vue": "^4.3.4",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@vue/compiler-sfc": "^3.3.4",
+    "sass": "^1.68.0",
     "vite-plugin-vue-inspector": "workspace:*"
   }
 }
