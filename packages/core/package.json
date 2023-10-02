@@ -53,7 +53,7 @@
     "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/compiler-dom": "^3.2.47",
     "kolorist": "^1.7.0",
-    "magic-string": "^0.30.0"
+    "magic-string": "^0.30.4"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.0",

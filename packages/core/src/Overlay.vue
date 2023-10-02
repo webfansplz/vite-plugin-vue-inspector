@@ -4,12 +4,17 @@ const isClient = typeof window !== 'undefined'
 const importMetaUrl = isClient ? new URL(import.meta.url) : {}
 const protocol = inspectorOptions.serverOptions?.https ? 'https:' : importMetaUrl?.protocol
 const hostOpts = inspectorOptions.serverOptions?.host
-const host = hostOpts && hostOpts !== true ? hostOpts : importMetaUrl?.hostname
-const port = hostOpts && hostOpts !== true ? inspectorOptions.serverOptions?.port : importMetaUrl?.port
-const baseUrl = isClient ? inspectorOptions.openInEditorHost || `${protocol}//${host}:${port}` : ''
+const host = (hostOpts && hostOpts !== true) ? hostOpts : importMetaUrl?.hostname
+const port = (hostOpts && hostOpts !== true) ? inspectorOptions.serverOptions?.port : importMetaUrl?.port
+const baseUrl = isClient ? (inspectorOptions.openInEditorHost || `${protocol}//${host}:${port}`) : ''
 
 const KEY_DATA = 'data-v-inspector'
 const KEY_IGNORE = 'data-v-inspector-ignore'
+const KEY_PROPS_DATA = '__v_inspector'
+
+function getData(el) {
+  return el?.__vnode?.props?.[KEY_PROPS_DATA] ?? el?.getAttribute?.(KEY_DATA)
+}
 
 export default {
   name: 'VueInspectorOverlay',
@@ -94,7 +99,7 @@ export default {
   methods: {
     toggleEventListener() {
       const listener = this.enabled ? document.body.addEventListener : document.body.removeEventListener
-      
+
       listener?.call(document.body, 'mousemove', this.updateLinkParams)
       listener?.call(document.body, 'resize', this.closeOverlay, true)
       listener?.call(document.body, 'click', this.handleClick, true)
@@ -138,14 +143,14 @@ export default {
         }
       }
       const ignoreIndex = path.findIndex(node => node?.hasAttribute?.(KEY_IGNORE))
-      const targetNode = path.slice(ignoreIndex + 1).find(node => node?.hasAttribute?.(KEY_DATA))
+      const targetNode = path.slice(ignoreIndex + 1).find(node => getData(node))
       if (!targetNode) {
         return {
           targetNode: null,
           params: null,
         }
       }
-      const match = targetNode.getAttribute(KEY_DATA)?.match(splitRE)
+      const match = getData(targetNode)?.match(splitRE)
       const [_, file, line, column] = match || []
       return {
         targetNode,

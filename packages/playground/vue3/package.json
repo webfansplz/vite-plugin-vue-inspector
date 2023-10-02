@@ -2,7 +2,7 @@
   "name": "playground-vue3",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
+    "dev": "nodemon -w ../../packages/core/dist --exec \"vite dev\"",
     "build": "vite build"
   },
   "dependencies": {

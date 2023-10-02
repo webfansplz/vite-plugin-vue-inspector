@@ -26,10 +26,12 @@
     "eslint": "^8.36.0",
     "esmo": "^0.16.3",
     "fs-extra": "^11.1.0",
+    "nodemon": "^3.0.1",
     "tsup": "^6.6.3",
     "tsx": "^3.12.5",
     "typescript": "^5.0.2",
     "vite": "^4.2.0",
+    "vite-plugin-inspect": "^0.7.38",
     "vue": "^3.2.47"
   },
   "pnpm": {
