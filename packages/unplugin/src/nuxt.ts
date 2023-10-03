@@ -6,7 +6,7 @@ import unplugin from '.'
 export default (options: Options, nuxt: any) => {
   nuxt.hook('vite:extendConfig', async (config: any) => {
     config.plugins = config.plugins || []
-    config.plugins.push(unplugin.vite({
+    config.plugins.push(...unplugin.vite({
       appendTo: /\/entry\.m?js$/,
       ...options,
     }))
