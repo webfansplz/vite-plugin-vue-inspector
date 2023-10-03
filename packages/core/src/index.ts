@@ -93,6 +93,8 @@ export interface VitePluginInspectorOptions {
   /**
    * Hide information in VNode and produce clean html in DevTools
    *
+   * Currently, tt only works for Vue 3
+   *
    * @default true
    */
   cleanHtml?: boolean
@@ -122,7 +124,6 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   appendTo: '',
   openInEditorHost: false,
   lazyLoad: false,
-  cleanHtml: true,
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
@@ -134,8 +135,9 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
   let serverOptions: ServerOptions | undefined
 
   const {
+    vue,
     appendTo,
-    cleanHtml,
+    cleanHtml = vue === 3, // Only enabled for Vue 3 by default
   } = normalizedOptions
 
   return [
@@ -224,7 +226,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       enforce: 'post',
       apply(_, { command }) {
         // apply only on serve and not for test
-        return cleanHtml && command === 'serve' && process.env.NODE_ENV !== 'test'
+        return cleanHtml && vue === 3 && command === 'serve' && process.env.NODE_ENV !== 'test'
       },
       transform(code) {
         if (code.includes('_interopVNode'))
