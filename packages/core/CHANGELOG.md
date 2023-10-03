@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 4.0.0
+
+### Major Changes
+
+- feat!: hide data-v-inspector in html (#81)
+
 ## 3.7.2
 
 ### Patch Changes

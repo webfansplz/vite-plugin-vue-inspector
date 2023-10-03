@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 1.0.0
+
+### Major Changes
+
+- feat!: hide data-v-inspector in html (#81)
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@4.0.0
+
 ## 0.5.2
 
 ### Patch Changes
