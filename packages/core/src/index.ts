@@ -93,7 +93,7 @@ export interface VitePluginInspectorOptions {
   /**
    * Hide information in VNode and produce clean html in DevTools
    *
-   * Currently, tt only works for Vue 3
+   * Currently, it only works for Vue 3
    *
    * @default true
    */
