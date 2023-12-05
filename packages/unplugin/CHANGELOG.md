@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 1.0.1
+
+### Patch Changes
+
+- feat: support vite5
+- Updated dependencies
+  - vite-plugin-vue-inspector@4.0.1
+
 ## 1.0.0
 
 ### Major Changes

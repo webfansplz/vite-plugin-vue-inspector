@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 4.0.1
+
+### Patch Changes
+
+- feat: support vite5
+
 ## 4.0.0
 
 ### Major Changes
