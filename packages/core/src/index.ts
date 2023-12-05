@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 import { bold, dim, green, yellow } from 'kolorist'
 import { normalizePath } from 'vite'
-import type { PluginOption, ServerOptions } from 'vite'
+import type { PluginOption, ResolvedConfig, ServerOptions } from 'vite'
 import MagicString from 'magic-string'
 import { compileSFCTemplate } from './compiler'
 import { idToFile, parseVueRequest } from './utils'
@@ -29,59 +29,59 @@ export interface VueInspectorClient {
 
 export interface VitePluginInspectorOptions {
   /**
-  * Vue version
-  * @default 3
-  */
+   * Vue version
+   * @default 3
+   */
   vue?: 2 | 3
 
   /**
-  * Default enable state
-  * @default false
-  */
+   * Default enable state
+   * @default false
+   */
   enabled?: boolean
 
   /**
-  * Define a combo key to toggle inspector
-  * @default 'control-shift' on windows, 'meta-shift' on other os
-  *
-  * any number of modifiers `control` `shift` `alt` `meta` followed by zero or one regular key, separated by -
-  * examples: control-shift, control-o, control-alt-s  meta-x control-meta
-  * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
-  * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
-  * You can also disable it by setting `false`.
-  */
+   * Define a combo key to toggle inspector
+   * @default 'control-shift' on windows, 'meta-shift' on other os
+   *
+   * any number of modifiers `control` `shift` `alt` `meta` followed by zero or one regular key, separated by -
+   * examples: control-shift, control-o, control-alt-s  meta-x control-meta
+   * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
+   * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+   * You can also disable it by setting `false`.
+   */
   toggleComboKey?: string | false
 
   /**
-  * Toggle button visibility
-  * @default 'active'
-  */
+   * Toggle button visibility
+   * @default 'active'
+   */
   toggleButtonVisibility?: 'always' | 'active' | 'never'
 
   /**
-  * Toggle button display position
-  * @default top-right
-  */
+   * Toggle button display position
+   * @default top-right
+   */
   toggleButtonPos?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
   /**
-  * append an import to the module id ending with `appendTo` instead of adding a script into body
-  * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
-  *
-  * WARNING: only set this if you know exactly what it does.
-  */
+   * append an import to the module id ending with `appendTo` instead of adding a script into body
+   * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
+   *
+   * WARNING: only set this if you know exactly what it does.
+   */
   appendTo?: string | RegExp
 
   /**
-  * Customize openInEditor host (e.g. http://localhost:3000)
-  * @default false
-  */
+   * Customize openInEditor host (e.g. http://localhost:3000)
+   * @default false
+   */
   openInEditorHost?: string | false
 
   /**
    * lazy load inspector times (ms)
    * @default false
-  */
+   */
   lazyLoad?: number | false
 
   /**
@@ -133,6 +133,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     ...options,
   }
   let serverOptions: ServerOptions | undefined
+  let config: ResolvedConfig
 
   const {
     vue,
@@ -187,7 +188,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           return
 
         if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-        || (appendTo instanceof RegExp && appendTo.test(filename)))
+          || (appendTo instanceof RegExp && appendTo.test(filename)))
           return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
       },
       configureServer(server) {
@@ -211,13 +212,14 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
               injectTo: 'head',
               attrs: {
                 type: 'module',
-                src: '/@id/virtual:vue-inspector-path:load.js',
+                src: `${config.base || '/'}@id/virtual:vue-inspector-path:load.js`,
               },
             },
           ],
         }
       },
       configResolved(resolvedConfig) {
+        config = resolvedConfig
         serverOptions = resolvedConfig.server
       },
     },
