@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 4.0.2
+
+### Patch Changes
+
+- feat: respect vite base path option
+
 ## 4.0.1
 
 ### Patch Changes

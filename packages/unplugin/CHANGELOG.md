@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 1.0.2
+
+### Patch Changes
+
+- feat: respect vite base path option
+- Updated dependencies
+  - vite-plugin-vue-inspector@4.0.2
+
 ## 1.0.1
 
 ### Patch Changes
