@@ -55,6 +55,7 @@ export async function compileSFCTemplate(
       case 'jsx': {
         const ast = babelParse(code, {
           babelrc: false,
+          configFile: false,
           comments: true,
           plugins: [
             importMeta,
