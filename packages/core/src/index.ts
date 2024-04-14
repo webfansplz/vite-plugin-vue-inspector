@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
 import { bold, dim, green, yellow } from 'kolorist'
 import { normalizePath } from 'vite'
-import type { PluginOption, ResolvedConfig, ServerOptions } from 'vite'
+import type { PluginOption, ResolvedConfig } from 'vite'
 import MagicString from 'magic-string'
 import { compileSFCTemplate } from './compiler'
 import { idToFile, parseVueRequest } from './utils'
@@ -75,6 +75,7 @@ export interface VitePluginInspectorOptions {
   /**
    * Customize openInEditor host (e.g. http://localhost:3000)
    * @default false
+   * @deprecated This option is deprecated and removed in 5.0. The plugin now automatically detects the correct host.
    */
   openInEditorHost?: string | false
 
@@ -122,7 +123,6 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonVisibility: 'active',
   toggleButtonPos: 'top-right',
   appendTo: '',
-  openInEditorHost: false,
   lazyLoad: false,
 } as const
 
@@ -132,7 +132,6 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     ...DEFAULT_INSPECTOR_OPTIONS,
     ...options,
   }
-  let serverOptions: ServerOptions | undefined
   let config: ResolvedConfig
 
   const {
@@ -161,7 +160,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
 
       async load(id) {
         if (id === 'virtual:vue-inspector-options') {
-          return `export default ${JSON.stringify({ ...normalizedOptions, serverOptions })}`
+          return `export default ${JSON.stringify({ ...normalizedOptions, base: config.base })}`
         }
         else if (id.startsWith(inspectorPath)) {
           const { query } = parseVueRequest(id)
@@ -220,7 +219,6 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       },
       configResolved(resolvedConfig) {
         config = resolvedConfig
-        serverOptions = resolvedConfig.server
       },
     },
     {

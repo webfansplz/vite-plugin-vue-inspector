@@ -1,12 +1,7 @@
 <script>
 import inspectorOptions from 'virtual:vue-inspector-options'
-const isClient = typeof window !== 'undefined'
-const importMetaUrl = isClient ? new URL(import.meta.url) : {}
-const protocol = inspectorOptions.serverOptions?.https ? 'https:' : importMetaUrl?.protocol
-const hostOpts = inspectorOptions.serverOptions?.host
-const host = (hostOpts && hostOpts !== true) ? hostOpts : importMetaUrl?.hostname
-const port = (hostOpts && hostOpts !== true) ? inspectorOptions.serverOptions?.port : importMetaUrl?.port
-const baseUrl = isClient ? (inspectorOptions.openInEditorHost || `${protocol}//${host}:${port}`) : ''
+
+const base = inspectorOptions.base
 
 const KEY_DATA = 'data-v-inspector'
 const KEY_IGNORE = 'data-v-inspector-ignore'
@@ -173,7 +168,11 @@ export default {
       e.stopImmediatePropagation()
       const { file, line, column } = params
       this.overlayVisible = false
-      this.openInEditor(baseUrl, file, line, column)
+      const url = new URL(
+        `${base}__open-in-editor?file=${encodeURIComponent(`${file}:${line}:${column}`)}`,
+        import.meta.url,
+      )
+      this.openInEditor(url)
     },
     updateLinkParams(e) {
       const { targetNode, params } = this.getTargetNode(e)
@@ -215,9 +214,11 @@ export default {
       /**
        * Vite built-in support
        * https://github.com/vitejs/vite/blob/d59e1acc2efc0307488364e9f2fad528ec57f204/packages/vite/src/node/server/index.ts#L569-L570
-       * */
+       */
+
+      const _url = baseUrl instanceof URL ? baseUrl : `${baseUrl}/__open-in-editor?file=${file}:${line}:${column}`
       const promise = fetch(
-        `${baseUrl}/__open-in-editor?file=${file}:${line}:${column}`,
+        _url,
         {
           mode: 'no-cors',
         },

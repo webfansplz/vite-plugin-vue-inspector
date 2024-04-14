@@ -10,7 +10,6 @@ export default defineConfig({
     VueJsx(),
     Inspector({
       enabled: true,
-      openInEditorHost: 'http://localhost:5173',
       toggleButtonVisibility: 'always',
     }),
     Inspect(),
