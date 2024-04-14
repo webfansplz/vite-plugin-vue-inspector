@@ -134,9 +134,10 @@ interface VitePluginInspectorOptions {
   appendTo?: string | RegExp
 
   /**
-  * Customize openInEditor host (e.g. http://localhost:3000)
-  * @default false
-  */
+   * Customize openInEditor host (e.g. http://localhost:3000)
+   * @default false
+   * @deprecated This option is deprecated and removed in 5.0. The plugin now automatically detects the correct host.
+   */
   openInEditorHost?: string | false
 
   /**
