@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.0.0
+
+### Major Changes
+
+- fix: open-in-editor base url, deprecated `openInEditorHost` option
+
 ## 4.0.2
 
 ### Patch Changes
