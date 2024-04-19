@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 2.0.1
+
+### Patch Changes
+
+- fix: `openInEditor` types
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.0.1
+
 ## 2.0.0
 
 ### Major Changes
