@@ -211,6 +211,26 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
 
 <br />
 
+### PhpStorm
+
+- just set env with an absolute path to shell, like `.bashrc` or `.zshrc` (only MacOS)
+
+  ```bash
+  export LAUNCH_EDITOR='/Applications/PhpStorm.app/Contents/MacOS/phpstorm'
+  ```
+
+**OR**
+
+- install PhpStorm command line tools
+
+- then set env to shell, like `.bashrc` or `.zshrc`
+
+  ```bash
+  export LAUNCH_EDITOR=phpstorm
+  ```
+
+<br />
+
 ### Vim
 
 Yes! you can also use vim if you want, just set env to shell
