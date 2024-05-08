@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     ['unplugin-vue-inspector/nuxt', {
       enabled: true,
       toggleButtonVisibility: 'always',
+      launchEditor: 'code',
     }],
   ],
 })

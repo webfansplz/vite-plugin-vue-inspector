@@ -44,6 +44,7 @@ pnpm install unplugin-vue-inspector -D
 
 import { defineConfig, } from 'vite'
 import { createVuePlugin, } from 'vite-plugin-vue2'
+
 import Inspector from 'unplugin-vue-inspector/vite' // OR vite-plugin-vue-inspector
 
 export default defineConfig({
@@ -61,6 +62,7 @@ export default defineConfig({
 
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
+
 import Inspector from 'unplugin-vue-inspector/vite' // OR vite-plugin-vue-inspector
 
 export default defineConfig({
@@ -90,47 +92,47 @@ export default defineNuxtConfig({
 ```ts
 interface VitePluginInspectorOptions {
   /**
-  * Vue version
-  * @default 3
-  */
+   * Vue version
+   * @default 3
+   */
   vue?: 2 | 3
 
   /**
-  * Default enable state
-  * @default false
-  */
+   * Default enable state
+   * @default false
+   */
   enabled?: boolean
 
   /**
-  * Define a combo key to toggle inspector
-  * @default 'control-shift' on windows, 'meta-shift' on other os
-  *
-  * any number of modifiers `control` `shift` `alt` `meta` followed by zero or one regular key, separated by -
-  * examples: control-shift, control-o, control-alt-s  meta-x control-meta
-  * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
-  * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
-  * You can also disable it by setting `false`.
-  */
+   * Define a combo key to toggle inspector
+   * @default 'control-shift' on windows, 'meta-shift' on other os
+   *
+   * any number of modifiers `control` `shift` `alt` `meta` followed by zero or one regular key, separated by -
+   * examples: control-shift, control-o, control-alt-s  meta-x control-meta
+   * Some keys have native behavior (e.g. alt-s opens history menu on firefox).
+   * To avoid conflicts or accidentally typing into inputs, modifier only combinations are recommended.
+   * You can also disable it by setting `false`.
+   */
   toggleComboKey?: string | false
 
   /**
-  * Toggle button visibility
-  * @default 'active'
-  */
+   * Toggle button visibility
+   * @default 'active'
+   */
   toggleButtonVisibility?: 'always' | 'active' | 'never'
 
   /**
-  * Toggle button display position
-  * @default top-right
-  */
+   * Toggle button display position
+   * @default top-right
+   */
   toggleButtonPos?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
   /**
-  * append an import to the module id ending with `appendTo` instead of adding a script into body
-  * useful for frameworks that do not support trannsformIndexHtml hook (e.g. Nuxt3)
-  *
-  * WARNING: only set this if you know exactly what it does.
-  */
+   * append an import to the module id ending with `appendTo` instead of adding a script into body
+   * useful for frameworks that do not support trannsformIndexHtml hook (e.g. Nuxt3)
+   *
+   * WARNING: only set this if you know exactly what it does.
+   */
   appendTo?: string | RegExp
 
   /**
@@ -141,10 +143,32 @@ interface VitePluginInspectorOptions {
   openInEditorHost?: string | false
 
   /**
+   * lazy load inspector times (ms)
+   * @default false
+   */
+  lazyLoad?: number | false
+
+  /**
    * disable inspector on editor open
    * @default false
    */
   disableInspectorOnEditorOpen?: boolean
+
+  /**
+   * Hide information in VNode and produce clean html in DevTools
+   *
+   * Currently, it only works for Vue 3
+   *
+   * @default true
+   */
+  cleanHtml?: boolean
+
+  /**
+   * Target editor when open in editor
+   *
+   * @default code (Visual Studio Code)
+   */
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm'
 }
 ```
 
@@ -154,7 +178,33 @@ interface VitePluginInspectorOptions {
 - [Vue3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/packages/playground/vue3)
 - [Nuxt3](https://github.com/webfansplz/vite-plugin-vue-inspector/tree/main/packages/playground/nuxt)
 
+## Supported editors
+
+| Value | Editor | Linux | Windows | OSX |
+|--------|------|:------:|:------:|:------:|
+| `appcode` | [AppCode](https://www.jetbrains.com/objc/) |  |  |✓|
+| `atom` | [Atom](https://atom.io/) |✓|✓|✓|
+| `atom-beta` | [Atom Beta](https://atom.io/beta) |  |  |✓|
+| `brackets` | [Brackets](http://brackets.io/) |✓|✓|✓|
+| `clion` | [Clion](https://www.jetbrains.com/clion/) |  |✓|✓|
+| `code` | [Visual Studio Code](https://code.visualstudio.com/) |✓|✓|✓|
+| `code-insiders` | [Visual Studio Code Insiders](https://code.visualstudio.com/insiders/) |✓|✓|✓|
+| `codium` | [VSCodium](https://github.com/VSCodium/vscodium) |✓|✓|✓|
+| `emacs` | [Emacs](https://www.gnu.org/software/emacs/) |✓| | |
+| `idea` | [IDEA](https://www.jetbrains.com/idea/) |✓|✓|✓|
+| `notepad++` | [Notepad++](https://notepad-plus-plus.org/download/v7.5.4.html) | |✓| |
+| `pycharm` | [PyCharm](https://www.jetbrains.com/pycharm/) |✓|✓|✓|
+| `phpstorm` | [PhpStorm](https://www.jetbrains.com/phpstorm/) |✓|✓|✓|
+| `rubymine` | [RubyMine](https://www.jetbrains.com/ruby/) |✓|✓|✓|
+| `sublime` | [Sublime Text](https://www.sublimetext.com/) |✓|✓|✓|
+| `vim` | [Vim](http://www.vim.org/) |✓| | |
+| `visualstudio` | [Visual Studio](https://www.visualstudio.com/vs/) | | |✓|
+| `webstorm` | [WebStorm](https://www.jetbrains.com/webstorm/) |✓|✓|✓|
+
+
 ## 🔌  Configuration IDE / Editor
+
+**Starting from v5.1.0, We recommend using the `launchEditor` option configuration to specify the IDE** (Please ensure that the editor's environment variables are correctly configured beforehand.)
 
 It uses an **environment variable** named **`VUE_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
 
@@ -173,6 +223,7 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
   ```
 
 <br />
+
 
 ### VS Code with WSL (Windows)
 
