@@ -164,7 +164,7 @@ interface VitePluginInspectorOptions {
   cleanHtml?: boolean
 
   /**
-   * Target editor when open in editor
+   * Target editor when open in editor (v5.1.0+)
    *
    * @default code (Visual Studio Code)
    */

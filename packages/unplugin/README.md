@@ -164,7 +164,7 @@ interface VitePluginInspectorOptions {
   cleanHtml?: boolean
 
   /**
-   * Target editor when open in editor
+   * Target editor when open in editor (v2.1.0+)
    *
    * @default code (Visual Studio Code)
    */
@@ -204,7 +204,7 @@ interface VitePluginInspectorOptions {
 
 ## 🔌  Configuration IDE / Editor
 
-**Starting from v5.1.0, We recommend using the `launchEditor` option configuration to specify the IDE** (Please ensure that the editor's environment variables are correctly configured beforehand.)
+**Starting from v2.1.0, We recommend using the `launchEditor` option configuration to specify the IDE** (Please ensure that the editor's environment variables are correctly configured beforehand.)
 
 It uses an **environment variable** named **`VUE_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
 
