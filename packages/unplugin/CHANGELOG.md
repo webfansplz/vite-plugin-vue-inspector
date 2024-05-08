@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 2.1.0
+
+### Minor Changes
+
+- feat: introducing launchEditor option
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.1.0
+
 ## 2.0.1
 
 ### Patch Changes

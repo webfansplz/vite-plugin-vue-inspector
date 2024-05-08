@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.1.0
+
+### Minor Changes
+
+- feat: introducing launchEditor option
+
 ## 5.0.1
 
 ### Patch Changes
