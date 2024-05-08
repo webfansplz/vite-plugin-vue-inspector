@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs'
+import process from 'node:process'
 import { bold, dim, green, yellow } from 'kolorist'
 import { normalizePath } from 'vite'
 import type { PluginOption, ResolvedConfig } from 'vite'
@@ -99,6 +100,13 @@ export interface VitePluginInspectorOptions {
    * @default true
    */
   cleanHtml?: boolean
+
+  /**
+   * Target editor when open in editor (v5.1.0+)
+   *
+   * @default code (Visual Studio Code)
+   */
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm'
 }
 
 const toggleComboKeysMap = {
@@ -124,7 +132,29 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonPos: 'top-right',
   appendTo: '',
   lazyLoad: false,
+  launchEditor: 'code',
 } as const
+
+const availableLaunchEditors = [
+  'appcode',
+  'atom',
+  'atom-beta',
+  'brackets',
+  'clion',
+  'code',
+  'code-insiders',
+  'codium',
+  'emacs',
+  'idea',
+  'notepad++',
+  'pycharm',
+  'phpstorm',
+  'rubymine',
+  'sublime',
+  'vim',
+  'visualstudio',
+  'webstorm',
+]
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
   const inspectorPath = getInspectorPath()
@@ -139,6 +169,9 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     appendTo,
     cleanHtml = vue === 3, // Only enabled for Vue 3 by default
   } = normalizedOptions
+
+  if (normalizedOptions.launchEditor && availableLaunchEditors.includes(normalizedOptions.launchEditor))
+    process.env.LAUNCH_EDITOR = normalizedOptions.launchEditor
 
   return [
     {
