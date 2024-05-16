@@ -8,7 +8,13 @@ const KEY_IGNORE = 'data-v-inspector-ignore'
 const KEY_PROPS_DATA = '__v_inspector'
 
 function getData(el) {
-  return el?.__vnode?.props?.[KEY_PROPS_DATA] ?? el?.getAttribute?.(KEY_DATA)
+  return el?.__vnode?.props?.[KEY_PROPS_DATA] ?? getComponentData(el) ?? el?.getAttribute?.(KEY_DATA)
+}
+
+function getComponentData(el) {
+  const ctxVNode = el?.__vnode?.ctx?.vnode
+  if (ctxVNode?.el === el)
+    return ctxVNode?.props?.[KEY_PROPS_DATA]
 }
 
 export default {

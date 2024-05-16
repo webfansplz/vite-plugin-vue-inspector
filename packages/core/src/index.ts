@@ -270,7 +270,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         const fn = new Set<string>()
         const s = new MagicString(code)
 
-        s.replace(/(createElementVNode|createVNode|createElementBlock) as _\1,?/g, (_, name) => {
+        s.replace(/(createElementVNode|createVNode|createElementBlock|createBlock) as _\1,?/g, (_, name) => {
           fn.add(name)
           return ''
         })
