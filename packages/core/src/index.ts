@@ -132,7 +132,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonPos: 'top-right',
   appendTo: '',
   lazyLoad: false,
-  launchEditor: 'code',
+  launchEditor: process.env.LAUNCH_EDITOR ?? 'code',
 } as const
 
 const availableLaunchEditors = [
