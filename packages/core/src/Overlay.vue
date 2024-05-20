@@ -84,6 +84,14 @@ export default {
       }
     },
   },
+  watch: {
+    enabled: {
+      immediate: true,
+      handler(val) {
+        this.onEnabledChanged(val)
+      },
+    },
+  },
   mounted() {
     this.toggleCombo && document.body.addEventListener('keydown', this.onKeydown)
     this.toggleEventListener()
@@ -230,6 +238,9 @@ export default {
       return promise
     },
     onUpdated() {
+      // to be replaced programmatically
+    },
+    onEnabledChanged() {
       // to be replaced programmatically
     },
   },
