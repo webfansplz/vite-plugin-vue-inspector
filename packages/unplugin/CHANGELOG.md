@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 2.1.1
+
+### Patch Changes
+
+- feat: respect user `process.env.LAUNCH_EDITOR` setting (#93)
+
+- feat: add `onEnabled / onDisabled` callbacks (#94)
+
 ## 2.1.0
 
 ### Minor Changes
