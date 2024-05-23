@@ -24,7 +24,8 @@ export interface VueInspectorClient {
   enable: () => void
   disable: () => void
   toggleEnabled: () => void
-  onEnabledChanged: (callback: (enabled: boolean) => void) => void
+  onEnabled: () => void
+  onDisabled: () => void
 
   openInEditor: (url: URL) => void
   onUpdated: () => void

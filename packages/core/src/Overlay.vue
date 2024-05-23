@@ -86,9 +86,13 @@ export default {
   },
   watch: {
     enabled: {
-      immediate: true,
-      handler(val) {
-        this.onEnabledChanged(val)
+      handler(val, oldVal) {
+        if (val === oldVal)
+          return
+        if (val)
+          this.onEnabled()
+        else
+          this.onDisabled()
       },
     },
   },
@@ -240,7 +244,10 @@ export default {
     onUpdated() {
       // to be replaced programmatically
     },
-    onEnabledChanged() {
+    onEnabled() {
+      // to be replaced programmatically
+    },
+    onDisabled() {
       // to be replaced programmatically
     },
   },
