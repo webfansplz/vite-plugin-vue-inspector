@@ -107,9 +107,9 @@ export interface VitePluginInspectorOptions {
   /**
    * Target editor when open in editor (v5.1.0+)
    *
-   * @default code (Visual Studio Code)
+   * @default process.env.LAUNCH_EDITOR ?? code (Visual Studio Code)
    */
-  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm'
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'rider' | string
 }
 
 const toggleComboKeysMap = {
@@ -135,29 +135,8 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   toggleButtonPos: 'top-right',
   appendTo: '',
   lazyLoad: false,
-  launchEditor: (process.env.LAUNCH_EDITOR ?? 'code') as VitePluginInspectorOptions['launchEditor'],
+  launchEditor: process.env.LAUNCH_EDITOR ?? 'code',
 } as const
-
-const availableLaunchEditors = [
-  'appcode',
-  'atom',
-  'atom-beta',
-  'brackets',
-  'clion',
-  'code',
-  'code-insiders',
-  'codium',
-  'emacs',
-  'idea',
-  'notepad++',
-  'pycharm',
-  'phpstorm',
-  'rubymine',
-  'sublime',
-  'vim',
-  'visualstudio',
-  'webstorm',
-]
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
   const inspectorPath = getInspectorPath()
@@ -173,7 +152,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     cleanHtml = vue === 3, // Only enabled for Vue 3 by default
   } = normalizedOptions
 
-  if (normalizedOptions.launchEditor && availableLaunchEditors.includes(normalizedOptions.launchEditor))
+  if (normalizedOptions.launchEditor)
     process.env.LAUNCH_EDITOR = normalizedOptions.launchEditor
 
   return [
