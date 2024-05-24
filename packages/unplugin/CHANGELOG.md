@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 2.1.2
+
+### Patch Changes
+
+- fix: remove the available launch editors limit
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.1.2
+
 ## 2.1.1
 
 ### Patch Changes
