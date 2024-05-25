@@ -30,7 +30,7 @@ export async function compileSFCTemplate(
           nodeTransforms: [
             (node) => {
               if (node.type === 1) {
-                if (node.tagType === 0 && !EXCLUDE_TAG.includes(node.tag)) {
+                if ((node.tagType === 0 || node.tagType === 1) && !EXCLUDE_TAG.includes(node.tag)) {
                   if (node.loc.source.includes(KEY_DATA))
                     return
 
