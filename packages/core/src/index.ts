@@ -110,6 +110,12 @@ export interface VitePluginInspectorOptions {
    * @default process.env.LAUNCH_EDITOR ?? code (Visual Studio Code)
    */
   launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'rider' | string
+
+  /**
+   * Exclude .vue file tags from being treated as templates.
+   * By default, `style` and `i18n` tags are excluded.
+   */
+  excludedTags?: string[]
 }
 
 const toggleComboKeysMap = {
@@ -136,6 +142,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   appendTo: '',
   lazyLoad: false,
   launchEditor: process.env.LAUNCH_EDITOR ?? 'code',
+  excludedTags: ['style', 'i18n'],
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
@@ -193,7 +200,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         const { filename, query } = parseVueRequest(id)
 
         const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
-        const isTpl = filename.endsWith('.vue') && query.type !== 'style' && !query.raw
+        const isTpl = filename.endsWith('.vue') && !options.excludeTags?.includes(query.type) && !query.raw
 
         if (isJsx || isTpl)
           return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
