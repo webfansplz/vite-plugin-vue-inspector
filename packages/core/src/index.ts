@@ -142,7 +142,7 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   appendTo: '',
   lazyLoad: false,
   launchEditor: process.env.LAUNCH_EDITOR ?? 'code',
-  excludedTags: ['style', 'i18n'],
+  excludedTags: ['style', 'i18n'] as string[],
 } as const
 
 function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
@@ -200,10 +200,10 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         const { filename, query } = parseVueRequest(id)
 
         const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
-        const isTpl = filename.endsWith('.vue') && !options.excludeTags?.includes(query.type) && !query.raw
+        const isTpl = filename.endsWith('.vue') && !normalizedOptions.excludedTags?.includes(query.type) && !query.raw
 
         if (isJsx || isTpl)
-          return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
+          return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template', excludedTopLevelTags: normalizedOptions.excludedTags })
 
         if (!appendTo)
           return
