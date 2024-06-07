@@ -1,6 +1,6 @@
 import path from 'node:path'
 import MagicString from 'magic-string'
-import { parse as vueParse, transform as vueTransform } from '@vue/compiler-dom'
+import { type PlainElementNode, parse as vueParse, transform as vueTransform } from '@vue/compiler-dom'
 import { parse as babelParse, traverse as babelTraverse } from '@babel/core'
 import vueJsxPlugin from '@vue/babel-plugin-jsx'
 import typescriptPlugin from '@babel/plugin-transform-typescript'
@@ -16,9 +16,10 @@ interface CompileSFCTemplateOptions {
   code: string
   id: string
   type: 'template' | 'jsx'
+  excludedTopLevelTags?: string[]
 }
 export async function compileSFCTemplate(
-  { code, id, type }: CompileSFCTemplateOptions,
+  { code, id, type, excludedTopLevelTags = [] }: CompileSFCTemplateOptions,
 ) {
   const s = new MagicString(code)
   const relativePath = normalizePath(path.relative(process.cwd(), id))
@@ -26,6 +27,10 @@ export async function compileSFCTemplate(
     switch (type) {
       case 'template': {
         const ast = vueParse(code, { comments: true })
+
+        // Remove excluded top level tags - their content should not be mutated
+        ast.children = ast.children.filter((c: PlainElementNode) => !excludedTopLevelTags.includes(c.tag))
+
         vueTransform(ast, {
           nodeTransforms: [
             (node) => {

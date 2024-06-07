@@ -40,3 +40,11 @@ p
   color: #35495d
   cursor: pointer
 </style>
+
+<i18n lang="json">
+{
+  "en": {
+    "somethingWithHtml": "This is <b>HTML</b> content"
+  }
+}
+</i18n>
