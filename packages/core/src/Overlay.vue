@@ -228,7 +228,7 @@ export default {
        * https://github.com/vitejs/vite/blob/d59e1acc2efc0307488364e9f2fad528ec57f204/packages/vite/src/node/server/index.ts#L569-L570
        */
 
-      const _url = baseUrl instanceof URL ? baseUrl : `${baseUrl}/__open-in-editor?file=${file}:${line}:${column}`
+      const _url = baseUrl instanceof URL ? baseUrl : `${baseUrl}/__open-in-editor?file=${encodeURIComponent(`${file}:${line}:${column}`)}`
       const promise = fetch(
         _url,
         {
