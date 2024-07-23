@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.1.3
+
+### Patch Changes
+
+- fix: escaping special characters
+
 ## 5.1.2
 
 ### Patch Changes

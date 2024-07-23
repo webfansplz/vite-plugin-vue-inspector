@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 2.1.3
+
+### Patch Changes
+
+- fix: escaping special characters
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.1.3
+
 ## 2.1.2
 
 ### Patch Changes
