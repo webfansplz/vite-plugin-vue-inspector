@@ -1,11 +1,14 @@
 <script lang="ts">
 import Hi from './Hi.vue'
 import Welcome from './Welcome'
+import ExternalComp from './ExternalComp.vue'
+
 export default {
   name: 'App',
   components: {
     Hi,
     Welcome,
+    ExternalComp,
   },
 }
 </script>
@@ -15,6 +18,7 @@ export default {
     <div>
       <Hi />
       <Welcome />
+      <ExternalComp />
       <!--  -->
       <!--  -->
       <!--  -->
