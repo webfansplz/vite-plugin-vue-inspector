@@ -129,7 +129,7 @@ interface VitePluginInspectorOptions {
 
   /**
    * append an import to the module id ending with `appendTo` instead of adding a script into body
-   * useful for frameworks that do not support trannsformIndexHtml hook (e.g. Nuxt3)
+   * useful for frameworks that do not support transformIndexHtml hook (e.g. Nuxt3)
    *
    * WARNING: only set this if you know exactly what it does.
    */
