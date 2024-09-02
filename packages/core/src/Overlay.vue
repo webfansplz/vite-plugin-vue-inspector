@@ -33,6 +33,7 @@ export default {
         column: 0,
       },
       KEY_IGNORE,
+      animation: !inspectorOptions.reduceMotion,
     }
   },
   computed: {
@@ -308,7 +309,7 @@ export default {
     <template v-if="overlayVisible && linkParams">
       <div
         ref="floatsRef"
-        class="vue-inspector-floats vue-inspector-card"
+        class="vue-inspector-floats vue-inspector-card" :class="[{ 'vue-inspector-animated': animation }]"
         :style="floatsStyle"
       >
         <div>{{ linkParams.title }}:{{ linkParams.line }}:{{ linkParams.column }}</div>
@@ -317,7 +318,7 @@ export default {
         </div>
       </div>
       <div
-        class="vue-inspector-size-indicator"
+        class="vue-inspector-size-indicator" :class="[{ 'vue-inspector-animated': animation }]"
         :style="sizeIndicatorStyle"
       />
     </template>
@@ -369,7 +370,6 @@ export default {
   z-index: 2147483647;
   position: fixed;
   transform: translateX(-50%);
-  transition: all 0.1s ease-in;
   pointer-events: none;
 }
 
@@ -379,7 +379,16 @@ export default {
   background-color:#42b88325;
   border: 1px solid #42b88350;
   border-radius: 5px;
-  transition: all 0.1s ease-in;
   pointer-events: none;
+}
+
+.vue-inspector-animated {
+  transition: all 0.1s ease-in;
+}
+
+@media (prefers-reduced-motion) {
+  .vue-inspector-animated {
+    transition: none !important;
+  }
 }
 </style>
