@@ -1,5 +1,19 @@
 # unplugin-vue-inspector
 
+## 2.2.0
+
+### Minor Changes
+
+- feat: inspect external component (#91)
+- feat: introduce reduceMotion option (#102)
+- chore: adjust the position of floating elements on the x-axis (#105)
+- feat: exclude template tag to support jsx-directive (#106)
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.2.0
+
 ## 2.1.3
 
 ### Patch Changes
