@@ -77,7 +77,7 @@ export async function compileSFCTemplate(
 
         babelTraverse(ast, {
           enter({ node }) {
-            if (node.type === 'JSXElement') {
+            if (node.type === 'JSXElement' && !EXCLUDE_TAG.includes(s.slice(node.openingElement.name.start, node.openingElement.name.end))) {
               if (node.openingElement.attributes.some(attr => attr.type !== 'JSXSpreadAttribute' && attr.name.name === KEY_DATA,
               ))
                 return
