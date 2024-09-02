@@ -4,6 +4,11 @@ export default defineComponent({
   name: 'Welcome',
   setup() {
     const text = 'Welcome to here 🚀 .'
-    return () => <p style={{ color: '#fcb80f', cursor: 'pointer' }}> {text} </p>
+    return () => (
+      <p style={{ color: '#fcb80f', cursor: 'pointer' }}>
+        {text}
+        <template v-if={text}>{text}</template>
+      </p>
+    )
   },
 })
