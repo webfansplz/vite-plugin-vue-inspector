@@ -206,9 +206,9 @@ interface VitePluginInspectorOptions {
 
 **Starting from v2.1.0, We recommend using the `launchEditor` option configuration to specify the IDE** (Please ensure that the editor's environment variables are correctly configured beforehand.)
 
-It uses an **environment variable** named **`VUE_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
+It uses an **environment variable** named **`LAUNCH_EDITOR`** to specify an IDE application, but if you do not set this variable, it will try to open a common IDE that you have open or installed once it is certified.
 
-For example, if you want it always open VS Code when inspection clicked, set `export VUE_EDITOR=code` in your shell.
+For example, if you want it always open VS Code when inspection clicked, set `export LAUNCH_EDITOR=code` in your shell.
 
 
 ### VS Code
@@ -219,7 +219,7 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
 - set env to shell, like `.bashrc` or `.zshrc`  
 
   ```bash
-  export VUE_EDITOR=code
+  export LAUNCH_EDITOR=code
   ```
 
 <br />
@@ -247,7 +247,7 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
 - just set env with an absolute path to shell, like `.bashrc` or `.zshrc` (only MacOS)  
 
   ```bash
-  export VUE_EDITOR='/Applications/WebStorm.app/Contents/MacOS/webstorm'
+  export LAUNCH_EDITOR='/Applications/WebStorm.app/Contents/MacOS/webstorm'
   ```
 
 **OR**
@@ -257,7 +257,7 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
 - then set env to shell, like `.bashrc` or `.zshrc`  
 
   ```bash
-  export VUE_EDITOR=webstorm
+  export LAUNCH_EDITOR=webstorm
   ```
 
 <br />
@@ -287,7 +287,7 @@ For example, if you want it always open VS Code when inspection clicked, set `ex
 Yes! you can also use vim if you want, just set env to shell
 
 ```bash
-export VUE_EDITOR=vim
+export LAUNCH_EDITOR=vim
 ```
 
 <br />
