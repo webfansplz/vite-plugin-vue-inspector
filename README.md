@@ -168,7 +168,7 @@ interface VitePluginInspectorOptions {
    *
    * @default code (Visual Studio Code)
    */
-  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm'
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'cursor'
 }
 ```
 
@@ -200,7 +200,7 @@ interface VitePluginInspectorOptions {
 | `vim` | [Vim](http://www.vim.org/) |✓| | |
 | `visualstudio` | [Visual Studio](https://www.visualstudio.com/vs/) | | |✓|
 | `webstorm` | [WebStorm](https://www.jetbrains.com/webstorm/) |✓|✓|✓|
-
+| `cursor` | [Cursor](https://www.cursor.com/) |✓|✓|✓|
 
 ## 🔌  Configuration IDE / Editor
 

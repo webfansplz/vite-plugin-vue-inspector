@@ -11,7 +11,7 @@ export default defineConfig({
     Inspector({
       enabled: true,
       toggleButtonVisibility: 'always',
-      launchEditor: 'code',
+      launchEditor: 'cursor',
     }),
     Inspect(),
   ],
