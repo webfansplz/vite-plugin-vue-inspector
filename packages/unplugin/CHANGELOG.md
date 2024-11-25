@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 2.3.0
+
+### Minor Changes
+
+- feat: cursor support
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.3.0
+
 ## 2.2.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.3.0
+
+### Minor Changes
+
+- feat: cursor support
+
 ## 5.2.0
 
 ### Minor Changes
