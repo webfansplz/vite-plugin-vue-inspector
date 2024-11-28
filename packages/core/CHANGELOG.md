@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.3.1
+
+### Patch Changes
+
+- chore: support vite6
+
 ## 5.3.0
 
 ### Minor Changes
