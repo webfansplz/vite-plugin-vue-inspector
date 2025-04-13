@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 
 import * as Vue from 'vue'
+import AppOptionAPI from 'virtual:vue-inspector-path:OverlayOptionAPI.vue'
 import App from 'virtual:vue-inspector-path:Overlay.vue'
 import inspectorOptions from 'virtual:vue-inspector-options'
 const CONTAINER_ID = 'vue-inspector-container'
@@ -24,13 +25,13 @@ function load() {
   // vue 2/3 compatibility
   vue === 3
     ? Vue.createApp({
-      render: () => Vue.h(App),
+      render: () => Vue.h(AppOptionAPI),
       devtools: {
         hide: true,
       },
     }).mount(`#${CONTAINER_ID}`)
     : new Vue.default({
-      render: h => h(App),
+      render: h => h(AppOptionAPI),
       devtools: {
         hide: true,
       },
