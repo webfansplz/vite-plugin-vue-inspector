@@ -25,7 +25,7 @@ function load() {
   // vue 2/3 compatibility
   vue === 3
     ? Vue.createApp({
-      render: () => Vue.h(AppOptionAPI),
+      render: () => Vue.h(App),
       devtools: {
         hide: true,
       },
