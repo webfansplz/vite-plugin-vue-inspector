@@ -133,11 +133,6 @@ const isKeyActive = (key: string, event: KeyboardEvent): boolean => {
   }
 }
 
-const isChildOf = (ele: Node | null, target: Node): boolean => {
-  if (!ele || ele === document) return false
-  return ele === target ? true : isChildOf(ele.parentNode, target)
-}
-
 const getTargetNode = (e: MouseEvent): TargetNodeResult => {
   const splitRE = /(.+):([\d]+):([\d]+)$/
 
