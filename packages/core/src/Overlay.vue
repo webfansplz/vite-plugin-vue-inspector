@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from "vue"
+import { ref, reactive, computed, onMounted, onUnmounted, watch } from "vue"
 import inspectorOptions from "virtual:vue-inspector-options"
 import ToggleButton from "./components/ToggleButton.vue"
 
@@ -203,7 +203,7 @@ const updateLinkParams = (e: MouseEvent) => {
   } else {
     closeOverlay()
   }
-  onUpdated()
+  onUpdated.value()
 }
 
 const closeOverlay = () => {
@@ -245,23 +245,27 @@ const openInEditor = async (baseUrl: URL | string, file?: string, line?: number,
   return promise
 }
 
-const onUpdated = () => {
+const onUpdated = ref(() => {
   // Placeholder for programmatic replacement
-}
+})
 
-const onEnabled = () => {
+const onEnabled = ref(() => {
   // Placeholder for programmatic replacement
-}
+})
 
-const onDisabled = () => {
+const onDisabled = ref(() => {
   // Placeholder for programmatic replacement
-}
+})
 
 // Watchers
 watch(enabled, (val, oldVal) => {
   if (val === oldVal) return
-  if (val) onEnabled()
-  else onDisabled()
+
+  if (val) {
+    onEnabled.value()
+  } else {
+    onDisabled.value()
+  }
 })
 
 // Lifecycle Hooks
@@ -272,7 +276,14 @@ onMounted(() => {
   toggleEventListener(enabled.value)
 
   // Expose public methods to global
-  ;(window as any).__VUE_INSPECTOR__ = { enable, disable, openInEditor }
+  ;(window as any).__VUE_INSPECTOR__ = reactive({
+    enable,
+    disable,
+    openInEditor,
+    onUpdated,
+    onEnabled,
+    onDisabled
+  })
 })
 
 onUnmounted(() => {
