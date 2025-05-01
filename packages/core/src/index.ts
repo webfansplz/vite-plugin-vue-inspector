@@ -74,7 +74,7 @@ export interface VitePluginInspectorOptions {
    *
    * WARNING: only set this if you know exactly what it does.
    */
-  appendTo?: string | RegExp
+  appendTo?: string | RegExp | (string | RegExp)[]
 
   /**
    * Customize openInEditor host (e.g. http://localhost:3000)
@@ -159,6 +159,8 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     cleanHtml = vue === 3, // Only enabled for Vue 3 by default
   } = normalizedOptions
 
+  const hasAppendTo = () => appendTo || (Array.isArray(appendTo) && appendTo.length > 0)
+
   if (normalizedOptions.launchEditor)
     process.env.LAUNCH_EDITOR = normalizedOptions.launchEditor
 
@@ -205,11 +207,14 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         if (isJsx || isTpl)
           return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
 
-        if (!appendTo)
+        if (!hasAppendTo())
           return
 
         if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-          || (appendTo instanceof RegExp && appendTo.test(filename)))
+          || (appendTo instanceof RegExp && appendTo.test(filename))
+          || (Array.isArray(appendTo) && appendTo.some(path =>
+            typeof path === 'string' ? filename.endsWith(path) : path.test(filename)
+          )))
           return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
       },
       configureServer(server) {
@@ -223,7 +228,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         })
       },
       transformIndexHtml(html) {
-        if (appendTo)
+        if (!hasAppendTo())
           return
         return {
           html,
