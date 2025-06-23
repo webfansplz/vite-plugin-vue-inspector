@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 
 import * as Vue from 'vue'
+import AppOptionAPI from 'virtual:vue-inspector-path:OverlayOptionAPI.vue'
 import App from 'virtual:vue-inspector-path:Overlay.vue'
 import inspectorOptions from 'virtual:vue-inspector-options'
 const CONTAINER_ID = 'vue-inspector-container'
@@ -30,7 +31,7 @@ function load() {
       },
     }).mount(`#${CONTAINER_ID}`)
     : new Vue.default({
-      render: h => h(App),
+      render: h => h(AppOptionAPI),
       devtools: {
         hide: true,
       },
