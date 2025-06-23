@@ -1,5 +1,13 @@
 # unplugin-vue-inspector
 
+## 2.3.2
+
+### Patch Changes
+
+- chore: support vite7
+- Updated dependencies
+  - vite-plugin-vue-inspector@5.3.2
+
 ## 2.3.1
 
 ### Patch Changes
