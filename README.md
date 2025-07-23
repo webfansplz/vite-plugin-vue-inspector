@@ -319,7 +319,7 @@ if (inspector) {
 
 This project is inspired by [react-dev-inspector](https://github.com/zthxxx/react-dev-inspector) .
 
-Partially implementation is inspired by [vite-plugin-svelte-inspector](https://github.com/sveltejs/vite-plugin-svelte/tree/main/packages/vite-plugin-svelte/src/ui/inspector) .
+Partially implementation is inspired by [vite-plugin-svelte-inspector](https://github.com/sveltejs/vite-plugin-svelte/tree/main/packages/vite-plugin-svelte-inspector) .
 
 ## 🤖️ Analysis of Theory
 
