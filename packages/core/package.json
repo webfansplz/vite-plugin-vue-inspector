@@ -34,7 +34,8 @@
   "files": [
     "dist",
     "src/load.js",
-    "src/Overlay.vue"
+    "src/Overlay.vue",
+    "src/OverlayOptionAPI.vue"
   ],
   "scripts": {
     "lint": "eslint --fix --ext .js,.ts,.vue .",
