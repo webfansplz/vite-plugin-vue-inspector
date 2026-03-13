@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 5.4.0
+
+### Minor Changes
+
+- chore: release
+
 ## 5.3.2
 
 ### Patch Changes
