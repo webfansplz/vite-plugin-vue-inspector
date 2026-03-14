@@ -289,13 +289,16 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
             }
             const htmlDir = path.dirname(resolved)
             let match: RegExpExecArray | null
+            scriptModuleSrcRE.lastIndex = 0
             // eslint-disable-next-line no-cond-assign
             while ((match = scriptModuleSrcRE.exec(html)) !== null)
               resolveEntryModule(match[1], htmlDir)
+            scriptModuleInlineRE.lastIndex = 0
             // eslint-disable-next-line no-cond-assign
             while ((match = scriptModuleInlineRE.exec(html)) !== null) {
               const scriptContent = match[2]
               let importMatch: RegExpExecArray | null
+              importRE.lastIndex = 0
               // eslint-disable-next-line no-cond-assign
               while ((importMatch = importRE.exec(scriptContent)) !== null)
                 resolveEntryModule(importMatch[1], htmlDir)
