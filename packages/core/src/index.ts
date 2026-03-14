@@ -264,18 +264,41 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           if (htmlFiles.length === 0)
             htmlFiles = [path.resolve(config.root, 'index.html')]
 
-          // Parse <script type="module" src="..."> from each HTML file
-          const scriptModuleRE = /<script\b(?=[^>]*\btype\s*=\s*["']module["'])(?=[^>]*\bsrc\s*=\s*["']([^"']+)["'])[^>]*>/gi
+          // Parse <script type="module"> from each HTML file (both src and inline)
+          const scriptModuleSrcRE = /<script\b(?=[^>]*\btype\s*=\s*["']module["'])(?=[^>]*\bsrc\s*=\s*["']([^"']+)["'])[^>]*>/gi
+          const scriptModuleInlineRE = /<script\b(?=[^>]*\btype\s*=\s*["']module["'])(?!(?:[^>]*\bsrc\s*=))([^>]*)>([\s\S]*?)<\/script>/gi
+          const importRE = /\bimport\s+(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/g
+          const externalRE = /^(?:https?:)?\/\/|^data:/i
+          function resolveEntryModule(src: string, htmlDir: string) {
+            // Strip query/hash suffixes and skip external URLs
+            const cleaned = src.replace(/[?#].*$/, '')
+            if (externalRE.test(cleaned) || !cleaned)
+              return
+            const base = cleaned.startsWith('/') ? config.root : htmlDir
+            htmlEntryModules.add(normalizePath(path.resolve(base, cleaned.replace(/^\//, ''))))
+          }
+
           for (const htmlFile of htmlFiles) {
             const resolved = path.isAbsolute(htmlFile) ? htmlFile : path.resolve(config.root, htmlFile)
-            if (!fs.existsSync(resolved))
+            let html: string
+            try {
+              html = fs.readFileSync(resolved, 'utf-8')
+            }
+            catch {
               continue
-            const html = fs.readFileSync(resolved, 'utf-8')
+            }
+            const htmlDir = path.dirname(resolved)
             let match: RegExpExecArray | null
             // eslint-disable-next-line no-cond-assign
-            while ((match = scriptModuleRE.exec(html)) !== null) {
-              const absPath = normalizePath(path.resolve(config.root, match[1].replace(/^\//, '')))
-              htmlEntryModules.add(absPath)
+            while ((match = scriptModuleSrcRE.exec(html)) !== null)
+              resolveEntryModule(match[1], htmlDir)
+            // eslint-disable-next-line no-cond-assign
+            while ((match = scriptModuleInlineRE.exec(html)) !== null) {
+              const scriptContent = match[2]
+              let importMatch: RegExpExecArray | null
+              // eslint-disable-next-line no-cond-assign
+              while ((importMatch = importRE.exec(scriptContent)) !== null)
+                resolveEntryModule(importMatch[1], htmlDir)
             }
           }
         }
