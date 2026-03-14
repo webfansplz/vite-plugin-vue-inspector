@@ -269,11 +269,15 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           const scriptModuleInlineRE = /<script\b(?=[^>]*\btype\s*=\s*["']module["'])(?!(?:[^>]*\bsrc\s*=))([^>]*)>([\s\S]*?)<\/script>/gi
           const importRE = /\bimport\s+(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/g
           const externalRE = /^(?:https?:)?\/\/|^data:/i
+          const configBase = config.base?.replace(/\/$/, '') || ''
           function resolveEntryModule(src: string, htmlDir: string) {
             // Strip query/hash suffixes and skip external URLs
-            const cleaned = src.replace(/[?#].*$/, '')
+            let cleaned = src.replace(/[?#].*$/, '')
             if (externalRE.test(cleaned) || !cleaned)
               return
+            // Strip config.base prefix from absolute URLs
+            if (cleaned.startsWith('/') && configBase && cleaned.startsWith(configBase))
+              cleaned = cleaned.slice(configBase.length) || '/'
             const base = cleaned.startsWith('/') ? config.root : htmlDir
             htmlEntryModules.add(normalizePath(path.resolve(base, cleaned.replace(/^\//, ''))))
           }
