@@ -152,6 +152,8 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     ...options,
   }
   let config: ResolvedConfig
+  let isBundledDev = false
+  const htmlEntryModules = new Set<string>()
 
   const {
     vue,
@@ -205,11 +207,15 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         if (isJsx || isTpl)
           return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
 
-        if (!appendTo)
+        if (appendTo) {
+          if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
+            || (appendTo instanceof RegExp && appendTo.test(filename)))
+            return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
           return
+        }
 
-        if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-          || (appendTo instanceof RegExp && appendTo.test(filename)))
+        // bundledDev: inject into HTML entry modules since transformIndexHtml URLs aren't bundled
+        if (isBundledDev && htmlEntryModules.has(normalizePath(filename)))
           return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
       },
       configureServer(server) {
@@ -223,7 +229,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         })
       },
       transformIndexHtml(html) {
-        if (appendTo)
+        if (appendTo || isBundledDev)
           return
         return {
           html,
@@ -241,6 +247,38 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       },
       configResolved(resolvedConfig) {
         config = resolvedConfig
+        isBundledDev = !!(config as any).experimental?.bundledDev
+
+        if (isBundledDev && !appendTo) {
+          // Find HTML entry files from rollupOptions.input or default index.html
+          let htmlFiles: string[] = []
+          const inputs = resolvedConfig.build?.rollupOptions?.input
+          if (inputs) {
+            const files = typeof inputs === 'string'
+              ? [inputs]
+              : Array.isArray(inputs)
+                ? inputs
+                : Object.values(inputs)
+            htmlFiles = files.filter(f => f.endsWith('.html'))
+          }
+          if (htmlFiles.length === 0)
+            htmlFiles = [path.resolve(config.root, 'index.html')]
+
+          // Parse <script type="module" src="..."> from each HTML file
+          const scriptModuleRE = /<script\b(?=[^>]*\btype\s*=\s*["']module["'])(?=[^>]*\bsrc\s*=\s*["']([^"']+)["'])[^>]*>/gi
+          for (const htmlFile of htmlFiles) {
+            const resolved = path.isAbsolute(htmlFile) ? htmlFile : path.resolve(config.root, htmlFile)
+            if (!fs.existsSync(resolved))
+              continue
+            const html = fs.readFileSync(resolved, 'utf-8')
+            let match: RegExpExecArray | null
+            // eslint-disable-next-line no-cond-assign
+            while ((match = scriptModuleRE.exec(html)) !== null) {
+              const absPath = normalizePath(path.resolve(config.root, match[1].replace(/^\//, '')))
+              htmlEntryModules.add(absPath)
+            }
+          }
+        }
       },
     },
     {
