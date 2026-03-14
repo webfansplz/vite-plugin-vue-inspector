@@ -209,7 +209,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
 
         if (appendTo) {
           if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-            || (appendTo instanceof RegExp && appendTo.test(filename)))
+            || (appendTo instanceof RegExp && (appendTo.lastIndex = 0, appendTo.test(filename))))
             return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
           return
         }
@@ -285,6 +285,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
               html = fs.readFileSync(resolved, 'utf-8')
             }
             catch {
+              config.logger.warn(`[vite-plugin-vue-inspector] Failed to read HTML entry: ${resolved}`)
               continue
             }
             const htmlDir = path.dirname(resolved)
