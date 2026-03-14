@@ -168,7 +168,7 @@ interface VitePluginInspectorOptions {
    *
    * @default code (Visual Studio Code)
    */
-  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'cursor'
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'cursor' | 'buddy' | 'buddycn'
 }
 ```
 
@@ -201,6 +201,8 @@ interface VitePluginInspectorOptions {
 | `visualstudio` | [Visual Studio](https://www.visualstudio.com/vs/) | | |✓|
 | `webstorm` | [WebStorm](https://www.jetbrains.com/webstorm/) |✓|✓|✓|
 | `cursor` | [Cursor](https://www.cursor.com/) |✓|✓|✓|
+| `buddy` | [CodeBuddy](https://www.codebuddy.ai/) |✓|✓|✓|
+| `buddycn` | [CodeBuddy CN](https://copilot.tencent.com/ide/) |✓|✓|✓|
 
 
 ## 🔌  Configuration IDE / Editor
@@ -290,6 +292,28 @@ Yes! you can also use vim if you want, just set env to shell
 ```bash
 export LAUNCH_EDITOR=vim
 ```
+
+<br />
+
+### CodeBuddy CN
+
+- install CodeBuddy CN command line tools (usually automatically installed)
+
+- then set env to shell, like `.bashrc` or `.zshrc`
+
+  ```bash
+  export LAUNCH_EDITOR=buddycn
+  ```
+
+**OR**
+
+- just set env with an absolute path to shell (MacOS example)
+
+  ```bash
+  export LAUNCH_EDITOR='/Users/YOUR_USERNAME/.codebuddy/bin/buddycn'
+  ```
+
+> Note: Replace `YOUR_USERNAME` with your actual username. CodeBuddy CN uses the same `-g file:line:column` syntax as VS Code.
 
 <br />
 
