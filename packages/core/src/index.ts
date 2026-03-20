@@ -209,7 +209,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           return
 
         if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-          || (appendTo instanceof RegExp && appendTo.test(filename)))
+          || (appendTo instanceof RegExp && (appendTo.lastIndex = 0, appendTo.test(filename))))
           return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
       },
       configureServer(server) {
@@ -222,22 +222,23 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
           console.log(`  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
         })
       },
-      transformIndexHtml(html) {
-        if (appendTo)
-          return
-        return {
-          html,
-          tags: [
-            {
-              tag: 'script',
-              injectTo: 'head',
-              attrs: {
-                type: 'module',
-                src: `${config.base || '/'}@id/virtual:vue-inspector-path:load.js`,
+      transformIndexHtml: {
+        order: 'pre',
+        handler(html) {
+          if (appendTo)
+            return
+          return {
+            html,
+            tags: [
+              {
+                tag: 'script',
+                injectTo: 'head',
+                attrs: { type: 'module' },
+                children: 'import \'virtual:vue-inspector-path:load.js\'',
               },
-            },
-          ],
-        }
+            ],
+          }
+        },
       },
       configResolved(resolvedConfig) {
         config = resolvedConfig
