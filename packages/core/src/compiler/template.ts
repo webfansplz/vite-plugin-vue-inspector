@@ -12,13 +12,23 @@ import { normalizePath } from 'vite'
 const EXCLUDE_TAG = ['template', 'script', 'style']
 const KEY_DATA = 'data-v-inspector'
 
+function hasVaporAttribute(ast: ReturnType<typeof vueParse>) {
+  return ast.children.some((node) => {
+    return node.type === 1
+      && (node.tag === 'script' || node.tag === 'template')
+      && node.props.some(prop => prop.type === 6 && prop.name === 'vapor')
+  })
+}
+
 interface CompileSFCTemplateOptions {
   code: string
   id: string
   type: 'template' | 'jsx'
+  vapor?: boolean
+  onVaporDetected?: (vapor: boolean) => void
 }
 export async function compileSFCTemplate(
-  { code, id, type }: CompileSFCTemplateOptions,
+  { code, id, type, vapor = false, onVaporDetected }: CompileSFCTemplateOptions,
 ) {
   const s = new MagicString(code)
   const relativePath = normalizePath(path.relative(process.cwd(), id))
@@ -26,11 +36,14 @@ export async function compileSFCTemplate(
     switch (type) {
       case 'template': {
         const ast = vueParse(code, { comments: true })
+        const detectedVapor = vapor || hasVaporAttribute(ast)
+        onVaporDetected?.(detectedVapor)
+
         vueTransform(ast, {
           nodeTransforms: [
             (node) => {
               if (node.type === 1) {
-                if ((node.tagType === 0 || node.tagType === 1) && !EXCLUDE_TAG.includes(node.tag)) {
+                if ((node.tagType === 0 || (!detectedVapor && node.tagType === 1)) && !EXCLUDE_TAG.includes(node.tag)) {
                   if (node.loc.source.includes(KEY_DATA))
                     return
 

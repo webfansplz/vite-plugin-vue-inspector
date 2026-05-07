@@ -152,6 +152,7 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
     ...options,
   }
   let config: ResolvedConfig
+  const vaporSFCs = new Set<string>()
 
   const {
     vue,
@@ -200,10 +201,26 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
         const { filename, query } = parseVueRequest(id)
 
         const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
-        const isTpl = filename.endsWith('.vue') && query.type !== 'style' && !query.raw
+        const isVue = filename.endsWith('.vue')
+        const isVueMain = isVue && !query.type && !query.raw
+        const isTpl = isVue && query.type !== 'style' && !query.raw
 
-        if (isJsx || isTpl)
-          return compileSFCTemplate({ code, id: filename, type: isJsx ? 'jsx' : 'template' })
+        if (isJsx || isTpl) {
+          return compileSFCTemplate({
+            code,
+            id: filename,
+            type: isJsx ? 'jsx' : 'template',
+            vapor: query.vapor || vaporSFCs.has(filename),
+            onVaporDetected: isVueMain
+              ? (vapor) => {
+                  if (vapor)
+                    vaporSFCs.add(filename)
+                  else
+                    vaporSFCs.delete(filename)
+                }
+              : undefined,
+          })
+        }
 
         if (!appendTo)
           return

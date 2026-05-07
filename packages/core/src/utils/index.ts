@@ -5,6 +5,7 @@ export interface VueQuery {
   index?: number
   lang?: string
   raw?: boolean
+  vapor?: boolean
   from?: string
   isJsx?: boolean
 }
@@ -35,6 +36,9 @@ export function parseVueRequest(id: string) {
 
   if (query.raw != null)
     query.raw = true
+
+  if (query.vapor != null)
+    query.vapor = true
 
   if (query.hasOwnProperty('lang.tsx') || query.hasOwnProperty('lang.jsx'))
     query.isJsx = true
