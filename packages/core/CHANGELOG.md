@@ -1,5 +1,11 @@
 # vite-plugin-vue-inspector
 
+## 6.0.0
+
+### Major Changes
+
+- feat: support vapor app
+
 ## 5.4.0
 
 ### Minor Changes

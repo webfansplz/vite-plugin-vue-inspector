@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-vue-inspector",
-  "version": "5.4.0",
+  "version": "6.0.0",
   "description": "jump to local IDE source code while click the element of browser automatically.",
   "author": "webfansplz",
   "license": "MIT",

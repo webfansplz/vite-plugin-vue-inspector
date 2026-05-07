@@ -1,5 +1,16 @@
 # unplugin-vue-inspector
 
+## 3.0.0
+
+### Major Changes
+
+- feat: support vapor app
+
+### Patch Changes
+
+- Updated dependencies
+  - vite-plugin-vue-inspector@6.0.0
+
 ## 2.4.0
 
 ### Minor Changes
