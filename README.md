@@ -168,7 +168,7 @@ interface VitePluginInspectorOptions {
    *
    * @default code (Visual Studio Code)
    */
-  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'cursor'
+  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'cursor' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'zed'
 }
 ```
 
@@ -190,6 +190,7 @@ interface VitePluginInspectorOptions {
 | `code` | [Visual Studio Code](https://code.visualstudio.com/) |✓|✓|✓|
 | `code-insiders` | [Visual Studio Code Insiders](https://code.visualstudio.com/insiders/) |✓|✓|✓|
 | `codium` | [VSCodium](https://github.com/VSCodium/vscodium) |✓|✓|✓|
+| `cursor` | [Cursor](https://www.cursor.com/) |✓|✓|✓|
 | `emacs` | [Emacs](https://www.gnu.org/software/emacs/) |✓| | |
 | `idea` | [IDEA](https://www.jetbrains.com/idea/) |✓|✓|✓|
 | `notepad++` | [Notepad++](https://notepad-plus-plus.org/download/v7.5.4.html) | |✓| |
@@ -200,7 +201,7 @@ interface VitePluginInspectorOptions {
 | `vim` | [Vim](http://www.vim.org/) |✓| | |
 | `visualstudio` | [Visual Studio](https://www.visualstudio.com/vs/) | | |✓|
 | `webstorm` | [WebStorm](https://www.jetbrains.com/webstorm/) |✓|✓|✓|
-| `cursor` | [Cursor](https://www.cursor.com/) |✓|✓|✓|
+| `zed` | [Zed](https://zed.dev/) |✓| |✓|
 
 ## 🔌  Configuration IDE / Editor
 
