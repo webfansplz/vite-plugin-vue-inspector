@@ -1,0 +1,21 @@
+{
+  "name": "playground-vue",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/devtools": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vue/compiler-sfc": "catalog:",
+    "sass": "catalog:",
+    "vite-plugin-inspect": "catalog:",
+    "vite-plugin-vue-inspector": "workspace:*"
+  }
+}

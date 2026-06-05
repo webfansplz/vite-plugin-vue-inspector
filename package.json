@@ -1,46 +1,41 @@
 {
   "private": true,
-  "author": "webfansplz",
-  "license": "MIT",
   "homepage": "https://github.com/webfansplz/vite-plugin-vue-inspector#readme",
+  "bugs": {
+    "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
+  },
+  "license": "MIT",
+  "author": "webfansplz",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/webfansplz/vite-plugin-vue-inspector.git"
   },
-  "bugs": {
-    "url": "https://github.com/webfansplz/vite-plugin-vue-inspector/issues"
-  },
+  "workspaces": [
+    "packages/*",
+    "packages/playground/*"
+  ],
+  "type": "module",
   "scripts": {
-    "play:nuxt": "pnpm run -r --filter=./packages/playground/nuxt dev",
-    "play:vue3": "pnpm run -r --filter=./packages/playground/vue3 dev",
-    "play:vue2": "pnpm run -r --filter=./packages/playground/vue2 dev",
-    "lint": "eslint --fix --ext .js,.ts,.vue .",
-    "dev": "pnpm run -r --filter=./packages/core dev",
-    "build": "pnpm run -r --filter=./packages/{core,unplugin} build",
-    "release": "pnpm build && changeset && changeset version && changeset publish"
+    "play:nuxt": "vp run --filter ./packages/playground/nuxt dev",
+    "play:vue": "vp run --filter ./packages/playground/vue dev",
+    "lint": "vp check",
+    "dev": "vp pack --watch",
+    "build": "vp pack",
+    "release": "bumpp packages/core/package.json"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.43.1",
-    "@changesets/cli": "^2.26.2",
-    "@types/node": "^20.8.0",
-    "eslint": "^8.50.0",
-    "esmo": "^0.17.0",
-    "fs-extra": "^11.1.1",
-    "nodemon": "^3.0.1",
-    "tsup": "^7.2.0",
-    "tsx": "^3.13.0",
-    "typescript": "^5.2.2",
-    "vite": "^5.4.11",
-    "vite-plugin-inspect": "^0.7.40",
-    "vue": "^3.3.4"
+    "@types/node": "catalog:dev",
+    "@vitejs/devtools-kit": "catalog:dev",
+    "bumpp": "catalog:dev",
+    "tsdown": "catalog:dev",
+    "typescript": "catalog:dev",
+    "vite": "catalog:dev",
+    "vite-plus": "catalog:dev",
+    "vue": "catalog:dev",
+    "vue-tsc": "catalog:dev"
   },
-  "pnpm": {
-    "packageExtensions": {
-      "vue-template-compiler": {
-        "peerDependencies": {
-          "vue": "^2.6.14"
-        }
-      }
-    }
-  }
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "pnpm@10.30.3"
 }

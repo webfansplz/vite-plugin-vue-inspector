@@ -1,11 +1,15 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import Inspector from 'vite-plugin-vue-inspector'
 
 export default defineNuxtConfig({
-  modules: [
-    ['unplugin-vue-inspector/nuxt', {
-      enabled: true,
-      toggleButtonVisibility: 'always',
-      launchEditor: 'code',
-    }],
-  ],
+  vite: {
+    plugins: [
+      Inspector({
+        enabled: true,
+        toggleButtonVisibility: 'always',
+        launchEditor: 'code',
+        appendTo: /\/entry\.m?js$/,
+      }),
+    ],
+  },
 })

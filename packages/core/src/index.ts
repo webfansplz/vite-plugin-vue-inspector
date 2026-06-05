@@ -1,12 +1,15 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import fs from 'node:fs'
-import process from 'node:process'
-import { bold, dim, green, yellow } from 'kolorist'
-import { normalizePath } from 'vite'
+import type {} from '@vitejs/devtools-kit'
 import type { PluginOption, ResolvedConfig } from 'vite'
+import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
+import { fileURLToPath } from 'node:url'
+import { walk } from 'estree-walker'
+import { bold, dim, green, yellow } from 'kolorist'
 import MagicString from 'magic-string'
-import { compileSFCTemplate } from './compiler'
+import { SourceMapConsumer } from 'source-map-js'
+import { normalizePath } from 'vite'
+import { compileTemplateFallback } from './compiler/template'
 import { idToFile, parseVueRequest } from './utils'
 
 export interface VueInspectorClient {
@@ -27,17 +30,11 @@ export interface VueInspectorClient {
   onEnabled: () => void
   onDisabled: () => void
 
-  openInEditor: (url: URL) => void
+  openInEditor: (url: URL) => Promise<unknown>
   onUpdated: () => void
 }
 
 export interface VitePluginInspectorOptions {
-  /**
-   * Vue version
-   * @default 3
-   */
-  vue?: 2 | 3
-
   /**
    * Default enable state
    * @default false
@@ -77,13 +74,6 @@ export interface VitePluginInspectorOptions {
   appendTo?: string | RegExp
 
   /**
-   * Customize openInEditor host (e.g. http://localhost:3000)
-   * @default false
-   * @deprecated This option is deprecated and removed in 5.0. The plugin now automatically detects the correct host.
-   */
-  openInEditorHost?: string | false
-
-  /**
    * lazy load inspector times (ms)
    * @default false
    */
@@ -96,45 +86,56 @@ export interface VitePluginInspectorOptions {
   disableInspectorOnEditorOpen?: boolean
 
   /**
-   * Hide information in VNode and produce clean html in DevTools
-   *
-   * Currently, it only works for Vue 3
-   *
-   * @default true
-   */
-  cleanHtml?: boolean
-
-  /**
    * Target editor when open in editor (v5.1.0+)
    *
    * @default process.env.LAUNCH_EDITOR ?? code (Visual Studio Code)
    */
-  launchEditor?: 'appcode' | 'atom' | 'atom-beta' | 'brackets' | 'clion' | 'code' | 'code-insiders' | 'codium' | 'emacs' | 'idea' | 'notepad++' | 'pycharm' | 'phpstorm' | 'rubymine' | 'sublime' | 'vim' | 'visualstudio' | 'webstorm' | 'rider' | 'cursor' | string
+  launchEditor?: string
 
   /**
    * Disable animation/transition, will auto disable when `prefers-reduced-motion` is set
    * @default false
    */
   reduceMotion?: boolean
+
+  /**
+   * Register Vue Inspector as a Vite DevTools dock action.
+   *
+   * @default true
+   */
+  viteDevtools?: boolean
 }
 
-const toggleComboKeysMap = {
+const toggleComboKeysMap: Record<string, string> = {
   control: process.platform === 'darwin' ? 'Control(^)' : 'Ctrl(^)',
   meta: 'Command(⌘)',
   shift: 'Shift(⇧)',
 }
+
+const vnodeFactoryNames = [
+  'h',
+  '_createElementVNode',
+  '_createElementBlock',
+  '_createBlock',
+  '_createVNode',
+  '_createStaticVNode',
+]
+const vnodeFactoryRE = new RegExp(`\\b(?:${vnodeFactoryNames.join('|')})\\(`)
+const recordImport = 'virtual:vue-inspector-path:client/record.ts'
 
 function getInspectorPath() {
   const pluginPath = normalizePath(path.dirname(fileURLToPath(import.meta.url)))
   return pluginPath.replace(/\/dist$/, '/src')
 }
 
-export function normalizeComboKeyPrint(toggleComboKey: string) {
-  return toggleComboKey.split('-').map(key => toggleComboKeysMap[key] || key[0].toUpperCase() + key.slice(1)).join(dim('+'))
+function normalizeComboKeyPrint(toggleComboKey: string) {
+  return toggleComboKey
+    .split('-')
+    .map((key) => toggleComboKeysMap[key] || key[0].toUpperCase() + key.slice(1))
+    .join(dim('+'))
 }
 
 export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
-  vue: 3,
   enabled: false,
   toggleComboKey: process.platform === 'darwin' ? 'meta-shift' : 'control-shift',
   toggleButtonVisibility: 'active',
@@ -143,9 +144,12 @@ export const DEFAULT_INSPECTOR_OPTIONS: VitePluginInspectorOptions = {
   lazyLoad: false,
   launchEditor: process.env.LAUNCH_EDITOR ?? 'code',
   reduceMotion: false,
+  viteDevtools: true,
 } as const
 
-function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS): PluginOption {
+function VitePluginInspector(
+  options: VitePluginInspectorOptions = DEFAULT_INSPECTOR_OPTIONS,
+): PluginOption {
   const inspectorPath = getInspectorPath()
   const normalizedOptions = {
     ...DEFAULT_INSPECTOR_OPTIONS,
@@ -153,95 +157,158 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
   }
   let config: ResolvedConfig
   const vaporSFCs = new Set<string>()
+  const { appendTo } = normalizedOptions
 
-  const {
-    vue,
-    appendTo,
-    cleanHtml = vue === 3, // Only enabled for Vue 3 by default
-  } = normalizedOptions
-
-  if (normalizedOptions.launchEditor)
-    process.env.LAUNCH_EDITOR = normalizedOptions.launchEditor
+  if (normalizedOptions.launchEditor) process.env.LAUNCH_EDITOR = normalizedOptions.launchEditor
 
   return [
     {
-      name: 'vite-plugin-vue-inspector',
+      name: 'vite-plugin-vue-inspector:fallback',
       enforce: 'pre',
       apply(_, { command }) {
-        // apply only on serve and not for test
+        return command === 'serve' && process.env.NODE_ENV !== 'test'
+      },
+      transform(code, id) {
+        const { filename, query } = parseVueRequest(id)
+        const isVue = filename.endsWith('.vue')
+        const isVueMain = isVue && !query.type && !query.raw
+        const isVueTemplate = isVue && query.type === 'template' && !query.raw
+
+        if (!isVueMain && !isVueTemplate) return
+
+        return compileTemplateFallback({
+          code,
+          id: filename,
+          vapor: query.vapor || vaporSFCs.has(filename),
+          onVaporDetected: isVueMain
+            ? (vapor) => {
+                if (vapor) vaporSFCs.add(filename)
+                else vaporSFCs.delete(filename)
+              }
+            : undefined,
+        })
+      },
+    },
+    {
+      name: 'vite-plugin-vue-inspector',
+      enforce: 'post',
+      apply(_, { command }) {
         return command === 'serve' && process.env.NODE_ENV !== 'test'
       },
       async resolveId(importee: string) {
         if (importee.startsWith('virtual:vue-inspector-options')) {
           return importee
-        }
-        else if (importee.startsWith('virtual:vue-inspector-path:')) {
-          const resolved = importee.replace('virtual:vue-inspector-path:', `${inspectorPath}/`)
-          return resolved
+        } else if (importee.startsWith('virtual:vue-inspector-path:')) {
+          return importee.replace('virtual:vue-inspector-path:', `${inspectorPath}/`)
         }
       },
-
       async load(id) {
         if (id === 'virtual:vue-inspector-options') {
           return `export default ${JSON.stringify({ ...normalizedOptions, base: config.base })}`
-        }
-        else if (id.startsWith(inspectorPath)) {
+        } else if (id.startsWith(inspectorPath)) {
           const { query } = parseVueRequest(id)
-          if (query.type)
-            return
-          // read file ourselves to avoid getting shut out by vites fs.allow check
+          if (query.type) return
           const file = idToFile(id)
-          if (fs.existsSync(file))
-            return await fs.promises.readFile(file, 'utf-8')
+          if (fs.existsSync(file)) return await fs.promises.readFile(file, 'utf-8')
           else
             console.error(`failed to find file for vue-inspector: ${file}, referenced by id ${id}.`)
         }
       },
       transform(code, id) {
         const { filename, query } = parseVueRequest(id)
+        let resultCode = code
+        let resultMap: any
 
-        const isJsx = filename.endsWith('.jsx') || filename.endsWith('.tsx') || (filename.endsWith('.vue') && query.isJsx)
-        const isVue = filename.endsWith('.vue')
-        const isVueMain = isVue && !query.type && !query.raw
-        const isTpl = isVue && query.type !== 'style' && !query.raw
-
-        if (isJsx || isTpl) {
-          return compileSFCTemplate({
-            code,
-            id: filename,
-            type: isJsx ? 'jsx' : 'template',
-            vapor: query.vapor || vaporSFCs.has(filename),
-            onVaporDetected: isVueMain
-              ? (vapor) => {
-                  if (vapor)
-                    vaporSFCs.add(filename)
-                  else
-                    vaporSFCs.delete(filename)
-                }
-              : undefined,
-          })
+        const isVueMain = filename.endsWith('.vue') && !query.type && !query.raw
+        if (isVueMain) {
+          if (query.vapor) vaporSFCs.add(filename)
+          else vaporSFCs.delete(filename)
         }
 
-        if (!appendTo)
-          return
+        if (
+          appendTo &&
+          ((typeof appendTo === 'string' && filename.endsWith(appendTo)) ||
+            (appendTo instanceof RegExp && appendTo.test(filename)))
+        ) {
+          resultCode = `${resultCode}\nimport 'virtual:vue-inspector-path:load.js'`
+        }
 
-        if ((typeof appendTo === 'string' && filename.endsWith(appendTo))
-          || (appendTo instanceof RegExp && appendTo.test(filename)))
-          return { code: `${code}\nimport 'virtual:vue-inspector-path:load.js'` }
+        if ((this as any).environment?.name && (this as any).environment.name !== 'client')
+          return resultCode === code ? undefined : { code: resultCode }
+
+        if (vaporSFCs.has(filename)) return resultCode === code ? undefined : { code: resultCode }
+
+        if (!code.includes('_sfc_render(') || !vnodeFactoryRE.test(code))
+          return resultCode === code ? undefined : { code: resultCode }
+
+        if (code.includes('_vueInspectorRecord('))
+          return resultCode === code ? undefined : { code: resultCode }
+
+        function offsetToPos(index: number): { line: number; column: number } {
+          const lines = code.slice(0, index).split('\n')
+          return {
+            line: lines.length,
+            column: lines.at(-1)!.length,
+          }
+        }
+
+        const map = this.getCombinedSourcemap()
+        const consumer = new SourceMapConsumer(map as any)
+        const s = new MagicString(code)
+        const ast = this.parse(code)
+        let hit = false
+
+        walk(ast as any, {
+          enter(node) {
+            if (node.type !== 'CallExpression' || node.callee.type !== 'Identifier') return
+            if (!vnodeFactoryNames.includes(node.callee.name)) return
+
+            const { start, end } = node as any as { start: number; end: number }
+            const generated = offsetToPos(start)
+            const original = consumer.originalPositionFor(generated)
+            if (original.source == null || original.line == null || original.column == null) return
+
+            hit = true
+            s.appendLeft(start, `_vueInspectorRecord(${original.line},${original.column},`)
+            s.appendRight(end, ')')
+          },
+        })
+
+        if (hit) {
+          const relativeFile = normalizePath(path.relative(process.cwd(), filename))
+          s.prepend(
+            `import { recordPosition as _vueInspectorRecordPosition } from ${JSON.stringify(recordImport)}\n`,
+          )
+          s.append(
+            `\nfunction _vueInspectorRecord(line, column, vnode) { return _vueInspectorRecordPosition(${JSON.stringify(relativeFile)}, line, column, vnode) }\n`,
+          )
+          resultCode = resultCode === code ? s.toString() : resultCode.replace(code, s.toString())
+          resultMap = s.generateMap({ hires: true })
+        }
+
+        if (resultCode !== code) {
+          return {
+            code: resultCode,
+            map: resultMap,
+          }
+        }
       },
       configureServer(server) {
-        const _printUrls = server.printUrls
+        const _printUrls = server.printUrls.bind(server)
         const { toggleComboKey } = normalizedOptions
 
-        toggleComboKey && (server.printUrls = () => {
-          const keys = normalizeComboKeyPrint(toggleComboKey)
-          _printUrls()
-          console.log(`  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`)
-        })
+        if (toggleComboKey) {
+          server.printUrls = () => {
+            const keys = normalizeComboKeyPrint(toggleComboKey)
+            _printUrls()
+            console.log(
+              `  ${green('➜')}  ${bold('Vue Inspector')}: ${green(`Press ${yellow(keys)} in App to toggle the Inspector`)}\n`,
+            )
+          }
+        }
       },
       transformIndexHtml(html) {
-        if (appendTo)
-          return
+        if (appendTo) return
         return {
           html,
           tags: [
@@ -259,51 +326,26 @@ function VitePluginInspector(options: VitePluginInspectorOptions = DEFAULT_INSPE
       configResolved(resolvedConfig) {
         config = resolvedConfig
       },
-    },
-    {
-      name: 'vite-plugin-vue-inspector:post',
-      enforce: 'post',
-      apply(_, { command }) {
-        // apply only on serve and not for test
-        return cleanHtml && vue === 3 && command === 'serve' && process.env.NODE_ENV !== 'test'
-      },
-      transform(code) {
-        if (code.includes('_interopVNode'))
-          return
-        if (!code.includes('data-v-inspector'))
-          return
-
-        const fn = new Set<string>()
-        const s = new MagicString(code)
-
-        s.replace(/(createElementVNode|createVNode|createElementBlock|createBlock) as _\1,?/g, (_, name) => {
-          fn.add(name)
-          return ''
-        })
-
-        if (!fn.size)
-          return
-
-        s.appendLeft(0, `/* Injection by vite-plugin-vue-inspector Start */
-import { ${Array.from(fn.values()).map(i => `${i} as __${i}`).join(',')} } from 'vue'
-function _interopVNode(vnode) {
-  if (vnode && vnode.props && 'data-v-inspector' in vnode.props) {
-    const data = vnode.props['data-v-inspector']
-    delete vnode.props['data-v-inspector']
-    Object.defineProperty(vnode.props, '__v_inspector', { value: data, enumerable: false })
-  }
-  return vnode
-}
-${Array.from(fn.values()).map(i => `function _${i}(...args) { return _interopVNode(__${i}(...args)) }`).join('\n')}
-/* Injection by vite-plugin-vue-inspector End */
-`)
-
-        return {
-          code: s.toString(),
-          map: s.generateMap({ hires: 'boundary' }),
-        }
-      },
+      ...(normalizedOptions.viteDevtools
+        ? {
+            devtools: {
+              setup(ctx) {
+                ctx.docks.register({
+                  id: 'vue-inspector',
+                  title: 'Vue Inspector',
+                  icon: 'ph:cursor-click-duotone',
+                  type: 'action',
+                  action: {
+                    importFrom: 'vite-plugin-vue-inspector/client/vite-devtools',
+                    importName: 'default',
+                  },
+                })
+              },
+            },
+          }
+        : {}),
     },
   ]
 }
+
 export default VitePluginInspector
