@@ -2,14 +2,7 @@ import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
   lint: {
-    ignorePatterns: [
-      'dist/**',
-      'packages/**/dist/**',
-      'packages/playground/**/.nuxt/**',
-      'packages/playground/**/.output/**',
-      'packages/playground/nuxt/tsconfig.json',
-      'public/**',
-    ],
+    ignorePatterns: ['dist/**', 'packages/**/dist/**', 'packages/playground/**', 'public/**'],
     options: {
       typeAware: true,
       typeCheck: true,

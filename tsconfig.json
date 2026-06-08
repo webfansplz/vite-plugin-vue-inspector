@@ -16,6 +16,6 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": ["vite.config.ts", "packages/**/*.ts", "packages/**/*.d.ts", "packages/**/*.vue"],
-  "exclude": ["packages/playground/nuxt/.nuxt", "packages/playground/nuxt/.output"]
+  "include": ["vite.config.ts", "packages/core/**/*.ts", "packages/core/**/*.d.ts"],
+  "exclude": ["dist", "packages/**/dist"]
 }
