@@ -63,7 +63,7 @@ function moveInspectorDataToHiddenProps(props: Record<string, unknown>): void {
 }
 
 export function recordPosition(source: string, line: number, column: number, node: VNode): VNode {
-  if (!node || typeof node === 'string' || typeof node === 'number') return node
+  if (!node || typeof node !== 'object') return node
 
   store.hasData = true
 
